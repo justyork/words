@@ -203,7 +203,7 @@
         bottom: 30px;
         width: 100%;
         height: 60px;
-        font-size: 18px;
+        font-size: 20px !important;
         left: 0;
     }
     .learn-button>div{
