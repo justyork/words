@@ -64,8 +64,9 @@
                 if(this.type == 'ba')
                     return this.words[0].translate;
                 if(this.type == 'r'){
-                    if(this.randomPos === -1) this.randomPos = Math.round(Math.random() * 10) >= 5;
-                    return this.randomPos ? this.words[0].word : this.words[0].translate;
+                    return this.words[0].word;
+                    // if(this.randomPos === -1) this.randomPos = Math.round(Math.random() * 10) >= 5;
+                    // return this.randomPos ? this.words[0].word : this.words[0].translate;
                 }
             },
             translate(){
@@ -74,8 +75,9 @@
                 if(this.type == 'ba')
                     return this.words[0].word;
                 if(this.type == 'r'){
-                    if(this.randomPos === -1) this.randomPos = Math.round(Math.random() * 10) >= 5;
-                    return this.randomPos ? this.words[0].translate : this.words[0].word;
+                    return this.words[0].translate;
+                    // if(this.randomPos === -1) this.randomPos = Math.round(Math.random() * 10) >= 5;
+                    // return this.randomPos ? this.words[0].translate : this.words[0].word;
                 }
 
             }
@@ -87,6 +89,20 @@
                         this.words = response.body;
                         this.lastPosition = this.words.length - 1;
                         this.halfPosition = Math.ceil((this.words.length - 1) / 2)
+                        if(this.type == 'r'){
+                            var newArr = [];
+                            this.words.forEach(function(element) {
+                                newArr.push(element)
+                                var el = Object.assign({}, element);
+                                el.word = element.translate
+                                el.translate = element.word
+
+                                newArr.push(el)
+                            })
+                            console.log(newArr)
+
+                            this.words = this.shuffle(newArr)
+                        }
                     }
                 })
             },
@@ -148,6 +164,16 @@
                 data.append('correct', correct ? 1 : 0);
                 data.append('type', pos);
                 this.$http.post(this.apiUrl+'check-word', data )
+            },
+            shuffle(a) {
+                var j, x, i;
+                for (i = a.length - 1; i > 0; i--) {
+                    j = Math.floor(Math.random() * (i + 1));
+                    x = a[i];
+                    a[i] = a[j];
+                    a[j] = x;
+                }
+                return a;
             }
         },
         created: function () {
