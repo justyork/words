@@ -162,7 +162,7 @@
         text-align: center;
     }
     .learn__item{
-        height: 300px;
+        height: 250px;
         padding: 50px 20px;
         font-size: 25px;
     }
