@@ -89,8 +89,10 @@ class Word extends \yii\db\ActiveRecord
 
     public function answered($isCorrect, $type){
         if($isCorrect){
-            if($type == 'a') $this->ab_series++;
-            elseif($type == 'b') $this->ba_series++;
+            if($this->level == 0){
+                if($type == 'a') $this->ab_series++;
+                elseif($type == 'b') $this->ba_series++;
+            }
         }
         else{
             if($type == 'a') $this->ab_series = 0;

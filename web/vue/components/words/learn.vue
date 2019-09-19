@@ -92,10 +92,12 @@
                         if(this.type == 'r'){
                             var newArr = [];
                             this.words.forEach(function(element) {
+                                element.randomPos = 'a';
                                 newArr.push(element)
                                 var el = Object.assign({}, element);
                                 el.word = element.translate
                                 el.translate = element.word
+                                el.randomPos = 'b';
 
                                 newArr.push(el)
                             })
@@ -154,9 +156,9 @@
             },
             wordChecked(correct){
                 var pos = false;
-                if(this.type === 'ab' || (this.type === 'r' && this.randomPos))
+                if(this.type === 'ab' || (this.type === 'r' && this.words[0].randomPos === 'a'))
                     pos = 'a';
-                else if(this.type === 'ba' || (this.type === 'r' && !this.randomPos))
+                else if(this.type === 'ba' || (this.type === 'r' && this.words[0].randomPos === 'b'))
                     pos = 'b';
 
                 let data = new FormData();
@@ -241,7 +243,7 @@
         padding: 15px;
         text-align: center;
         width: 50%;
-        font-size: 20px !important;
+        font-size: 16px !important;
         /*color: white;*/
         /*border: 1px solid #906CD7;*/
         /*background: rgba(144, 108, 215, 0.30);*/
