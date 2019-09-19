@@ -205,9 +205,6 @@
         height: 60px;
         left: 0;
     }
-    .learn-button a{
-        font-size: 20px;
-    }
     .learn-button>div{
         display: flex;
     }
@@ -218,6 +215,7 @@
         padding: 15px;
         text-align: center;
         width: 50%;
+        font-size: 20px !important;
         /*color: white;*/
         /*border: 1px solid #906CD7;*/
         /*background: rgba(144, 108, 215, 0.30);*/
