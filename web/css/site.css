@@ -1,0 +1,24 @@
+.word-category{
+
+}
+.word-category__title{
+
+}
+
+.pack__item{
+    font-size: 20px;
+    display: none;
+    margin: 20px;
+    text-align: center;
+}
+.pack__item.active{
+    display: block;
+}
+.pack__nav{
+    text-align: center;
+}
+
+.learn-body{
+    padding: 40px;
+    background: white;
+}
