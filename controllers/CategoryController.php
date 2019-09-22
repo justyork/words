@@ -7,6 +7,7 @@ namespace app\controllers;
 use app\models\PackForm;
 use app\models\WordCategory;
 use app\models\WordImportForm;
+use app\models\WordPack;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -64,5 +65,31 @@ class CategoryController extends Controller
         $model = WordCategory::findOne($id);
         if(!$model) throw new NotFoundHttpException(\Yii::t('app', 'Page not found'));
         return $model;
+    }
+
+    public function actionMerge($items){
+        $arr = explode(',', $items);
+        $model = WordPack::find()->where(['id' => $arr])->all();
+        $first = $model[0];
+        $ids = [];
+        foreach ($model as $item){
+            $ids = array_merge($ids, $item->wordArr);
+            if($item->id !== $first->id)
+                $item->delete();
+        }
+        $first->wordArr = $ids;
+        $first->save();
+        return $this->redirect(['get', 'id' => $first->category_id]);
+    }
+
+    public function actionDeletePacks($items){
+        $arr = explode(',', $items);
+        $model = WordPack::find()->where(['id' => $arr])->all();
+        $cat_id = $model[0]->category_id;
+        foreach ($model as $item) {
+            $item->delete();
+        }
+        return $this->redirect(['get', 'id' => $cat_id]);
+
     }
 }

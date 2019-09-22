@@ -1,7 +1,9 @@
 <?php
 /* @var $item WordPack */
+/* @var $this yii\web\View */
+use app\models\WordPack;
 
-use app\models\WordPack; ?>
+?>
 
 <div class="item">
     <div class="ui  buttons">
@@ -18,4 +20,7 @@ use app\models\WordPack; ?>
             <i class="shuffle icon"></i>
         </a>
     </div>
+    <button class="ui toggle button pack-row" @click="selectPackRow(<?= $item->id?>)">
+        Select
+    </button>
 </div>

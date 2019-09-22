@@ -19700,6 +19700,42 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"babel-runtime/core-js/object/assign":1,"vue":48,"vue-hot-reload-api":43,"vueify/lib/insert-css":50}],53:[function(require,module,exports){
+;(function(){
+'use strict';
+
+module.exports = {
+    props: ['pack_id', 'check_link', 'learn_link', 'label'],
+    data: function data() {
+        return {
+            isSelect: false
+        };
+    },
+    computed: {},
+    methods: {
+        toggleRow: function toggleRow() {
+            this.isSelect = !this.isSelect;
+            this.$emit('selectrow', this.pack_id);
+        }
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"ui  buttons"},[_c('a',{staticClass:"ui blue button",staticStyle:{"width":"150px"},attrs:{"href":_vm.check_link}},[_vm._v("\n            "+_vm._s(_vm.label)+"\n        ")]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ab'}},[_c('i',{staticClass:"arrow down icon"})]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ba'}},[_c('i',{staticClass:"arrow up icon"})]),_vm._v(" "),_c('a',{staticClass:"ui teal button icon",attrs:{"href":_vm.learn_link+'r'}},[_c('i',{staticClass:"shuffle icon"})])]),_vm._v(" "),_c('button',{class:'ui toggle button icon pack-row '+(_vm.isSelect ? 'active' : ''),on:{"click":_vm.toggleRow}},[_c('i',{staticClass:"check icon"})])])}
+__vue__options__.staticRenderFns = []
+__vue__options__._scopeId = "data-v-c123a7b2"
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c123a7b2", __vue__options__)
+  } else {
+    hotAPI.rerender("data-v-c123a7b2", __vue__options__)
+  }
+})()}
+},{"vue":48,"vue-hot-reload-api":43}],54:[function(require,module,exports){
 var Vue = require('vue');
 var VueResource = require('vue-resource');
 var moment = require('moment');
@@ -19708,6 +19744,7 @@ var Vue2TouchEvents  = require('vue2-touch-events');
 
 var learn = require('./components/words/learn.vue')
 var learnCheck = require('./components/words/learn-check.vue')
+var packRow = require('./components/words/pack-row.vue')
 
 Vue.use(VueResource);
 Vue.use(VueMomentJS, moment);
@@ -19717,17 +19754,33 @@ new Vue({
     el: '.vue-block',
     data: function () {
        return {
+           selectedRow:[]
        }
     },
     components: {
         'learn' : learn,
         'learn-check' : learnCheck,
+        'pack-row' : packRow,
     },
     methods: {
+        selectrow(row){
+            if(this.selectedRow.indexOf(row) !== -1){
+                delete this.selectedRow[this.selectedRow.indexOf(row)];
+                var newArr = [];
+                this.selectedRow.forEach(function (item) {
+                    if(item != null)
+                        newArr.push(item);
+                })
+                this.selectedRow = newArr
 
+            }
+            else
+                this.selectedRow.push(row)
+            console.log(this.selectedRow)
+        }
     },
     created: function () {
         this.$moment.locale('ru')
     }
 });
-},{"./components/words/learn-check.vue":51,"./components/words/learn.vue":52,"moment":40,"vue":48,"vue-momentjs":44,"vue-resource":45,"vue2-touch-events":46}]},{},[53]);
+},{"./components/words/learn-check.vue":51,"./components/words/learn.vue":52,"./components/words/pack-row.vue":53,"moment":40,"vue":48,"vue-momentjs":44,"vue-resource":45,"vue2-touch-events":46}]},{},[54]);

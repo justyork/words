@@ -29,8 +29,21 @@ $this->params['back_link'] = Url::to(['category/index']);
 <?if($model->packs):?>
 <div class="ui small aligned divided list" style="max-width: 400px;">
     <?foreach($model->packs as $item):?>
-        <?= $this->render('//common/_pack_row', compact('item'))?>
+
+        <div class="item">
+            <pack-row
+                    @selectrow="selectrow"
+                    pack_id="<?= $item->id?>"
+                    link_check="<?=yii\helpers\Url::to(['learn/check', 'id' => $item->id])?>"
+                    link_learn="<?=yii\helpers\Url::to(['learn/start', 'id' => $item->id])?>"
+                    label="<?=Yii::t('app', 'Pack #{id} ({count})', ['id' => $item->id, 'count' => $item->count]);?>"
+            ></pack-row>
+        </div>
     <?endforeach?>
+    <div class="ui  buttons" v-if="selectedRow.length">
+        <a :href="'<?=yii\helpers\Url::to(['merge', 'items' => ''])?>'+selectedRow.join(',')" class="ui green button"><?=Yii::t('app', 'Merge');?> </a>
+        <a :href="'<?=yii\helpers\Url::to(['delete-packs', 'items' => ''])?>'+selectedRow.join(',')"  class="ui red button"><?=Yii::t('app', 'Delete');?> </a>
+    </div>
 </div>
 <?else:?>
     <h5><?=Yii::t('app', 'No packs yet');?></h5>
