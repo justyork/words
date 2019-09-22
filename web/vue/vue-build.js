@@ -19207,11 +19207,11 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-8feecb64", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-8feecb64", __vue__options__)
+    hotAPI.reload("data-v-8feecb64", __vue__options__)
   }
 })()}
 },{"vue":47,"vue-hot-reload-api":43,"vueify/lib/insert-css":49}],51:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".learn{\n    text-align: center;\n}\n.learn__item{\n    height: 250px;\n    padding: 50px 20px;\n    font-size: 25px;\n}\n.learn-tip{\n    float: left;\n    color: black;\n    padding: 10px 20px;\n}\n.learn-tip a{\n    color: black;\n}\n.learn-tip button{\n    padding: 3px 5px;\n    margin: 0;\n    margin-top: -4px;\n    background: #63DC90;\n    color: white;\n    border: none;\n}\n.learn__item>div{\n    padding: 20px;\n}\ndiv.learn__item-tip{\n    font-size: 16px;\n    color: #c7c7c7;\n    padding-bottom: 40px;\n    padding-top: 0;\n}\ndiv.learn__item-word{\n    padding-bottom: 50px;\n    line-height: 30px;\n}\ndiv.learn__item-translate{\n    padding-top: 50px;\n    border-top: 1px solid #c3c3c3;\n}\n.learn-button{\n    position: absolute;\n    bottom: 30px;\n    width: 100%;\n    height: 60px;\n    left: 0;\n}\n.learn-button>div{\n    display: flex;\n}\n.learn-button a{\n    flex: 1;\n    display: block;\n    font-size: 18px !important;\n    padding: 20px 10px !important;\n    vertical-align: middle;\n    /*color: white;*/\n    /*border: 1px solid #906CD7;*/\n    /*background: rgba(144, 108, 215, 0.30);*/\n\n}\na.learn-button--red{\n    color: #FF8B73;\n    border: 1px solid #FF8B73;\n}\na.learn-button--green{\n    color: #63DC90;\n    border: 1px solid #63DC90;\n}\na.learn-button--left{\n    border-right: none;\n}\n.learn-button--yellow{\n    background: #906CD7;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".learn{\n    text-align: center;\n}\n.learn__item{\n    height: 250px;\n    padding: 50px 20px;\n    font-size: 25px;\n}\n.learn-tip{\n    float: left;\n    color: black;\n    padding: 10px 20px;\n}\n.learn-tip a{\n    color: black;\n}\n.learn-tip button{\n    padding: 3px 5px;\n    margin: 0;\n    margin-top: -4px;\n    background: #63DC90;\n    color: white;\n    border: none;\n}\n.learn__item>div{\n    padding: 20px;\n    line-height: 30px;\n}\ndiv.learn__item-tip{\n    font-size: 16px;\n    color: #c7c7c7;\n    padding-bottom: 40px;\n    padding-top: 0;\n}\ndiv.learn__item-word{\n    padding-bottom: 50px;\n}\ndiv.learn__item-translate{\n    padding-top: 50px;\n    border-top: 1px solid #c3c3c3;\n}\n.learn-button{\n    position: absolute;\n    bottom: 30px;\n    width: 100%;\n    height: 60px;\n    left: 0;\n}\n.learn-button>div{\n    display: flex;\n}\n.learn-button a{\n    flex: 1;\n    display: block;\n    font-size: 18px !important;\n    padding: 20px 10px !important;\n    vertical-align: middle;\n    /*color: white;*/\n    /*border: 1px solid #906CD7;*/\n    /*background: rgba(144, 108, 215, 0.30);*/\n\n}\na.learn-button--red{\n    color: #FF8B73;\n    border: 1px solid #FF8B73;\n}\na.learn-button--green{\n    color: #63DC90;\n    border: 1px solid #63DC90;\n}\na.learn-button--left{\n    border-right: none;\n}\n.learn-button--yellow{\n    background: #906CD7;\n}")
 ;(function(){
 'use strict';
 
@@ -19366,7 +19366,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-d6afc1da", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-d6afc1da", __vue__options__)
+    hotAPI.reload("data-v-d6afc1da", __vue__options__)
   }
 })()}
 },{"babel-runtime/core-js/object/assign":1,"vue":47,"vue-hot-reload-api":43,"vueify/lib/insert-css":49}],52:[function(require,module,exports){

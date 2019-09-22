@@ -212,6 +212,7 @@
     }
     .learn__item>div{
         padding: 20px;
+        line-height: 30px;
     }
     div.learn__item-tip{
         font-size: 16px;
@@ -221,7 +222,6 @@
     }
     div.learn__item-word{
         padding-bottom: 50px;
-        line-height: 30px;
     }
     div.learn__item-translate{
         padding-top: 50px;
