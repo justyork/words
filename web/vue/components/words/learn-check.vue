@@ -1,5 +1,5 @@
 <template>
-    <div class="learn">
+    <div class="learn" v-touch:swipe="swipeHandler">
         <div class="learn-tip">
             <a href="javascript:;" @click="tipForm = true" v-if="!tipForm">Add tip</a>
             <div v-if="tipForm">
@@ -51,6 +51,12 @@
                     if(response.status)
                         this.words = response.body;
                 })
+            },
+            swipeHandler(direction){
+                console.log(direction);
+                if(direction === 'left') this.next()
+                else this.prev();
+
             },
             prev(){
                 if(this.activeNum === 0) this.activeNum = this.words.length - 1;
