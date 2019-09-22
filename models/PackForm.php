@@ -10,7 +10,7 @@ use yii\base\Model;
 class PackForm extends Model
 {
 
-    public $count;
+    public $count = '20';
     public $onlyNew = true;
     public $category_id;
 

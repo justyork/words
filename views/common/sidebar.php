@@ -19,8 +19,9 @@ use yii\widgets\Menu; ?>
                 ["label" => "Home", "url" => "/", "icon" => "home"],
                 ["label" => "Categories", "url" => ["category/index"]],
             ],
-            'options' => ['style' => 'padding: 0'],
-            'itemOptions' => ['class' => 'item']
+            'options' => ['style' => 'padding: 0', 'tag' => 'div'],
+            'itemOptions' => ['class' => 'item', 'tag' => false],
+            'linkTemplate' => '<a href="{url}" class="item">{label}</a>'
         ]
     )
     ?>

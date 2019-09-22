@@ -38,7 +38,7 @@ class ApiController extends \yii\rest\Controller
             $newWord = Word::find()->where([ 'skip' => null])->andWhere(['not in', 'id', $pack->wordArr])->orderBy('RAND()')->one();
 
             $wordPos = array_search($model->id, $pack->wordArr);
-            $pack->wordArr[$wordPos] = $pack->wordModels[$wordPos]->id;
+            $pack->wordArr[$wordPos] = $newWord->id;
             $pack->save();
 
             return $newWord;

@@ -7,12 +7,12 @@
                 <button @click="saveTip" class="">OK</button>
             </div>
         </div>
-        <div class="learn-skip">
-            <a href="javascript:;" @click="skip">Skip</a>
-        </div>
         <div class="learn__item" v-if="words.length">
             <div class="learn__item-word">
                 {{words[activeNum].word}}
+            </div>
+            <div class="learn-skip">
+                <a href="javascript:;" @click="skip">Skip</a>
             </div>
             <div class="learn__item-translate">
                 {{words[activeNum].translate}}
@@ -66,6 +66,8 @@
                 data.append('pack_id', this.pack_id)
                 this.$http.post(this.apiUrl+'skip-word', data ).then(response => {
                     if(response.status){
+                        console.log(response.data)
+                        console.log(this.activeNum)
                         this.words[this.activeNum] = response.data;
                         var oldNum = this.activeNum;
                         this.activeNum = 0;
@@ -111,6 +113,12 @@
     }
 
     .learn-skip{
-        float: right;
+        position: absolute;
+        margin-top: 10px;
+        padding: 0 !important;
+    }
+    .learn-skip a{
+        font-size: 14px;
+        color: black;
     }
 </style>

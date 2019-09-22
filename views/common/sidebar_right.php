@@ -17,8 +17,9 @@ use yii\widgets\Menu; ?>
         <?= Menu::widget(
             [
                 "items" => $this->params['sidebar'],
-                'options' => ['style' => 'padding: 0'],
-                'itemOptions' => ['class' => 'item']
+                'options' => ['style' => 'padding: 0', 'tag' => 'div'],
+                'itemOptions' => ['class' => 'item', 'tag' => false],
+                'linkTemplate' => '<a href="{url}" class="item">{label}</a>'
             ]
         )
         ?>

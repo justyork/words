@@ -220,10 +220,11 @@
         padding-top: 0;
     }
     div.learn__item-word{
-        padding-bottom: 40px;
+        padding-bottom: 50px;
+        line-height: 30px;
     }
     div.learn__item-translate{
-        padding-top: 40px;
+        padding-top: 50px;
         border-top: 1px solid #c3c3c3;
     }
     .learn-button{
@@ -239,11 +240,9 @@
     .learn-button a{
         flex: 1;
         display: block;
+        font-size: 18px !important;
+        padding: 20px 10px !important;
         vertical-align: middle;
-        padding: 15px;
-        text-align: center;
-        width: 50%;
-        font-size: 16px !important;
         /*color: white;*/
         /*border: 1px solid #906CD7;*/
         /*background: rgba(144, 108, 215, 0.30);*/
