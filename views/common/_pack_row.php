@@ -20,7 +20,7 @@ use app\models\WordPack;
             <i class="shuffle icon"></i>
         </a>
     </div>
-    <button class="ui toggle button pack-row" @click="selectPackRow(<?= $item->id?>)">
+    <button class="ui toggle button pack-row" @click="selectrow(<?= $item->id?>)">
         Select
     </button>
 </div>
