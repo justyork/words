@@ -21,6 +21,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $ba_series
  *
  * @property WordCategory $category
+ * @property int $user_id [int(11)]
  */
 class Word extends \yii\db\ActiveRecord
 {
@@ -44,10 +45,11 @@ class Word extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'created_at', 'updated_at', 'level', 'ab_series', 'ba_series'], 'integer'],
+            [['category_id', 'created_at', 'updated_at', 'level', 'ab_series', 'ba_series', 'user_id'], 'integer'],
             [['word', 'translate', 'tip'], 'string', 'max' => 255],
             [['skip'], 'boolean'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => WordCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['skip', 'level'], 'default', 'value' => 0]
         ];
     }
 
@@ -85,6 +87,13 @@ class Word extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(WordCategory::className(), ['id' => 'category_id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if($insert)
+            $this->user_id = Yii::$app->user->id;
+        return parent::beforeSave($insert);
     }
 
     public function answered($isCorrect, $type){

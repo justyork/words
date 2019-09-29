@@ -8,28 +8,40 @@ use app\models\PackForm;
 use app\models\WordCategory;
 use app\models\WordImportForm;
 use app\models\WordPack;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class CategoryController extends Controller
 {
-
     public function behaviors()
     {
-        return parent::behaviors();
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'get', 'create', 'update', 'delete', 'import', 'merge', 'delete-packs'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function actionIndex()
     {
-        $model = WordCategory::find()->all();
+        $model = WordCategory::findAllByUser();
         return $this->render('index', compact('model'));
     }
 
     public function actionGet($id){
         $model = $this->loadModel($id);
+
         $packForm = new PackForm();
         $packForm->category_id = $id;
-
         if($packForm->load(\Yii::$app->request->post()) && $packForm->save()){
             return $this->refresh();
         }
@@ -62,7 +74,7 @@ class CategoryController extends Controller
     }
 
     private function loadModel($id){
-        $model = WordCategory::findOne($id);
+        $model = WordCategory::findOneByUser($id);
         if(!$model) throw new NotFoundHttpException(\Yii::t('app', 'Page not found'));
         return $model;
     }

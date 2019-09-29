@@ -40,7 +40,7 @@ $this->params['back_link'] = Url::to(['category/index']);
             ></pack-row>
         </div>
     <?endforeach?>
-    <div class="ui  buttons" v-if="selectedRow.length">
+    <div class="ui fluid buttons" v-if="selectedRow.length">
         <a :href="'<?=yii\helpers\Url::to(['merge', 'items' => ''])?>'+selectedRow.join(',')" class="ui green button"><?=Yii::t('app', 'Merge');?> </a>
         <a :href="'<?=yii\helpers\Url::to(['delete-packs', 'items' => ''])?>'+selectedRow.join(',')"  class="ui red button"><?=Yii::t('app', 'Delete');?> </a>
     </div>

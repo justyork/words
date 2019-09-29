@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property Word[] $words
  * @property WordPack[] $packs
+ * @property int $user_id [int(11)]
  */
 class WordCategory extends \yii\db\ActiveRecord
 {
@@ -36,7 +37,7 @@ class WordCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['last_update'], 'integer'],
+            [['last_update', 'user_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
         ];
     }
@@ -70,6 +71,8 @@ class WordCategory extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
+        if($insert)
+            $this->user_id = Yii::$app->user->id;
         $this->last_update = time();
         return parent::beforeSave($insert);
     }
@@ -79,5 +82,12 @@ class WordCategory extends \yii\db\ActiveRecord
         foreach ($this->packs as $item) $item->delete();
         foreach ($this->words as $item) $item->delete();
         return parent::beforeDelete();
+    }
+
+    public static function findAllByUser(){
+        return WordCategory::find()->where(['user_id' => Yii::$app->user->id])->all();
+    }
+    public static function findOneByUser($id){
+        return WordCategory::findOne(['user_id' => Yii::$app->user->id, 'id' => $id]);
     }
 }

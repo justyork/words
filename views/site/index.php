@@ -3,17 +3,19 @@
 /* @var $this yii\web\View */
 /* @var $packs WordPack[] */
 
-$this->title = 'My Yii Application';
+$this->title = 'Words';
 
 use app\models\WordPack; ?>
 <div class="site-index">
 
-    <div>CHARTS</div>
+<!--    <div>CHARTS</div>-->
 
-    <button class="ui basic button ">
-        <i class="icon exclamation"></i>
-        <?=Yii::t('app', 'Repeat words');?>
-    </button>
+<!--    -->
+<!--    <button class="ui basic button ">-->
+<!--        <i class="icon exclamation"></i>-->
+<!--        --><?//=Yii::t('app', 'Repeat words');?>
+<!--    </button>-->
+    <a href="<?=yii\helpers\Url::to(['category/create'])?>" class="ui blue button"><?=Yii::t('app', 'Create category');?></a>
     <h4 class="ui horizontal divider">
         <?=Yii::t('app', 'Latest packs');?>
     </h4>

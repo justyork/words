@@ -33,15 +33,22 @@ class PackForm extends Model
 
     public function save(){
         if(!$this->validate()) return false;
+
+
         $model = new WordPack();
         $wordArr = [];
-        $wordsCond = Word::find();
+        $wordsCond = Word::find()
+            ->where(['category_id' => $this->category_id])
+            ->andWhere(['user_id' => Yii::$app->user->id])
+            ->andWhere('skip is null OR skip = 0');
         if($this->onlyNew){
-            $wordsCond->where(['is', 'level', null])->orWhere(['level' => 0]);
+            $activeIdList = $this->getWordsInPacks();
+            if($activeIdList)
+                $wordsCond = $wordsCond->andWhere(['NOT IN', 'id', $activeIdList]);
         }
-        $wordsCond->andWhere(['is', 'skip', null]);
-        $words = $wordsCond->all();
 
+        $wordsCond;
+        $words = $wordsCond->all();
         shuffle($words);
         $items = array_slice($words, 0, $this->count);
         foreach ($items as $item)
@@ -53,5 +60,14 @@ class PackForm extends Model
         $model->save();
 
         return true;
+    }
+
+    private function getWordsInPacks(){
+        $model = WordCategory::findOneByUser($this->category_id);
+        $idList = [];
+        foreach ($model->packs as $item) {
+            $idList += $item->wordArr;
+        }
+        return $idList;
     }
 }

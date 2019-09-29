@@ -5,5 +5,6 @@ return [
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     'first_level_series' => 4,
-    'next_level_series' => 2
+    'next_level_series' => 2,
+    'user.passwordResetTokenExpire' => 3600,
 ];

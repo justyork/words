@@ -13,19 +13,43 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'user' => [
+            'class' => 'app\modules\user\Module',
+            'controllerMap' => [
+                'default' => 'app\controllers\UserController',
+                'admin' => 'app\controllers\user\AdminController',
+            ],
+            'emailConfirmation' => false,
+            'requireUsername' => false,
+            'modelClasses'  => [
+                'User' => 'app\models\User',
+                'Role' => 'app\models\Role',
+                'UserSearch' => 'app\models\search\UserSearch',
+                'Profile' => 'app\models\Profile',
+                'ForgotForm' => 'app\models\forms\ForgotForm',
+                'LoginEmailForm' => 'app\models\forms\LoginEmailForm',
+            ],
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '2Rqhs8WrQzWD_wS_lKCZiQTLd7n_40Xl',
             'baseUrl'=> '',
         ],
+
+        'settings' => [
+            'class' => 'app\components\Settings'
+        ],
 //        'config' => [ 'class' => Config::className()],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'class' => 'app\components\User',
             'enableAutoLogin' => true,
+            'identityClass' => 'app\models\User',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -47,10 +71,27 @@ $config = [
             ],
         ],
         'db' => $db,
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => 'google_client_id',
+                    'clientSecret' => 'google_client_secret',
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => 'facebook_client_id',
+                    'clientSecret' => 'facebook_client_secret',
+                ],
+                // etc.
+            ],
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '' => 'site/index',
                 '<controller>/<action>' => '<controller>/<action>'
             ],
         ],

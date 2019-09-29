@@ -1,3 +1,12 @@
 body{
     font-family: 'Open Sans Condensed', sans-serif;
 }
+.errors p{
+    font-weight: bold;
+    text-align: left;
+}
+.errors ul{
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}

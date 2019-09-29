@@ -12,7 +12,7 @@
                 {{words[activeNum].word}}
             </div>
             <div class="learn-skip">
-                <a href="javascript:;" @click="skip">Skip</a>
+                <a href="javascript:;" class="ui mini blue button " @click="skip">Skip</a>
             </div>
             <div class="learn__item-translate">
                 {{words[activeNum].translate}}

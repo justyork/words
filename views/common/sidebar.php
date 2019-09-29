@@ -18,6 +18,7 @@ use yii\widgets\Menu; ?>
             "items" => [
                 ["label" => "Home", "url" => "/", "icon" => "home"],
                 ["label" => "Categories", "url" => ["category/index"]],
+                ["label" => "Logout", "url" => ["site/logout"]],
             ],
             'options' => ['style' => 'padding: 0', 'tag' => 'div'],
             'itemOptions' => ['class' => 'item', 'tag' => false],

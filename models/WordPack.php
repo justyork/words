@@ -14,6 +14,7 @@ use Yii;
  *
  * @property int $count
  * @property Word[] $wordModels
+ * @property int $user_id [int(11)]
  */
 class WordPack extends \yii\db\ActiveRecord
 {
@@ -36,7 +37,7 @@ class WordPack extends \yii\db\ActiveRecord
         return [
             [['items', 'category_id'], 'required'],
             [['items'], 'string'],
-            [['date', 'category_id'], 'integer'],
+            [['date', 'category_id', 'user_id'], 'integer'],
         ];
     }
 
@@ -65,6 +66,8 @@ class WordPack extends \yii\db\ActiveRecord
         if(!$insert){
             $this->items = json_encode($this->wordArr);
         }
+        else
+            $this->user_id = Yii::$app->user->id;
         return parent::beforeSave($insert);
     }
 

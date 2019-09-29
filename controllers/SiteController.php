@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\AuthHandler;
 use app\models\WordPack;
 use Yii;
 use yii\filters\AccessControl;
@@ -13,30 +14,37 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+//                    [
+//                        'actions' => ['login', 'signup'],
+//                        'allow' => true,
+//                        'roles' => ['?'],
+//                    ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'logout' => ['post'],
+//                ],
+//            ],
         ];
+    }
+
+    public function onAuthSuccess($client)
+    {
+        (new AuthHandler($client))->handle();
     }
 
     /**
@@ -45,6 +53,11 @@ class SiteController extends Controller
     public function actions()
     {
         return [
+
+//            'auth' => [
+//                'class' => 'yii\authclient\AuthAction',
+//                'successCallback' => [$this, 'onAuthSuccess'],
+//            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
@@ -62,7 +75,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $packs = WordPack::find()->orderBy('date DESC')->limit(10)->all();
+        $packs = WordPack::find()->where(['user_id' => Yii::$app->user->id])->orderBy('date DESC')->limit(10)->all();
         return $this->render('index', compact('packs'));
     }
 
@@ -73,17 +86,52 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+        $this->layout = 'auth';
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+
+        // load post data and login
+        $post = Yii::$app->request->post();
+        if ($model->load($post) && $model->validate()) {
+            $returnUrl = $this->performLogin($model->getUser(), $model->rememberMe);
+            return $this->redirect($returnUrl);
         }
 
-        $model->password = '';
-        return $this->render('login', [
+        return $this->render('login', compact("model"));
+    }
+
+    protected function performLogin($user, $rememberMe = true)
+    {
+        // log user in
+        $loginDuration = 3600*24*30;
+        Yii::$app->user->login($user, $loginDuration);
+
+        // check for a valid returnUrl (to prevent a weird login bug)
+        //   https://github.com/amnah/yii2-user/issues/115
+        $loginRedirect = $this->goHome();
+        $returnUrl = Yii::$app->user->getReturnUrl($loginRedirect);
+        if (strpos($returnUrl, "site/login") !== false || strpos($returnUrl, "site/logout") !== false) {
+            $returnUrl = null;
+        }
+
+        return $returnUrl;
+    }
+
+    public function actionSignup()
+    {
+        $this->layout = 'auth';
+
+        $model = new SignupForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
+
+        return $this->render('signup', [
             'model' => $model,
         ]);
     }

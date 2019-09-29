@@ -4,44 +4,48 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
 
+use app\widgets\ActiveForm;
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2 class="ui teal image header" style="margin-top: 40px;">
+    <div class="content">
+        <?= Html::encode($this->title) ?>
+    </div>
+</h2>
+<?= yii\authclient\widgets\AuthChoice::widget([
+    'baseAuthUrl' => ['site/auth'],
+    'popupMode' => false,
+]) ?>
+<?php $form = ActiveForm::begin([
+    'id' => 'login-form',
+    'options' => ['class' => 'ui large form'],
+]); ?>
+    <div class="ui stacked segment">
 
-    <p>Please fill out the following fields to login:</p>
-
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-    ]); ?>
-
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-        <?= $form->field($model, 'password')->passwordInput() ?>
-
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
-
-        <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+        <?= Html::errorSummary($model)?>
+        <div class="field">
+            <div class="ui left icon input">
+                <i class="user icon"></i>
+                <?= Html::activeTextInput($model, 'email', ['placeholder' => Yii::t('app', 'E-mail address')])?>
+                <?= Html::error($model, 'email')?>
             </div>
         </div>
-
-    <?php ActiveForm::end(); ?>
-
-    <div class="col-lg-offset-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
+        <div class="field">
+            <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <?= Html::activePasswordInput($model, 'password', ['placeholder' => Yii::t('app', 'Password')])?>
+                <?= Html::error($model, 'password')?>
+            </div>
+        </div>
+        <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'ui fluid large teal submit button', 'name' => 'login-button']) ?>
     </div>
+    <div class="ui error message"></div>
+
+<?php ActiveForm::end(); ?>
+
+<div class="ui message">
+    <?=Yii::t('app', 'New to us?');?>  <a href="<?=yii\helpers\Url::to(['site/signup'])?>"><?=Yii::t('app', 'Sign Up');?></a>
 </div>
