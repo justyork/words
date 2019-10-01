@@ -19591,8 +19591,6 @@ module.exports = {
             this.$http.get(this.apiUrl + 'words-by-pack?id=' + this.pack_id).then(function (response) {
                 if (response.status) {
                     _this.words = response.body;
-                    _this.lastPosition = _this.words.length - 1;
-                    _this.halfPosition = Math.ceil((_this.words.length - 1) / 2);
                     if (_this.type == 'r') {
                         var newArr = [];
                         _this.words.forEach(function (element) {
@@ -19605,10 +19603,11 @@ module.exports = {
 
                             newArr.push(el);
                         });
-                        console.log(newArr);
-
                         _this.words = _this.shuffle(newArr);
                     }
+
+                    _this.lastPosition = _this.words.length - 1;
+                    _this.halfPosition = Math.ceil((_this.words.length - 1) / 2);
                 }
             });
         },
@@ -19696,7 +19695,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-d6afc1da", __vue__options__)
   } else {
-    hotAPI.reload("data-v-d6afc1da", __vue__options__)
+    hotAPI.rerender("data-v-d6afc1da", __vue__options__)
   }
 })()}
 },{"babel-runtime/core-js/object/assign":1,"vue":48,"vue-hot-reload-api":43,"vueify/lib/insert-css":50}],53:[function(require,module,exports){
@@ -19704,7 +19703,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 'use strict';
 
 module.exports = {
-    props: ['pack_id', 'check_link', 'learn_link', 'label'],
+    props: ['pack_id', 'check_link', 'learn_link', 'label', 'can_select'],
     data: function data() {
         return {
             isSelect: false
@@ -19722,7 +19721,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"ui  buttons"},[_c('a',{staticClass:"ui blue button",staticStyle:{"width":"150px"},attrs:{"href":_vm.check_link}},[_vm._v("\n            "+_vm._s(_vm.label)+"\n        ")]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ab'}},[_c('i',{staticClass:"arrow down icon"})]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ba'}},[_c('i',{staticClass:"arrow up icon"})]),_vm._v(" "),_c('a',{staticClass:"ui teal button icon",attrs:{"href":_vm.learn_link+'r'}},[_c('i',{staticClass:"shuffle icon"})])]),_vm._v(" "),_c('button',{class:'ui toggle button icon pack-row '+(_vm.isSelect ? 'active' : ''),on:{"click":_vm.toggleRow}},[_c('i',{staticClass:"check icon"})])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticStyle:{"margin-bottom":"3px"}},[_c('div',{staticClass:"ui  buttons"},[_c('a',{staticClass:"ui blue button",staticStyle:{"width":"150px"},attrs:{"href":_vm.check_link}},[_vm._v("\n            "+_vm._s(_vm.label)+"\n        ")]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ab'}},[_c('i',{staticClass:"arrow down icon"})]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ba'}},[_c('i',{staticClass:"arrow up icon"})]),_vm._v(" "),_c('a',{staticClass:"ui teal button icon",attrs:{"href":_vm.learn_link+'r'}},[_c('i',{staticClass:"shuffle icon"})])]),_vm._v(" "),(_vm.can_select)?_c('button',{class:'ui toggle button icon pack-row '+(_vm.isSelect ? 'active' : ''),on:{"click":_vm.toggleRow}},[_c('i',{staticClass:"check icon"})]):_vm._e()])}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-c123a7b2"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")

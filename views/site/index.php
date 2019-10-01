@@ -23,7 +23,14 @@ use app\models\WordPack; ?>
     <?if($packs):?>
         <div class="ui small aligned divided list" style="max-width: 400px;">
             <?foreach($packs as $item):?>
-                <?= $this->render('//common/_pack_row', compact('item'))?>
+                <pack-row
+                        @selectrow="selectrow"
+                        pack_id="<?= $item->id?>"
+                        check_link="<?=yii\helpers\Url::to(['learn/check', 'id' => $item->id])?>"
+                        learn_link="<?=yii\helpers\Url::to(['learn/start', 'id' => $item->id, 'type' => ''])?>"
+                        label="<?=Yii::t('app', 'Pack #{id} ({count})', ['id' => $item->id, 'count' => $item->count]);?>"
+                        :can_select="false"
+                ></pack-row>
             <?endforeach?>
         </div>
     <?else:?>

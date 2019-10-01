@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="margin-bottom: 3px;">
         <div class="ui  buttons">
             <a :href="check_link" class="ui blue button" style="width: 150px">
                 {{label}}
@@ -15,7 +15,7 @@
             </a>
         </div>
 
-        <button :class="'ui toggle button icon pack-row '+(isSelect ? 'active' : '')" @click="toggleRow">
+        <button v-if="can_select" :class="'ui toggle button icon pack-row '+(isSelect ? 'active' : '')" @click="toggleRow">
             <i class="check icon"></i>
         </button>
     </div>
@@ -23,7 +23,7 @@
 
 <script>
     module.exports = {
-        props: ['pack_id', 'check_link', 'learn_link', 'label'],
+        props: ['pack_id', 'check_link', 'learn_link', 'label', 'can_select'],
         data: function () {
             return {
                 isSelect: false

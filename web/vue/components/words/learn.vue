@@ -87,8 +87,6 @@
                 this.$http.get(this.apiUrl+'words-by-pack?id='+this.pack_id).then(response => {
                     if(response.status){
                         this.words = response.body;
-                        this.lastPosition = this.words.length - 1;
-                        this.halfPosition = Math.ceil((this.words.length - 1) / 2)
                         if(this.type == 'r'){
                             var newArr = [];
                             this.words.forEach(function(element) {
@@ -101,10 +99,11 @@
 
                                 newArr.push(el)
                             })
-                            console.log(newArr)
-
                             this.words = this.shuffle(newArr)
                         }
+
+                        this.lastPosition = this.words.length - 1;
+                        this.halfPosition = Math.ceil((this.words.length - 1) / 2)
                     }
                 })
             },
