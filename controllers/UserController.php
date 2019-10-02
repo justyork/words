@@ -349,7 +349,7 @@ class UserController extends Controller
                     $guestText = " - " . Yii::t("app", "Please check your email to confirm your account");
                 }
                 Yii::$app->session->setFlash("success", $successText . $guestText);
-                return $this->redirect(['login']);
+                return $this->goHome();
             }
             else{
 //                var_dump($user->errors);

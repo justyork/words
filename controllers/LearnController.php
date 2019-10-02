@@ -6,12 +6,28 @@ namespace app\controllers;
 
 use app\models\WordCategory;
 use app\models\WordPack;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 
 class LearnController extends Controller
 {
 //    public $layout = 'learn';
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['check', 'start', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
     public function actionIndex(){
         $model = WordPack::find()->all();
 

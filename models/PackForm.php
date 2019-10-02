@@ -40,14 +40,13 @@ class PackForm extends Model
         $wordsCond = Word::find()
             ->where(['category_id' => $this->category_id])
             ->andWhere(['user_id' => Yii::$app->user->id])
-            ->andWhere('skip is null OR skip = 0');
+            ->andWhere('skip <> 1');
         if($this->onlyNew){
             $activeIdList = $this->getWordsInPacks();
             if($activeIdList)
                 $wordsCond = $wordsCond->andWhere(['NOT IN', 'id', $activeIdList]);
         }
 
-        $wordsCond;
         $words = $wordsCond->all();
         shuffle($words);
         $items = array_slice($words, 0, $this->count);
@@ -66,7 +65,7 @@ class PackForm extends Model
         $model = WordCategory::findOneByUser($this->category_id);
         $idList = [];
         foreach ($model->packs as $item) {
-            $idList += $item->wordArr;
+            $idList = array_merge($item->wordArr, $idList);
         }
         return $idList;
     }
