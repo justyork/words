@@ -8,6 +8,7 @@ $this->title = Yii::t('app', 'Learn words');
 /* @var $model WordPack */
 
 $arr = [];
+$arr[] = ["label" => Yii::t('app', 'Show words'), "url" => ['learn/check', 'id' => $model->id]];
 if($_GET['type'] != 'ab')
     $arr[] = ["label" => Yii::t('app', 'Start {type}', ['type' => 'AB']), "url" => ['learn/start', 'id' => $model->id, 'type' => 'ab']];
 if($_GET['type'] != 'ba')
@@ -15,7 +16,6 @@ if($_GET['type'] != 'ba')
 if($_GET['type'] != 'r')
     $arr[] = ["label" => Yii::t('app', 'Start {type}', ['type' => 'Rand']), "url" => ['learn/start', 'id' => $model->id, 'type' => 'r']];
 
-$arr[] = ["label" => Yii::t('app', 'Show words'), "url" => ['learn/check', 'id' => $model->id]];
 
 $this->params['sidebar'] = $arr;
 $this->params['back_link'] = Url::to(['category/get', 'id' => $model->category_id]);

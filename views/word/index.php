@@ -21,7 +21,7 @@ $this->params['back_link'] = Url::to(['category/get', 'id' => $model->id]);
     <tr>
         <th><?=Yii::t('app', 'Word');?> </th>
         <th><?=Yii::t('app', 'Translate');?> </th>
-        <th><?=Yii::t('app', 'Level');?> </th>
+        <th><?=Yii::t('app', 'Level');?> A / B</th>
         <th><?=Yii::t('app', 'Skip');?> </th>
         <th></th>
     </tr>
@@ -32,7 +32,7 @@ $this->params['back_link'] = Url::to(['category/get', 'id' => $model->id]);
             <tr>
                 <td><?= $item->word?></td>
                 <td><?= $item->translate?></td>
-                <td class="collapsed"><?= $item->level?></td>
+                <td class="collapsed"><?= (int)$item->level_ab . ' / ' . (int)$item->level_ba?></td>
                 <td class="collapsed">
                     <a href="#" data-id="<?= $item->id?>" class="ui <?= $item->skip ? '' : 'teal'?> button icon skip-toggle">
                         <i class="eye <?= $item->skip ? 'slash' : ''?> icon"></i>

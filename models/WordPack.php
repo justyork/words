@@ -84,4 +84,19 @@ class WordPack extends \yii\db\ActiveRecord
         }
         return $this->_wordModels;
     }
+
+    /**
+     * @param $id
+     * @param $side
+     * @return array
+     */
+    public static function apiWords($id, $side){
+        $model = WordPack::findOne($id);
+        $arr = [];
+        foreach ($model->wordModels as $item) {
+            $m = new WordItem();
+            $arr[] = $m->import($item, $side);
+        }
+        return $arr;
+    }
 }

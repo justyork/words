@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\AuthHandler;
+use app\models\Word;
 use app\models\WordPack;
 use Yii;
 use yii\filters\AccessControl;
@@ -76,7 +77,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $packs = WordPack::find()->where(['user_id' => Yii::$app->user->id])->orderBy('date DESC')->limit(10)->all();
-        return $this->render('index', compact('packs'));
+        $countWords = count(Word::repeatWords());
+        return $this->render('index', compact('packs', 'countWords'));
     }
 
     /**

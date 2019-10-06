@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\models\Word;
 use app\models\WordCategory;
 use app\models\WordPack;
 use yii\filters\AccessControl;
@@ -20,7 +21,7 @@ class LearnController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['check', 'start', 'index'],
+                        'actions' => ['check', 'start', 'index', 'repeat'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -34,6 +35,10 @@ class LearnController extends Controller
         return $this->render('index', compact('model'));
     }
 
+    public function actionRepeat(){
+        $count = count(Word::repeatWords());
+        return $this->render('repeat', compact('count'));
+    }
     public function actionStart($id){
         $model = WordPack::findOne($id);
 

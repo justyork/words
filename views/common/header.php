@@ -14,7 +14,7 @@ $back = $this->params['back_link'];
             <i class="bars icon"></i>
         </a>
         <div class="header center item">
-            LWords
+            <a href="<?=yii\helpers\Url::to(['site/index'])?>">LWords</a>
         </div>
 
         <?if($this->params['sidebar']):?>

@@ -2,20 +2,21 @@
 
 /* @var $this yii\web\View */
 /* @var $packs WordPack[] */
+/* @var $countWords int */
 
-$this->title = 'Words';
+$this->title = Yii::t('app', 'Words');
 
 use app\models\WordPack; ?>
 <div class="site-index">
 
-<!--    <div>CHARTS</div>-->
+    <div>CHARTS</div>
 
-<!--    -->
-<!--    <button class="ui basic button ">-->
-<!--        <i class="icon exclamation"></i>-->
-<!--        --><?//=Yii::t('app', 'Repeat words');?>
-<!--    </button>-->
-    <a href="<?=yii\helpers\Url::to(['category/create'])?>" class="ui blue button"><?=Yii::t('app', 'Create category');?></a>
+
+    <a href="<?=yii\helpers\Url::to(['learn/repeat'])?>" class="ui basic button ">
+        <i class="icon exclamation"></i>
+        <?=Yii::t('app', 'Repeat words');?> (<?= $countWords?>)
+    </a>
+    <a href="<?=yii\helpers\Url::to(['category/index'])?>" class="ui blue button"><?=Yii::t('app', 'Categories');?></a>
     <h4 class="ui horizontal divider">
         <?=Yii::t('app', 'Latest packs');?>
     </h4>

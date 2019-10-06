@@ -28,7 +28,7 @@ class WordCategory extends \yii\db\ActiveRecord
 
     public static function map()
     {
-        return ArrayHelper::map(self::find()->all(), 'id', 'title');
+        return ArrayHelper::map(self::findAllByUser(), 'id', 'title');
     }
 
     /**

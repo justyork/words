@@ -7,7 +7,7 @@
 use app\widgets\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = 'Login';
+$this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h2 class="ui teal image header" style="margin-top: 40px;">

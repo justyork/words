@@ -24,7 +24,7 @@ class AppAsset extends AssetBundle
         'ui/semantic.min.css',
         'ui/components/sidebar.min.css',
         'css/layout.css',
-//        'css/site.css',
+        'css/site.css',
     ];
     public $js = [
         'ui/semantic.min.js',

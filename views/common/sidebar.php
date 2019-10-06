@@ -16,9 +16,9 @@ use yii\widgets\Menu; ?>
     <?= Menu::widget(
         [
             "items" => [
-                ["label" => "Home", "url" => "/", "icon" => "home"],
-                ["label" => "Categories", "url" => ["category/index"]],
-                ["label" => "Logout", "url" => ["site/logout"]],
+                ["label" => Yii::t('app', 'Home'), "url" => "/", "icon" => "home"],
+                ["label" => Yii::t('app', 'Categories'), "url" => ["category/index"]],
+                ["label" => Yii::t('app', 'Logout'), "url" => ["site/logout"]],
             ],
             'options' => ['style' => 'padding: 0', 'tag' => 'div'],
             'itemOptions' => ['class' => 'item', 'tag' => false],

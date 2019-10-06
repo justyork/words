@@ -16,9 +16,12 @@ use yii\behaviors\TimestampBehavior;
  * @property int $created_at
  * @property int $updated_at
  * @property int $skip
- * @property int $level
+ * @property int $level_ab
+ * @property int $level_ba
  * @property int $ab_series
  * @property int $ba_series
+ * @property int $level_ab_date
+ * @property int $level_ba_date
  *
  * @property WordCategory $category
  * @property int $user_id [int(11)]
@@ -45,11 +48,12 @@ class Word extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'created_at', 'updated_at', 'level', 'ab_series', 'ba_series', 'user_id'], 'integer'],
+            [['category_id', 'created_at', 'updated_at', 'level_ab_date', 'level_ba_date', 'level_ab', 'level_ba',  'ab_series', 'ba_series', 'user_id'], 'integer'],
             [['word', 'translate', 'tip'], 'string', 'max' => 255],
+            [['word', 'translate', 'tip'], 'trim'],
             [['skip'], 'boolean'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => WordCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
-            [['skip', 'level'], 'default', 'value' => 0]
+            [['skip', 'level_ab'], 'default', 'value' => 0]
         ];
     }
 
@@ -67,7 +71,8 @@ class Word extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'skip' => Yii::t('app', 'Skip'),
-            'level' => Yii::t('app', 'Level'),
+            'level_ab' => Yii::t('app', 'Level'),
+            'level_ba' => Yii::t('app', 'Level'),
             'ab_series' => Yii::t('app', 'Ab Series'),
             'ba_series' => Yii::t('app', 'Ba Series'),
         ];
@@ -96,11 +101,13 @@ class Word extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
-    public function answered($isCorrect, $type){
+    public function answered($isCorrect, $type, $isRepeat = false){
+        if(is_null($this->level_ab)) $this->level_ab = 0;
+        if(is_null($this->level_ba)) $this->level_ab = 0;
         if($isCorrect){
-            if($this->level == 0){
+            if($this->canSeriesUpdate($type, $isRepeat)){
                 if($type == 'a') $this->ab_series++;
-                elseif($type == 'b') $this->ba_series++;
+                if($type == 'b') $this->ba_series++;
             }
         }
         else{
@@ -110,15 +117,77 @@ class Word extends \yii\db\ActiveRecord
         $this->nextLevel();
     }
 
+    private function canSeriesUpdate($type, $isRepeat){
+        $paramsDay = Yii::$app->params['days_by_level'];
+        $isA = $type == 'a';
+        $isB = $type == 'b';
+
+        if(($isA && $this->level_ab == 0) || ( $isB && $this->level_ba == 0))
+            return true;
+        if($isA && $isRepeat && $this->level_ab_date < time() - 86400 * $paramsDay[$this->level_ab]) return true;
+        if($isB && $isRepeat && $this->level_ba_date < time() - 86400 * $paramsDay[$this->level_ba]) return true;
+
+        return false;
+    }
+
     private function nextLevel(){
         $firstLevelSeries = Yii::$app->params['first_level_series'];
         $nextLevelSeries = Yii::$app->params['next_level_series'];
-        if(($this->level == 0 && $this->ab_series == $firstLevelSeries && $this->ba_series == $firstLevelSeries)
-            || ($this->level != 0 && $this->ab_series == $nextLevelSeries && $this->ba_series == $nextLevelSeries)
-        ){
-            $this->level++;
+        if(($this->level_ab == 0 && $this->ab_series >= $firstLevelSeries) || ($this->level_ab != 0 && $this->ab_series >= $nextLevelSeries)){
+            $this->level_ab++;
             $this->ab_series = 0;
-            $this->ba_series = 0;
+            $this->level_ab_date = time();
         }
+        if(($this->level_ba == 0 && $this->ba_series >= $firstLevelSeries) || ($this->level_ba != 0 && $this->ba_series >= $nextLevelSeries)){
+            $this->level_ba++;
+            $this->ba_series = 0;
+            $this->level_ba_date = time();
+        }
+
+        $this->save();
+    }
+
+    public static function repeatWords(){
+        $paramsDays = Yii::$app->params['days_by_level'];
+        $model = self::find()
+            ->where('((level_ab = :level AND level_ab_date < :time) OR (level_ba = :level AND level_ba_date < :time)) OR 
+            ((level_ab = :level2 AND level_ab_date < :time2) OR (level_ba = :level2 AND level_ba_date < :time2)) OR 
+            ((level_ab = :level3 AND level_ab_date < :time3) OR (level_ba = :level3 AND level_ba_date < :time3)) OR 
+            ((level_ab = :level4 AND level_ab_date < :time4) OR (level_ba = :level4 AND level_ba_date < :time4))', [
+                ':level' => 1,
+                ':time' => time() - 3600 * 24 * $paramsDays[1],
+                ':level2' => 2,
+                ':time2' => time() - 3600 * 24 * $paramsDays[2],
+                ':level3' => 3,
+                ':time3' => time() - 3600 * 24 * $paramsDays[3],
+                ':level4' => 4,
+                ':time4' => time() - 3600 * 24 * $paramsDays[4]
+            ])
+            ->all();
+
+        $arr = [];
+        foreach ($model as $item) {
+            $sideArr = $item->getRepeatSide();
+            foreach ($sideArr as $side) {
+                $m = new WordItem();
+                $arr[] = $m->import($item, $side);
+            }
+        }
+
+        return $arr;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRepeatSide(){
+        $paramsDay = Yii::$app->params['days_by_level'];
+        $list = [];
+        if($this->level_ab != 0 && $this->level_ab_date < time() - 86400 * $paramsDay[$this->level_ab])
+            $list[] = 'a';
+        if($this->level_ba != 0 && $this->level_ba_date < time() - 86400 * $paramsDay[$this->level_ba])
+            $list[] = 'b';
+
+        return $list;
     }
 }

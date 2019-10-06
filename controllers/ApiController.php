@@ -6,16 +6,23 @@ namespace app\controllers;
 
 
 use app\models\Word;
+use app\models\WordItem;
 use app\models\WordPack;
 use app\models\WordStat;
 
 class ApiController extends \yii\rest\Controller
 {
 
-    public function actionWordsByPack($id){
+    public function actionRepeatWords(){
+        $model = Word::repeatWords();
+        shuffle($model);
+        return $model;
 
-        $model = WordPack::findOne($id);
-        $items = $model->wordModels;
+    }
+
+    public function actionWordsByPack($id, $type){
+
+        $items = WordPack::apiWords($id, $type);
         shuffle($items);
         return $items;
     }
@@ -50,7 +57,7 @@ class ApiController extends \yii\rest\Controller
         $type = \Yii::$app->request->post('type');
         $isCorrect = \Yii::$app->request->post('correct');
 
-        $model->answered($isCorrect, $type);
+        $model->answered($isCorrect, $type, \Yii::$app->request->post('repeat'));
         $model->save();
         WordStat::addToday();
     }

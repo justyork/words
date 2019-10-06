@@ -28,7 +28,7 @@ $this->params['back_link'] = Url::to(['category/index']);
 
 <?if($model->packs):?>
 <div class="ui small aligned divided list" style="max-width: 400px;">
-    <?foreach($model->packs as $item):?>
+    <?foreach($model->getPacks()->orderBy('date DESC')->all() as $item):?>
 
         <div class="item">
             <pack-row

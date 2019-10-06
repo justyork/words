@@ -99,32 +99,3 @@
         }
     }
 </script>
-
-<style>
-    .learn-nav{
-        width: 100%;
-        display: flex;
-        margin: 20px 0;
-    }
-    .learn-nav a{
-        flex: 1;
-        text-align: center;
-        padding: 10px;
-        background: #c9c9c9;
-        color: white;
-        border-right: 1px solid white;
-    }
-    .learn-nav a:last-child{
-        border-right: none;
-    }
-
-    .learn-skip{
-        position: absolute;
-        margin-top: 10px;
-        padding: 0 !important;
-    }
-    .learn-skip a{
-        font-size: 14px;
-        color: black;
-    }
-</style>

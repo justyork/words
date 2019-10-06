@@ -7,6 +7,9 @@
                 <button @click="saveTip" class="">OK</button>
             </div>
         </div>
+        <div v-if="words.length" class="learn-series">
+            <span :class="'ui '+seriesColor(words[0])+' horizontal label'">{{seriesStat(words[0])}}</span>
+        </div>
         <div class="learn__item" v-if="words.length">
             <div class="learn__item-word">
                 {{word}}
@@ -40,7 +43,8 @@
     module.exports = {
         props: [
             'pack_id',
-            'type'
+            'type',
+            'repeat'
         ],
         data: function () {
             return {
@@ -59,49 +63,36 @@
         },
         computed:{
             word(){
-                if(this.type == 'ab')
-                    return this.words[0].word;
-                if(this.type == 'ba')
-                    return this.words[0].translate;
-                if(this.type == 'r'){
-                    return this.words[0].word;
-                    // if(this.randomPos === -1) this.randomPos = Math.round(Math.random() * 10) >= 5;
-                    // return this.randomPos ? this.words[0].word : this.words[0].translate;
-                }
+                return this.words[0].word;
             },
             translate(){
-                if(this.type == 'ab')
-                    return this.words[0].translate;
-                if(this.type == 'ba')
-                    return this.words[0].word;
-                if(this.type == 'r'){
-                    return this.words[0].translate;
-                    // if(this.randomPos === -1) this.randomPos = Math.round(Math.random() * 10) >= 5;
-                    // return this.randomPos ? this.words[0].translate : this.words[0].word;
-                }
-
+                return this.words[0].translate;
             }
         },
         methods: {
+            seriesStat(model){
+                return model.series+' / '+model.series_need;
+            },
+            seriesColor(model){
+                let color = '';
+                if(model.series_need == 2){
+                    if(model.series == 0) color = 'red';
+                    if(model.series == 1) color = 'orange';
+                    if(model.series >= 2) color = 'teal';
+                }
+                if(model.series_need == 3){
+                    if(model.series == 0) color = 'red';
+                    if(model.series == 1) color = 'orange';
+                    if(model.series == 2) color = 'yelow';
+                    if(model.series >= 3) color = 'teal';
+                }
+                return color;
+            },
             getWords(){
-                this.$http.get(this.apiUrl+'words-by-pack?id='+this.pack_id).then(response => {
+                let url = this.repeat ? 'repeat-words' : 'words-by-pack?id='+this.pack_id+'&type='+this.type
+                this.$http.get(this.apiUrl+url).then(response => {
                     if(response.status){
                         this.words = response.body;
-                        if(this.type == 'r'){
-                            var newArr = [];
-                            this.words.forEach(function(element) {
-                                element.randomPos = 'a';
-                                newArr.push(element)
-                                var el = Object.assign({}, element);
-                                el.word = element.translate
-                                el.translate = element.word
-                                el.randomPos = 'b';
-
-                                newArr.push(el)
-                            })
-                            this.words = this.shuffle(newArr)
-                        }
-
                         this.lastPosition = this.words.length - 1;
                         this.halfPosition = Math.ceil((this.words.length - 1) / 2)
                     }
@@ -126,8 +117,11 @@
             },
             correct(isTrue){
                 var pos = this.lastPosition;
-                if(!isTrue)
+                this.words[0].series++;
+                if(!isTrue){
                     pos = this.halfPosition;
+                    this.words[0].series = 0;
+                }
                 this.wordChecked(isTrue);
                 this.nextWord(pos);
             },
@@ -154,28 +148,14 @@
                 })
             },
             wordChecked(correct){
-                var pos = false;
-                if(this.type === 'ab' || (this.type === 'r' && this.words[0].randomPos === 'a'))
-                    pos = 'a';
-                else if(this.type === 'ba' || (this.type === 'r' && this.words[0].randomPos === 'b'))
-                    pos = 'b';
-
                 let data = new FormData();
                 data.append('word_id', this.words[0].id);
                 data.append('correct', correct ? 1 : 0);
-                data.append('type', pos);
+                data.append('type', this.words[0].type);
+                data.append('level', this.words[0].level);
+                data.append('repeat', this.repeat);
                 this.$http.post(this.apiUrl+'check-word', data )
             },
-            shuffle(a) {
-                var j, x, i;
-                for (i = a.length - 1; i > 0; i--) {
-                    j = Math.floor(Math.random() * (i + 1));
-                    x = a[i];
-                    a[i] = a[j];
-                    a[j] = x;
-                }
-                return a;
-            }
         },
         created: function () {
             if(!this.type) this.type = 'ab';
@@ -183,82 +163,3 @@
         }
     }
 </script>
-
-<style>
-    .learn{
-        text-align: center;
-    }
-    .learn__item{
-        height: 250px;
-        padding: 50px 20px;
-        font-size: 25px;
-    }
-    .learn-tip{
-        float: left;
-        color: black;
-        padding: 10px 20px;
-    }
-    .learn-tip a{
-        color: black;
-    }
-    .learn-tip button{
-        padding: 3px 5px;
-        margin: 0;
-        margin-top: -4px;
-        background: #63DC90;
-        color: white;
-        border: none;
-    }
-    .learn__item>div{
-        padding: 20px;
-        line-height: 30px;
-    }
-    div.learn__item-tip{
-        font-size: 16px;
-        color: #c7c7c7;
-        padding-bottom: 40px;
-        padding-top: 0;
-    }
-    div.learn__item-word{
-        padding-bottom: 50px;
-    }
-    div.learn__item-translate{
-        padding-top: 50px;
-        border-top: 1px solid #c3c3c3;
-    }
-    .learn-button{
-        position: absolute;
-        bottom: 30px;
-        width: 100%;
-        height: 60px;
-        left: 0;
-    }
-    .learn-button>div{
-        display: flex;
-    }
-    .learn-button a{
-        flex: 1;
-        display: block;
-        font-size: 18px !important;
-        padding: 20px 10px !important;
-        vertical-align: middle;
-        /*color: white;*/
-        /*border: 1px solid #906CD7;*/
-        /*background: rgba(144, 108, 215, 0.30);*/
-
-    }
-    a.learn-button--red{
-        color: #FF8B73;
-        border: 1px solid #FF8B73;
-    }
-    a.learn-button--green{
-        color: #63DC90;
-        border: 1px solid #63DC90;
-    }
-    a.learn-button--left{
-        border-right: none;
-    }
-    .learn-button--yellow{
-        background: #906CD7;
-    }
-</style>

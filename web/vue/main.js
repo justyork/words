@@ -5,6 +5,7 @@ var VueMomentJS = require('vue-momentjs');
 var Vue2TouchEvents  = require('vue2-touch-events');
 
 var learn = require('./components/words/learn.vue')
+var repeat = require('./components/words/repeat.vue')
 var learnCheck = require('./components/words/learn-check.vue')
 var packRow = require('./components/words/pack-row.vue')
 
@@ -20,6 +21,7 @@ new Vue({
        }
     },
     components: {
+        'repeat' : repeat,
         'learn' : learn,
         'learn-check' : learnCheck,
         'pack-row' : packRow,
