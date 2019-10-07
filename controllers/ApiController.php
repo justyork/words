@@ -20,7 +20,7 @@ class ApiController extends \yii\rest\Controller
 
     }
 
-    public function actionWordsByPack($id, $type){
+    public function actionWordsByPack($id, $type = 'b'){
 
         $items = WordPack::apiWords($id, $type);
         shuffle($items);
