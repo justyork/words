@@ -22,7 +22,13 @@ class ApiController extends \yii\rest\Controller
 
     public function actionWordsByPack($id, $type = 'b'){
 
-        $items = WordPack::apiWords($id, $type);
+        $items = [];
+        if($type == 'r'){
+            $items += WordPack::apiWords($id, 'a');
+            $items += WordPack::apiWords($id, 'b');
+        }
+        else
+            $items = WordPack::apiWords($id, $type);
         shuffle($items);
         return $items;
     }
