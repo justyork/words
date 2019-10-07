@@ -37,6 +37,7 @@ $this->params['back_link'] = Url::to(['category/index']);
                     check_link="<?=yii\helpers\Url::to(['learn/check', 'id' => $item->id])?>"
                     learn_link="<?=yii\helpers\Url::to(['learn/start', 'id' => $item->id, 'type' => ''])?>"
                     label="<?=Yii::t('app', 'Pack #{id} ({count})', ['id' => $item->id, 'count' => $item->count]);?>"
+                    can_select="1"
             ></pack-row>
         </div>
     <?endforeach?>
