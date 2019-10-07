@@ -24,8 +24,9 @@ class ApiController extends \yii\rest\Controller
 
         $items = [];
         if($type == 'r'){
-            $items += WordPack::apiWords($id, 'a');
-            $items += WordPack::apiWords($id, 'b');
+            $a = WordPack::apiWords($id, 'a');
+            $b = WordPack::apiWords($id, 'b');
+            $items = array_merge($a, $b);
         }
         else
             $items = WordPack::apiWords($id, $type);
