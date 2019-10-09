@@ -13,7 +13,7 @@ use yii\helpers\Url;
 $this->params['back_link'] = Url::to(['category/index']);
 ?>
 
-<h1><?= $model->title?></h1>
+<h1><?= $model->title?> (<?= $model->getWords()->count()?>)</h1>
 
 <a href="<?=yii\helpers\Url::to(['word/index', 'id' => $model->id])?>" class="ui blue button"><?=Yii::t('app', 'Show words');?></a>
 
