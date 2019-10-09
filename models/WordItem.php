@@ -23,7 +23,7 @@ class WordItem
         $this->type = $side;
         $this->tip = $model->tip;
 
-        if($side == 'a' || $side == 'ba'){
+        if($side == 'a' || $side == 'ab'){
             $this->word = $model->word;
             $this->translate = $model->translate;
             $this->level = $model->level_ab;
