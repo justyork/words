@@ -20,7 +20,7 @@ class ApiController extends \yii\rest\Controller
 
     }
 
-    public function actionWordsByPack($id, $type = 'b'){
+    public function actionWordsByPack($id, $type = 'a'){
 
         $items = [];
         if($type == 'r'){
