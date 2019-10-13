@@ -143,8 +143,6 @@ class Word extends \yii\db\ActiveRecord
             $this->ba_series = 0;
             $this->level_ba_date = time();
         }
-
-        $this->save();
     }
 
     public static function repeatWords(){
