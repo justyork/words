@@ -22,4 +22,4 @@ $this->params['back_link'] = Url::to(['category/get', 'id' => $model->category_i
 ?>
 
 
-<learn pack_id="<?= $model->id?>" type="<?= Yii::$app->request->get('type')?>"></learn>
+<learn pack_id="<?= $model->id?>" type="<?= Yii::$app->request->get('type')?>" only_new="1"></learn>

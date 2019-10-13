@@ -44,7 +44,8 @@
         props: [
             'pack_id',
             'type',
-            'repeat'
+            'repeat',
+            'only_new'
         ],
         data: function () {
             return {
@@ -83,13 +84,13 @@
                 if(model.series_need == 3){
                     if(model.series == 0) color = 'red';
                     if(model.series == 1) color = 'orange';
-                    if(model.series == 2) color = 'yelow';
+                    if(model.series == 2) color = 'yellow';
                     if(model.series >= 3) color = 'teal';
                 }
                 return color;
             },
             getWords(){
-                let url = this.repeat ? 'repeat-words' : 'words-by-pack?id='+this.pack_id+'&type='+this.type
+                let url = this.repeat ? 'repeat-words' : 'words-by-pack?id='+this.pack_id+'&type='+this.type+'&only_new='+this.only_new
                 this.$http.get(this.apiUrl+url).then(response => {
                     if(response.status){
                         this.words = response.body;

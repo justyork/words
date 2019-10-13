@@ -19097,7 +19097,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-8feecb64", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-8feecb64", __vue__options__)
+    hotAPI.reload("data-v-8feecb64", __vue__options__)
   }
 })()}
 },{"vue":10,"vue-hot-reload-api":5}],13:[function(require,module,exports){
@@ -19105,7 +19105,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 'use strict';
 
 module.exports = {
-    props: ['pack_id', 'type', 'repeat'],
+    props: ['pack_id', 'type', 'repeat', 'only_new'],
     data: function data() {
         return {
             apiUrl: '/api/',
@@ -19143,7 +19143,7 @@ module.exports = {
             if (model.series_need == 3) {
                 if (model.series == 0) color = 'red';
                 if (model.series == 1) color = 'orange';
-                if (model.series == 2) color = 'yelow';
+                if (model.series == 2) color = 'yellow';
                 if (model.series >= 3) color = 'teal';
             }
             return color;
@@ -19151,7 +19151,7 @@ module.exports = {
         getWords: function getWords() {
             var _this = this;
 
-            var url = this.repeat ? 'repeat-words' : 'words-by-pack?id=' + this.pack_id + '&type=' + this.type;
+            var url = this.repeat ? 'repeat-words' : 'words-by-pack?id=' + this.pack_id + '&type=' + this.type + '&only_new=' + this.only_new;
             this.$http.get(this.apiUrl + url).then(function (response) {
                 if (response.status) {
                     _this.words = response.body;
@@ -19271,124 +19271,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-c123a7b2", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-c123a7b2", __vue__options__)
+    hotAPI.reload("data-v-c123a7b2", __vue__options__)
   }
 })()}
 },{"vue":10,"vue-hot-reload-api":5}],15:[function(require,module,exports){
-;(function(){
-'use strict';
-
-module.exports = {
-    props: ['pack_id', 'type'],
-    data: function data() {
-        return {
-            apiUrl: '/api/',
-            words: [],
-            activeNum: 0,
-            wordStatus: 0,
-            isCorrect: false,
-            hasAnswer: false,
-            lastPosition: 0,
-            halfPosition: 0,
-            randomPos: -1,
-            tipForm: false,
-            tipText: ''
-        };
-    },
-    computed: {
-        word: function word() {
-            return this.words[0].word;
-        },
-        translate: function translate() {
-            return this.words[0].translate;
-        }
-    },
-    methods: {
-        getWords: function getWords() {
-            var _this = this;
-
-            this.$http.get(this.apiUrl + 'repeat-words').then(function (response) {
-                if (response.status) {
-                    _this.words = response.body;
-                    _this.lastPosition = _this.words.length - 1;
-                    _this.halfPosition = Math.ceil((_this.words.length - 1) / 2);
-                }
-            });
-        },
-        nextWord: function nextWord(pos) {
-            this.words = this.move(this.words, pos);
-            this.hasAnswer = false;
-            this.isCorrect = false;
-            this.wordStatus = 0;
-            this.randomPos = -1;
-        },
-        know: function know(isTrue) {
-            this.hasAnswer = true;
-            if (isTrue) this.wordStatus = 1;else {
-                this.wordChecked(false);
-                this.wordStatus = 2;
-            }
-        },
-        correct: function correct(isTrue) {
-            var pos = this.lastPosition;
-            if (!isTrue) pos = this.halfPosition;
-            this.wordChecked(isTrue);
-            this.nextWord(pos);
-        },
-        move: function move(arr, new_index) {
-            var old_index = 0;
-            if (new_index >= arr.length) {
-                var k = new_index - arr.length + 1;
-                while (k--) {
-                    arr.push(undefined);
-                }
-            }
-            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-            return arr;
-        },
-        saveTip: function saveTip() {
-            var _this2 = this;
-
-            var data = new FormData();
-            data.append('tip', this.tipText);
-            data.append('word_id', this.words[0].id);
-            this.$http.post(this.apiUrl + 'add-word-tip', data).then(function (response) {
-                if (response.status) {
-                    _this2.tipForm = false;
-                    _this2.words[0].tip = _this2.tipText;
-                }
-            });
-        },
-        wordChecked: function wordChecked(correct) {
-            var data = new FormData();
-            data.append('word_id', this.words[0].id);
-            data.append('correct', correct ? 1 : 0);
-            data.append('type', this.words[0].type);
-            data.append('level', this.words[0].level);
-            this.$http.post(this.apiUrl + 'check-word', data);
-        }
-    },
-    created: function created() {
-        this.getWords();
-    }
-};
-})()
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
-if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"learn"},[(_vm.hasAnswer)?_c('div',{staticClass:"learn-tip"},[(!_vm.tipForm)?_c('a',{attrs:{"href":"javascript:;"},on:{"click":function($event){_vm.tipForm = true}}},[_vm._v("Add tip")]):_vm._e(),_vm._v(" "),(_vm.tipForm)?_c('div',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.tipText),expression:"tipText"}],attrs:{"type":"text"},domProps:{"value":(_vm.tipText)},on:{"input":function($event){if($event.target.composing){ return; }_vm.tipText=$event.target.value}}}),_vm._v(" "),_c('button',{on:{"click":_vm.saveTip}},[_vm._v("OK")])]):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.words.length)?_c('div',{staticClass:"learn__item"},[_c('div',{staticClass:"learn__item-word"},[_vm._v("\n            "+_vm._s(_vm.word)+"\n        ")]),_vm._v(" "),(_vm.hasAnswer)?_c('div',{staticClass:"learn__item-translate"},[_vm._v("\n            "+_vm._s(_vm.translate)+"\n        ")]):_vm._e(),_vm._v(" "),(_vm.hasAnswer)?_c('div',{staticClass:"learn__item-tip"},[_vm._v("\n            "+_vm._s(_vm.words[0].tip)+"  \n        ")]):_vm._e()]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"learn-button"},[(_vm.wordStatus == 0)?_c('div',{staticClass:"learn-button__start fluid ui buttons"},[_c('a',{staticClass:"ui massive red button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.know(false)}}},[_vm._v("DON'T KNOW")]),_vm._v(" "),_c('a',{staticClass:"ui massive teal button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.know(true)}}},[_vm._v("KNOW IT")])]):_vm._e(),_vm._v(" "),(_vm.wordStatus == 1)?_c('div',{staticClass:"learn-button__know fluid ui buttons"},[_c('a',{staticClass:"ui massive red button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(false)}}},[_vm._v("NOT CORRECT")]),_vm._v(" "),_c('a',{staticClass:"ui massive teal button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(true)}}},[_vm._v("CORRECT")])]):_vm._e(),_vm._v(" "),(_vm.wordStatus == 2)?_c('div',{staticClass:"learn-button__dontknow fluid ui buttons"},[_c('a',{staticClass:"ui massive blue button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(false)}}},[_vm._v("NEXT")])]):_vm._e()])])}
-__vue__options__.staticRenderFns = []
-if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0e1fc15c", __vue__options__)
-  } else {
-    hotAPI.reload("data-v-0e1fc15c", __vue__options__)
-  }
-})()}
-},{"vue":10,"vue-hot-reload-api":5}],16:[function(require,module,exports){
 var Vue = require('vue');
 var VueResource = require('vue-resource');
 var moment = require('moment');
@@ -19396,7 +19282,6 @@ var VueMomentJS = require('vue-momentjs');
 var Vue2TouchEvents  = require('vue2-touch-events');
 
 var learn = require('./components/words/learn.vue')
-var repeat = require('./components/words/repeat.vue')
 var learnCheck = require('./components/words/learn-check.vue')
 var packRow = require('./components/words/pack-row.vue')
 
@@ -19412,7 +19297,6 @@ new Vue({
        }
     },
     components: {
-        'repeat' : repeat,
         'learn' : learn,
         'learn-check' : learnCheck,
         'pack-row' : packRow,
@@ -19438,4 +19322,4 @@ new Vue({
         this.$moment.locale('ru')
     }
 });
-},{"./components/words/learn-check.vue":12,"./components/words/learn.vue":13,"./components/words/pack-row.vue":14,"./components/words/repeat.vue":15,"moment":2,"vue":10,"vue-momentjs":6,"vue-resource":7,"vue2-touch-events":8}]},{},[16]);
+},{"./components/words/learn-check.vue":12,"./components/words/learn.vue":13,"./components/words/pack-row.vue":14,"moment":2,"vue":10,"vue-momentjs":6,"vue-resource":7,"vue2-touch-events":8}]},{},[15]);
