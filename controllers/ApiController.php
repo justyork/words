@@ -64,13 +64,8 @@ class ApiController extends \yii\rest\Controller
         $type = \Yii::$app->request->post('type');
         $isCorrect = \Yii::$app->request->post('correct');
 
-        $model->answered($isCorrect, $type, \Yii::$app->request->post('repeat'));
-        if($model->save()){
-            WordStat::addToday();
-            return 'OK';
-        }
+        return $model->answered($isCorrect, $type, \Yii::$app->request->post('repeat'));
 
-        var_dump($model->errors);
 
     }
 

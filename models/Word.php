@@ -114,7 +114,7 @@ class Word extends \yii\db\ActiveRecord
                 if($type == 'b') $this->ba_series = 0;
             }
         }
-        $this->nextLevel();
+        return $this->nextLevel();
     }
 
     private function canSeriesUpdate($type, $isRepeat){
@@ -143,6 +143,12 @@ class Word extends \yii\db\ActiveRecord
             $this->ba_series = 0;
             $this->level_ba_date = time();
         }
+
+        if($this->save()){
+            WordStat::addToday();
+            return 'OK';
+        }
+        var_dump($this->errors);
     }
 
     public static function repeatWords(){
