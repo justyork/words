@@ -133,12 +133,12 @@ class Word extends \yii\db\ActiveRecord
     private function nextLevel(){
         $firstLevelSeries = Yii::$app->params['first_level_series'];
         $nextLevelSeries = Yii::$app->params['next_level_series'];
-        if(($this->level_ab == 0 && $this->ab_series >= $firstLevelSeries) || ($this->level_ab != 0 && $this->ab_series >= $nextLevelSeries)){
+        if(($this->level_ab == 0 && $this->ab_series >= $firstLevelSeries) || ($this->level_ab > 0 && $this->ab_series >= $nextLevelSeries)){
             $this->level_ab++;
             $this->ab_series = 0;
             $this->level_ab_date = time();
         }
-        if(($this->level_ba == 0 && $this->ba_series >= $firstLevelSeries) || ($this->level_ba != 0 && $this->ba_series >= $nextLevelSeries)){
+        if(($this->level_ba == 0 && $this->ba_series >= $firstLevelSeries) || ($this->level_ba > 0 && $this->ba_series >= $nextLevelSeries)){
             $this->level_ba++;
             $this->ba_series = 0;
             $this->level_ba_date = time();
