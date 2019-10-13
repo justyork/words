@@ -28,15 +28,16 @@ $this->params['back_link'] = Url::to(['category/index']);
 
 <?if($model->packs):?>
 <div class="ui small aligned divided list" style="max-width: 400px;">
-    <?foreach($model->getPacks()->orderBy('date DESC')->all() as $item):?>
-
+    <?foreach($model->getPacks()->orderBy('date DESC')->all() as $item):
+        $unlearnedWords = count($item->unlearnedWords) ?>
         <div class="item">
             <pack-row
                     @selectrow="selectrow"
+                    unlearned_words="<?= $unlearnedWords?>"
                     pack_id="<?= $item->id?>"
                     check_link="<?=yii\helpers\Url::to(['learn/check', 'id' => $item->id])?>"
                     learn_link="<?=yii\helpers\Url::to(['learn/start', 'id' => $item->id, 'type' => ''])?>"
-                    label="<?=Yii::t('app', 'Pack #{id} ({count})', ['id' => $item->id, 'count' => $item->count]);?>"
+                    label="<?=Yii::t('app', 'Pack #{id} ({count})', ['id' => $item->id, 'count' => $unlearnedWords]);?>"
                     can_select="1"
             ></pack-row>
         </div>

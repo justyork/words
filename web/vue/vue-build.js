@@ -19244,7 +19244,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 'use strict';
 
 module.exports = {
-    props: ['pack_id', 'check_link', 'learn_link', 'label', 'can_select'],
+    props: ['pack_id', 'check_link', 'learn_link', 'label', 'can_select', 'unlearned_words'],
     data: function data() {
         return {
             isSelect: false
@@ -19262,7 +19262,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticStyle:{"margin-bottom":"3px"}},[_c('div',{staticClass:"ui  buttons"},[_c('a',{staticClass:"ui blue button",staticStyle:{"width":"150px"},attrs:{"href":_vm.check_link}},[_vm._v("\n            "+_vm._s(_vm.label)+"\n        ")]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ab'}},[_c('i',{staticClass:"arrow down icon"})]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ba'}},[_c('i',{staticClass:"arrow up icon"})]),_vm._v(" "),_c('a',{staticClass:"ui teal button icon",attrs:{"href":_vm.learn_link+'r'}},[_c('i',{staticClass:"shuffle icon"})])]),_vm._v(" "),(_vm.can_select)?_c('button',{class:'ui toggle button icon pack-row '+(_vm.isSelect ? 'active' : ''),on:{"click":_vm.toggleRow}},[_c('i',{staticClass:"check icon"})]):_vm._e()])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticStyle:{"margin-bottom":"3px"}},[(_vm.unlearned_words > 0)?_c('div',[_c('div',{staticClass:"ui  buttons"},[_c('a',{staticClass:"ui blue button",staticStyle:{"width":"150px"},attrs:{"href":_vm.check_link}},[_vm._v("\n                "+_vm._s(_vm.label)+"\n            ")]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ab'}},[_c('i',{staticClass:"arrow down icon"})]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ba'}},[_c('i',{staticClass:"arrow up icon"})]),_vm._v(" "),_c('a',{staticClass:"ui teal button icon",attrs:{"href":_vm.learn_link+'r'}},[_c('i',{staticClass:"shuffle icon"})])]),_vm._v(" "),(_vm.can_select)?_c('button',{class:'ui toggle button icon pack-row '+(_vm.isSelect ? 'active' : ''),on:{"click":_vm.toggleRow}},[_c('i',{staticClass:"check icon"})]):_vm._e()]):_c('div',{staticClass:"ui green button"},[_vm._v("\n        "+_vm._s(_vm.label)+" Все слова выучены\n    ")])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19271,7 +19271,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-c123a7b2", __vue__options__)
   } else {
-    hotAPI.reload("data-v-c123a7b2", __vue__options__)
+    hotAPI.rerender("data-v-c123a7b2", __vue__options__)
   }
 })()}
 },{"vue":10,"vue-hot-reload-api":5}],15:[function(require,module,exports){

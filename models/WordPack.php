@@ -14,6 +14,7 @@ use Yii;
  *
  * @property int $count
  * @property Word[] $wordModels
+ * @property Word[] $unlearnedWords
  * @property int $user_id [int(11)]
  */
 class WordPack extends \yii\db\ActiveRecord
@@ -101,6 +102,19 @@ class WordPack extends \yii\db\ActiveRecord
             $m = new WordItem();
             $arr[] = $m->import($item, $side);
         }
+        return $arr;
+    }
+
+    /**
+     * @return Word[]
+     */
+    public function getUnlearnedWords(){
+        $arr = [];
+        foreach ($this->wordModels as $item) {
+            if($item->level_ab != 0 && $item->level_ba != 0) continue;
+            $arr[] = $item;
+        }
+
         return $arr;
     }
 }
