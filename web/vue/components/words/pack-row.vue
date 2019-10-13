@@ -19,7 +19,7 @@
                 <i class="check icon"></i>
             </button>
         </div>
-        <a  v-else :href="check_link" class="ui green button" style="width: 150px">
+        <a  v-else :href="check_link" class="ui green button">
             {{label}}
             Все слова выучены
         </a>
