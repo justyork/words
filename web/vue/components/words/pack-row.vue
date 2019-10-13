@@ -15,13 +15,17 @@
                     <i class="shuffle icon"></i>
                 </a>
             </div>
-
             <button v-if="can_select" :class="'ui toggle button icon pack-row '+(isSelect ? 'active' : '')" @click="toggleRow">
                 <i class="check icon"></i>
             </button>
         </div>
-        <div v-else class="ui green button">
-            {{label}} Все слова выучены
+        <div class="ui  buttons"  v-else>
+            <a :href="check_link" class="ui green button" style="width: 150px">
+                {{label}}
+            </a>
+            <div class="ui green button">
+                {{label}} Все слова выучены
+            </div>
         </div>
     </div>
 </template>
