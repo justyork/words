@@ -19,14 +19,10 @@
                 <i class="check icon"></i>
             </button>
         </div>
-        <div class="ui  buttons"  v-else>
-            <a :href="check_link" class="ui green button" style="width: 150px">
-                {{label}}
-            </a>
-            <div class="ui green button">
-                {{label}} Все слова выучены
-            </div>
-        </div>
+        <a  v-else :href="check_link" class="ui green button" style="width: 150px">
+            {{label}}
+            Все слова выучены
+        </a>
     </div>
 </template>
 
