@@ -24,12 +24,12 @@ class ApiController extends \yii\rest\Controller
 
         $items = [];
         if($type == 'r'){
-            $a = WordPack::apiWords($id, 'a');
-            $b = WordPack::apiWords($id, 'b');
+            $a = WordPack::apiWords($id, 'a', $only_new);
+            $b = WordPack::apiWords($id, 'b', $only_new);
             $items = array_merge($a, $b);
         }
         else
-            $items = WordPack::apiWords($id, $type);
+            $items = WordPack::apiWords($id, $type, $only_new);
         shuffle($items);
         return $items;
     }

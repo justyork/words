@@ -95,7 +95,6 @@ class WordPack extends \yii\db\ActiveRecord
         $model = WordPack::findOne($id);
         $arr = [];
         foreach ($model->wordModels as $item) {
-
             if(in_array($side, ['a', 'ab']) && $only_new && $item->level_ab != 0) continue;
             if(in_array($side, ['b', 'ba']) && $only_new && $item->level_ba != 0) continue;
 
