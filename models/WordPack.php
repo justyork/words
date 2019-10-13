@@ -91,7 +91,7 @@ class WordPack extends \yii\db\ActiveRecord
      * @param $only_new
      * @return array
      */
-    public static function apiWords($id, $side, $only_new){
+    public static function apiWords($id, $side, $only_new = false){
         $model = WordPack::findOne($id);
         $arr = [];
         foreach ($model->wordModels as $item) {
