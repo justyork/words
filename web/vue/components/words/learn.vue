@@ -76,15 +76,15 @@
             },
             seriesColor(model){
                 let color = '';
-                if(model.series_need == 2){
-                    if(model.series == 0) color = 'red';
-                    if(model.series == 1) color = 'orange';
+                if(model.series_need === 2){
+                    if(model.series === 0) color = 'red';
+                    if(model.series === 1) color = 'orange';
                     if(model.series >= 2) color = 'teal';
                 }
-                if(model.series_need == 3){
-                    if(model.series == 0) color = 'red';
-                    if(model.series == 1) color = 'orange';
-                    if(model.series == 2) color = 'yellow';
+                if(model.series_need === 3){
+                    if(model.series === 0) color = 'red';
+                    if(model.series === 1) color = 'orange';
+                    if(model.series === 2) color = 'yellow';
                     if(model.series >= 3) color = 'teal';
                 }
                 return color;

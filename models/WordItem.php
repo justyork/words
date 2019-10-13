@@ -35,7 +35,7 @@ class WordItem
             $this->level = $model->level_ba;
             $this->series = $model->ba_series;
         }
-        $this->series_need = $this->level == 0 ? \Yii::$app->params['first_level_series'] : \Yii::$app->params['next_level_series'];
+        $this->series_need = $this->level == 0 || $this->level == null ? \Yii::$app->params['first_level_series'] : \Yii::$app->params['next_level_series'];
 
         return $this;
     }
