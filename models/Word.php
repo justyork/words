@@ -104,15 +104,15 @@ class Word extends \yii\db\ActiveRecord
     public function answered($isCorrect, $type, $isRepeat = false){
         if(is_null($this->level_ab)) $this->level_ab = 0;
         if(is_null($this->level_ba)) $this->level_ab = 0;
-        if($isCorrect){
-            if($this->canSeriesUpdate($type, $isRepeat)){
+        if($this->canSeriesUpdate($type, $isRepeat)){
+            if($isCorrect){
                 if($type == 'a') $this->ab_series++;
                 if($type == 'b') $this->ba_series++;
             }
-        }
-        else{
-            if($type == 'a') $this->ab_series = 0;
-            elseif($type == 'b') $this->ba_series = 0;
+            else{
+                if($type == 'a') $this->ab_series = 0;
+                if($type == 'b') $this->ba_series = 0;
+            }
         }
         $this->nextLevel();
     }
