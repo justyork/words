@@ -106,12 +106,12 @@ class Word extends \yii\db\ActiveRecord
         if(is_null($this->level_ba)) $this->level_ab = 0;
         if($this->canSeriesUpdate($type, $isRepeat)){
             if($isCorrect){
-                if($type == 'a') $this->ab_series++;
-                if($type == 'b') $this->ba_series++;
+                if($type == 'a' || $type == 'ab') $this->ab_series++;
+                if($type == 'b' || $type == 'ba') $this->ba_series++;
             }
             else{
-                if($type == 'a') $this->ab_series = 0;
-                if($type == 'b') $this->ba_series = 0;
+                if($type == 'a' || $type == 'ab') $this->ab_series = 0;
+                if($type == 'b' || $type == 'ba') $this->ba_series = 0;
             }
         }
         return $this->nextLevel();
@@ -119,8 +119,8 @@ class Word extends \yii\db\ActiveRecord
 
     private function canSeriesUpdate($type, $isRepeat){
         $paramsDay = Yii::$app->params['days_by_level'];
-        $isA = $type == 'a';
-        $isB = $type == 'b';
+        $isA = $type == 'a' || $type == 'ab';
+        $isB = $type == 'b' || $type == 'ba';
 
         if(($isA && $this->level_ab == 0) || ( $isB && $this->level_ba == 0))
             return true;
