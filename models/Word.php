@@ -167,6 +167,7 @@ class Word extends \yii\db\ActiveRecord
                 ':level4' => 4,
                 ':time4' => time() - 3600 * 24 * $paramsDays[4]
             ])
+            ->andWhere(['user_id' => Yii::$app->user->id])
             ->all();
 
         $arr = [];
