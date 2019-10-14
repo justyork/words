@@ -19105,7 +19105,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 'use strict';
 
 module.exports = {
-    props: ['pack_id', 'type', 'repeat', 'only_new'],
+    props: ['pack_id', 'type', 'repeat', 'only_new', 'rep'],
     data: function data() {
         return {
             apiUrl: '/api/',
@@ -19209,6 +19209,7 @@ module.exports = {
             });
         },
         wordChecked: function wordChecked(correct) {
+            if (this.repeat == undefined) this.repeat = 0;
             var data = new FormData();
             data.append('word_id', this.words[0].id);
             data.append('correct', correct ? 1 : 0);
@@ -19227,7 +19228,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"learn"},[(_vm.hasAnswer)?_c('div',{staticClass:"learn-tip"},[(!_vm.tipForm)?_c('a',{attrs:{"href":"javascript:;"},on:{"click":function($event){_vm.tipForm = true}}},[_vm._v("Add tip")]):_vm._e(),_vm._v(" "),(_vm.tipForm)?_c('div',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.tipText),expression:"tipText"}],attrs:{"type":"text"},domProps:{"value":(_vm.tipText)},on:{"input":function($event){if($event.target.composing){ return; }_vm.tipText=$event.target.value}}}),_vm._v(" "),_c('button',{on:{"click":_vm.saveTip}},[_vm._v("OK")])]):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.words.length)?_c('div',{staticClass:"learn-series"},[_c('span',{class:'ui '+_vm.seriesColor(_vm.words[0])+' horizontal label'},[_vm._v(_vm._s(_vm.seriesStat(_vm.words[0])))])]):_vm._e(),_vm._v(" "),(_vm.words.length)?_c('div',{staticClass:"learn__item"},[_c('div',{staticClass:"learn__item-word"},[_vm._v("\n            "+_vm._s(_vm.word)+"\n        ")]),_vm._v(" "),(_vm.hasAnswer)?_c('div',{staticClass:"learn__item-translate"},[_vm._v("\n            "+_vm._s(_vm.translate)+"\n        ")]):_vm._e(),_vm._v(" "),(_vm.hasAnswer)?_c('div',{staticClass:"learn__item-tip"},[_vm._v("\n            "+_vm._s(_vm.words[0].tip)+"  \n        ")]):_vm._e()]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"learn-button"},[(_vm.wordStatus == 0)?_c('div',{staticClass:"learn-button__start fluid ui buttons"},[_c('a',{staticClass:"ui massive red button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.know(false)}}},[_vm._v("DON'T KNOW")]),_vm._v(" "),_c('a',{staticClass:"ui massive teal button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.know(true)}}},[_vm._v("KNOW IT")])]):_vm._e(),_vm._v(" "),(_vm.wordStatus == 1)?_c('div',{staticClass:"learn-button__know fluid ui buttons"},[_c('a',{staticClass:"ui massive red button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(false)}}},[_vm._v("NOT CORRECT")]),_vm._v(" "),_c('a',{staticClass:"ui massive teal button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(true)}}},[_vm._v("CORRECT")])]):_vm._e(),_vm._v(" "),(_vm.wordStatus == 2)?_c('div',{staticClass:"learn-button__dontknow fluid ui buttons"},[_c('a',{staticClass:"ui massive blue button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(false)}}},[_vm._v("NEXT")])]):_vm._e()])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"learn"},[(_vm.hasAnswer)?_c('div',{staticClass:"learn-tip"},[(!_vm.tipForm)?_c('a',{attrs:{"href":"javascript:;"},on:{"click":function($event){_vm.tipForm = true}}},[_vm._v("Add tip")]):_vm._e(),_vm._v(" "),(_vm.tipForm)?_c('div',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.tipText),expression:"tipText"}],attrs:{"type":"text"},domProps:{"value":(_vm.tipText)},on:{"input":function($event){if($event.target.composing){ return; }_vm.tipText=$event.target.value}}}),_vm._v(" "),_c('button',{on:{"click":_vm.saveTip}},[_vm._v("OK")])]):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.words.length && !_vm.only_new)?_c('div',{staticClass:"learn-series"},[_c('span',{class:'ui '+_vm.seriesColor(_vm.words[0])+' horizontal label'},[_vm._v(_vm._s(_vm.seriesStat(_vm.words[0])))])]):_vm._e(),_vm._v(" "),(_vm.words.length)?_c('div',{staticClass:"learn__item"},[_c('div',{staticClass:"learn__item-word"},[_vm._v("\n            "+_vm._s(_vm.word)+"\n        ")]),_vm._v(" "),(_vm.hasAnswer)?_c('div',{staticClass:"learn__item-translate"},[_vm._v("\n            "+_vm._s(_vm.translate)+"\n        ")]):_vm._e(),_vm._v(" "),(_vm.hasAnswer)?_c('div',{staticClass:"learn__item-tip"},[_vm._v("\n            "+_vm._s(_vm.words[0].tip)+"  \n        ")]):_vm._e()]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"learn-button"},[(_vm.wordStatus == 0)?_c('div',{staticClass:"learn-button__start fluid ui buttons"},[_c('a',{staticClass:"ui massive red button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.know(false)}}},[_vm._v("DON'T KNOW")]),_vm._v(" "),_c('a',{staticClass:"ui massive teal button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.know(true)}}},[_vm._v("KNOW IT")])]):_vm._e(),_vm._v(" "),(_vm.wordStatus == 1)?_c('div',{staticClass:"learn-button__know fluid ui buttons"},[_c('a',{staticClass:"ui massive red button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(false)}}},[_vm._v("NOT CORRECT")]),_vm._v(" "),_c('a',{staticClass:"ui massive teal button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(true)}}},[_vm._v("CORRECT")])]):_vm._e(),_vm._v(" "),(_vm.wordStatus == 2)?_c('div',{staticClass:"learn-button__dontknow fluid ui buttons"},[_c('a',{staticClass:"ui massive blue button",attrs:{"href":"javascript:;"},on:{"click":function($event){return _vm.correct(false)}}},[_vm._v("NEXT")])]):_vm._e()])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19236,7 +19237,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-d6afc1da", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-d6afc1da", __vue__options__)
+    hotAPI.reload("data-v-d6afc1da", __vue__options__)
   }
 })()}
 },{"vue":10,"vue-hot-reload-api":5}],14:[function(require,module,exports){
@@ -19247,11 +19248,17 @@ module.exports = {
     props: ['pack_id', 'check_link', 'learn_link', 'label', 'can_select', 'unlearned_words'],
     data: function data() {
         return {
-            isSelect: false
+            isSelect: false,
+            isRepeat: false,
+            afterLink: ''
         };
     },
     computed: {},
     methods: {
+        changeRepeat: function changeRepeat() {
+            this.isRepeat = !this.isRepeat;
+            this.afterLink = this.isRepeat ? '&rep' : '';
+        },
         toggleRow: function toggleRow() {
             this.isSelect = !this.isSelect;
             this.$emit('selectrow', this.pack_id);
@@ -19262,7 +19269,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticStyle:{"margin-bottom":"3px"}},[(_vm.unlearned_words > 0)?_c('div',[_c('div',{staticClass:"ui  buttons"},[_c('a',{staticClass:"ui blue button",staticStyle:{"width":"150px"},attrs:{"href":_vm.check_link}},[_vm._v("\n                "+_vm._s(_vm.label)+"\n            ")]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ab'}},[_c('i',{staticClass:"arrow down icon"})]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ba'}},[_c('i',{staticClass:"arrow up icon"})]),_vm._v(" "),_c('a',{staticClass:"ui teal button icon",attrs:{"href":_vm.learn_link+'r'}},[_c('i',{staticClass:"shuffle icon"})])])]):_c('a',{staticClass:"ui green button",attrs:{"href":_vm.check_link}},[_vm._v("\n        "+_vm._s(_vm.label)+"\n        Все слова выучены\n    ")]),_vm._v(" "),(_vm.can_select)?_c('button',{class:'ui toggle button icon pack-row '+(_vm.isSelect ? 'active' : ''),on:{"click":_vm.toggleRow}},[_c('i',{staticClass:"check icon"})]):_vm._e()])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticStyle:{"margin-bottom":"3px"}},[_c('span',{staticClass:"ui  buttons"},[_c('a',{class:'ui ' + (_vm.isRepeat ? 'blue' : (_vm.unlearned_words > 0 ? 'blue' : 'green')) +' button',staticStyle:{"width":"150px"},attrs:{"href":_vm.check_link}},[_vm._v("\n            "+_vm._s(_vm.label)+"\n        ")]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ab'+_vm.afterLink}},[_c('i',{staticClass:"arrow down icon"})]),_vm._v(" "),_c('a',{staticClass:"ui blue basic button icon",attrs:{"href":_vm.learn_link+'ba'+_vm.afterLink}},[_c('i',{staticClass:"arrow up icon"})]),_vm._v(" "),_c('a',{staticClass:"ui teal button icon",attrs:{"href":_vm.learn_link+'r'+_vm.afterLink}},[_c('i',{staticClass:"shuffle icon"})])]),_vm._v(" "),_c('span',{staticClass:"ui buttons"},[(_vm.can_select)?_c('button',{class:'ui toggle button icon pack-row '+(_vm.isSelect ? 'active' : ''),on:{"click":_vm.toggleRow}},[_c('i',{staticClass:"check icon"})]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"ui toggle button icon",on:{"click":_vm.changeRepeat}},[_c('i',{staticClass:"retweet icon"})])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

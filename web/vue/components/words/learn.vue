@@ -7,7 +7,7 @@
                 <button @click="saveTip" class="">OK</button>
             </div>
         </div>
-        <div v-if="words.length" class="learn-series">
+        <div v-if="words.length && !only_new" class="learn-series">
             <span :class="'ui '+seriesColor(words[0])+' horizontal label'">{{seriesStat(words[0])}}</span>
         </div>
         <div class="learn__item" v-if="words.length">
@@ -45,7 +45,8 @@
             'pack_id',
             'type',
             'repeat',
-            'only_new'
+            'only_new',
+            'rep',
         ],
         data: function () {
             return {
@@ -90,6 +91,7 @@
                 return color;
             },
             getWords(){
+
                 let url = this.repeat ? 'repeat-words' : 'words-by-pack?id='+this.pack_id+'&type='+this.type+'&only_new='+this.only_new
                 this.$http.get(this.apiUrl+url).then(response => {
                     if(response.status){
@@ -149,6 +151,7 @@
                 })
             },
             wordChecked(correct){
+                if(this.repeat == undefined) this.repeat = 0;
                 let data = new FormData();
                 data.append('word_id', this.words[0].id);
                 data.append('correct', correct ? 1 : 0);
