@@ -40,7 +40,7 @@ class PackForm extends Model
         $wordsCond = Word::find()
             ->where(['category_id' => $this->category_id])
             ->andWhere(['user_id' => Yii::$app->user->id])
-            ->andWhere('skip <> 1');
+            ->andWhere('skip IS NULL OR skip = 0');
         if($this->onlyNew){
             $activeIdList = $this->getWordsInPacks();
             if($activeIdList)
