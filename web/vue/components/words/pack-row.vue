@@ -1,7 +1,7 @@
 <template>
     <div style="margin-bottom: 3px;">
         <span class="ui  buttons" >
-            <a :href="check_link" :class="'ui ' + (isRepeat ? 'blue' : (unlearned_words > 0 ? 'blue' : 'green')) +' button'" style="width: 150px">
+            <a :href="check_link" :class="'ui ' + (isRepeat ? 'blue' : (unlearned_words > 0 ? 'blue' : 'green')) +' button'" style="width: 165px">
                 {{label}}
             </a>
             <a :href="learn_link+'ab'+afterLink" class="ui blue basic button icon">
@@ -18,7 +18,7 @@
             <button v-if="can_select" :class="'ui toggle button icon pack-row '+(isSelect ? 'active' : '')" @click="toggleRow">
                 <i class="check icon"></i>
             </button>
-            <button :class="'ui toggle button icon ' +(isSelect ? 'active' : '')" @click="changeRepeat"><i class="retweet icon"></i></button>
+            <button :class="'ui toggle button icon ' +(isRepeat ? 'active' : '')" @click="changeRepeat"><i class="retweet icon"></i></button>
         </span>
     </div>
 </template>
