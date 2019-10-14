@@ -18,7 +18,7 @@
             <button v-if="can_select" :class="'ui toggle button icon pack-row '+(isSelect ? 'active' : '')" @click="toggleRow">
                 <i class="check icon"></i>
             </button>
-            <button class="ui toggle button icon" @click="changeRepeat"><i class="retweet icon"></i></button>
+            <button :class="'ui toggle button icon ' +(isSelect ? 'active' : '')" @click="changeRepeat"><i class="retweet icon"></i></button>
         </span>
     </div>
 </template>
