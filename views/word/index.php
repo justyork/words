@@ -22,7 +22,6 @@ $this->params['back_link'] = Url::to(['category/get', 'id' => $model->id]);
         <th><?=Yii::t('app', 'Word');?> </th>
         <th><?=Yii::t('app', 'Translate');?> </th>
         <th><?=Yii::t('app', 'Level');?> A / B</th>
-        <th><?=Yii::t('app', 'Skip');?> </th>
         <th></th>
     </tr>
     </thead>
@@ -34,17 +33,18 @@ $this->params['back_link'] = Url::to(['category/get', 'id' => $model->id]);
                 <td><?= $item->translate?></td>
                 <td class="collapsed"><?= (int)$item->level_ab . ' / ' . (int)$item->level_ba?></td>
                 <td class="collapsed">
+
                     <a href="#" data-id="<?= $item->id?>" class="ui <?= $item->skip ? '' : 'teal'?> button icon skip-toggle">
                         <i class="eye <?= $item->skip ? 'slash' : ''?> icon"></i>
                     </a>
-                </td>
-                <td class="collapsed">
-                    <a href="<?=yii\helpers\Url::to(['update', 'id' => $item->id])?>" class="ui button icon">
-                        <i class="pencil icon "></i>
-                    </a>
-                    <a href="<?=yii\helpers\Url::to(['delete', 'id' => $item->id])?>" class="ui button icon" onclick="return confirm('<?=Yii::t('app', 'Are you sure?')?>')">
-                        <i class="trash icon "></i>
-                    </a>
+                    <span class="ui buttons">
+                        <a href="<?=yii\helpers\Url::to(['update', 'id' => $item->id])?>" class="ui button icon">
+                            <i class="pencil icon "></i>
+                        </a>
+                        <a href="<?=yii\helpers\Url::to(['delete', 'id' => $item->id])?>" class="ui button icon" onclick="return confirm('<?=Yii::t('app', 'Are you sure?')?>')">
+                            <i class="trash icon "></i>
+                        </a>
+                    </span>
                 </td>
             </tr>
         <?endforeach?>
