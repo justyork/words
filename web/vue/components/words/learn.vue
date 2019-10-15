@@ -7,7 +7,7 @@
                 <button @click="saveTip" class="">OK</button>
             </div>
         </div>
-        <div v-if="words.length && only_new" class="learn-series">
+        <div v-if="words.length && only_new == 1" class="learn-series">
             <span :class="'ui '+seriesColor(words[0])+' horizontal label'">{{seriesStat(words[0])}}</span>
         </div>
         <div class="learn__item" v-if="words.length">
@@ -164,6 +164,7 @@
         created: function () {
             if(!this.type) this.type = 'ab';
             this.getWords()
+            console.log(this.only_new)
         }
     }
 </script>
