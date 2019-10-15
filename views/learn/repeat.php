@@ -14,7 +14,7 @@ $this->params['back_link'] = Url::to(['site/index']);
 ?>
 
 <?if($count):?>
-    <learn repeat="1" type="r"></learn>
+    <learn repeat="1" only_new="1" type="r"></learn>
 <?else:?>
     <?=Yii::t('app', 'Words not found');?>
 <?endif?>
