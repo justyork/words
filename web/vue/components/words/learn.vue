@@ -92,7 +92,7 @@
             },
             getWords(){
 
-                let url = this.repeat ? 'repeat-words' : 'words-by-pack?id='+this.pack_id+'&type='+this.type+'&only_new='+this.only_new
+                let url = this.repeat == 1 ? 'repeat-words' : 'words-by-pack?id='+this.pack_id+'&type='+this.type+'&only_new='+this.only_new
                 this.$http.get(this.apiUrl+url).then(response => {
                     if(response.status){
                         this.words = response.body;
