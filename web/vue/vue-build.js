@@ -19209,7 +19209,6 @@ module.exports = {
             });
         },
         wordChecked: function wordChecked(correct) {
-            if (this.repeat == undefined) this.repeat = 0;
             var data = new FormData();
             data.append('word_id', this.words[0].id);
             data.append('correct', correct ? 1 : 0);
@@ -19222,7 +19221,7 @@ module.exports = {
     created: function created() {
         if (!this.type) this.type = 'ab';
         this.getWords();
-        console.log(this.only_new);
+        console.log(this.repeat);
     }
 };
 })()

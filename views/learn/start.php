@@ -24,4 +24,4 @@ $isNew = isset($_GET['rep']) ? 0 : 1;
 ?>
 
 
-<learn pack_id="<?= $model->id?>" type="<?= Yii::$app->request->get('type')?>" only_new="<?= $isNew?>"></learn>
+<learn pack_id="<?= $model->id?>" type="<?= Yii::$app->request->get('type')?>" repeat="0" only_new="<?= $isNew?>"></learn>
