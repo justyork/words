@@ -19151,7 +19151,7 @@ module.exports = {
         getWords: function getWords() {
             var _this = this;
 
-            var url = this.repeat ? 'repeat-words' : 'words-by-pack?id=' + this.pack_id + '&type=' + this.type + '&only_new=' + this.only_new;
+            var url = this.repeat == 1 ? 'repeat-words' : 'words-by-pack?id=' + this.pack_id + '&type=' + this.type + '&only_new=' + this.only_new;
             this.$http.get(this.apiUrl + url).then(function (response) {
                 if (response.status) {
                     _this.words = response.body;
@@ -19237,7 +19237,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-d6afc1da", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-d6afc1da", __vue__options__)
+    hotAPI.reload("data-v-d6afc1da", __vue__options__)
   }
 })()}
 },{"vue":10,"vue-hot-reload-api":5}],14:[function(require,module,exports){
