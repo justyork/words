@@ -81,8 +81,8 @@ class Word extends \yii\db\ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-        if($this->ba_series === null) $this->ba_series = 0;
-        if($this->ab_series === null) $this->ab_series = 0;
+//        if($this->ba_series === null) $this->ba_series = 0;
+//        if($this->ab_series === null) $this->ab_series = 0;
         if($this->skip === null) $this->skip = false;
     }
 
@@ -110,8 +110,14 @@ class Word extends \yii\db\ActiveRecord
                 if($type == 'b' || $type == 'ba') $this->ba_series++;
             }
             else{
-                if($type == 'a' || $type == 'ab') $this->ab_series = 0;
-                if($type == 'b' || $type == 'ba') $this->ba_series = 0;
+                if($type == 'a' || $type == 'ab') {
+                    $this->ab_series = 0;
+                    $this->level_ab = $this->level_ab > 1 ? $this->level_ab - 1 : 1;
+                }
+                if($type == 'b' || $type == 'ba') {
+                    $this->ba_series = 0;
+                    $this->level_ba = $this->level_ba > 1 ? $this->level_ba - 1 : 1;
+                }
             }
         }
         return $this->nextLevel();
@@ -134,12 +140,13 @@ class Word extends \yii\db\ActiveRecord
         $firstLevelSeries = Yii::$app->params['first_level_series'];
         $nextLevelSeries = Yii::$app->params['next_level_series'];
         if(($this->level_ab == 0 && $this->ab_series >= $firstLevelSeries) || ($this->level_ab > 0 && $this->ab_series >= $nextLevelSeries)){
-            $this->level_ab++;
+            $this->level_ab += 1;
             $this->ab_series = 0;
             $this->level_ab_date = time();
         }
+
         if(($this->level_ba == 0 && $this->ba_series >= $firstLevelSeries) || ($this->level_ba > 0 && $this->ba_series >= $nextLevelSeries)){
-            $this->level_ba++;
+            $this->level_ba += 1;
             $this->ba_series = 0;
             $this->level_ba_date = time();
         }
