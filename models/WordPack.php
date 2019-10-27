@@ -108,8 +108,8 @@ class WordPack extends ActiveRecord
      * @param $side
      * @return array
      */
-    public function getLearnedWords($side){
-        assert(!in_array($side, ['a', 'b']), Yii::t('app', 'Incorrect side name'));
+    public function getLearnedWords($side = 'a'){
+//        assert(!in_array($side, ['a', 'b']), Yii::t('app', 'Incorrect side name'));
         $arr = [];
         foreach ($this->wordModels as $item) {
             if($side == 'a' && $item->a_level == 0)  continue;
