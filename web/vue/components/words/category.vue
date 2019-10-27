@@ -31,14 +31,11 @@
 
         <div class="ui cards" v-if="categoryModel">
             <div :class="'card ' + (item.learned.all ? 'teal' : '')" v-for="item in categoryModel.packs">
+                <a class="ui red mini right corner label" @click="openDeletePackModal(item.id)">
+                    <i class="icon  trash alternate outline"></i>
+                </a>
                 <div class="content">
 
-                    <div class="pack-actions">
-                        <span class="ui icon mini buttons">
-                            <button class="ui button  red" @click="openDeletePackModal(item.id)"><i class="icon trash"></i></button>
-<!--                                <button class="ui button red"><i class="icon trash"></i></button>-->
-                        </span>
-                    </div>
 
                     <a :href="item.url.check" style="margin-top: 5px;" class="header">Пачка №{{item.id}}</a>
                     <div class="meta">
