@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use http\Url;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -13,11 +14,14 @@ use yii\helpers\ArrayHelper;
  * @property int $last_update
  *
  * @property Word[] $words
+ * @property Word[] $unlearnedWords
  * @property WordPack[] $packs
  * @property int $user_id [int(11)]
  */
-class WordCategory extends \yii\db\ActiveRecord
+class WordCategory extends ActiveRecord
 {
+
+
     /**
      * {@inheritdoc}
      */
@@ -54,6 +58,26 @@ class WordCategory extends \yii\db\ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        $data = parent::fields();
+        unset($data['last_update']);
+        unset($data['id']);
+        unset($data['user_id']);
+        $data['url'] = function (){
+            return \yii\helpers\Url::to(['/category/get', 'id' => $this->id]);
+        };
+        $data['count'] = function (){
+            return $this->getWords()->count();
+        };
+        return $data;
+    }
+
+    public function extraFields()
+    {
+        return ['packs'];
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -66,8 +90,9 @@ class WordCategory extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     public function getPacks(){
-        return $this->hasMany(WordPack::className(), ['category_id' => 'id']);
+        return $this->hasMany(WordPack::className(), ['category_id' => 'id'])->orderBy('date DESC');
     }
+
 
     public function beforeSave($insert)
     {
@@ -89,5 +114,16 @@ class WordCategory extends \yii\db\ActiveRecord
     }
     public static function findOneByUser($id){
         return WordCategory::findOne(['user_id' => Yii::$app->user->id, 'id' => $id]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery | Word[]
+     */
+    public function getUnlearnedWords(){
+        return $this->getWords()
+            ->andWhere('a_level IS NULL OR a_level = 0')
+            ->andWhere('b_level IS NULL OR b_level = 0')
+            ->andWhere('a_series IS NULL OR a_series = 0')
+            ->andWhere('b_series IS NULL OR b_series = 0');
     }
 }

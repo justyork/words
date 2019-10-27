@@ -15,6 +15,10 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
+        'api' => [
+            'class' => 'app\modules\api\Module',
+            'basePath' => '@app/modules/api',
+        ],
         'user' => [
             'class' => 'app\modules\user\Module',
             'controllerMap' => [
@@ -38,6 +42,9 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '2Rqhs8WrQzWD_wS_lKCZiQTLd7n_40Xl',
             'baseUrl'=> '',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
 
         'settings' => [
@@ -90,10 +97,20 @@ $config = [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                '' => 'site/index',
-                '<controller>/<action>' => '<controller>/<action>'
+//                '' => 'site/index',
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['api/category']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['api/stat']],
+//                ['class' => 'yii\rest\UrlRule', 'controller' => ['api/pack']],
+//                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/word'],
+                'api/pack/<id:\d+>/<type:[a|b|r]+>/<new:[0|1]+>' => 'api/pack/get',
+                'api/pack/<id:\d+>/<type:\w+>' => 'api/pack/get',
+                'api/pack/<id:\d+>' => 'api/pack/get',
+                'api/repeat' => 'api/learn/repeat',
+                'api/<controller>/<action>' => 'api/<controller>/<action>',
+                '<controller>/<action>' => '<controller>/<action>',
             ],
         ],
     ],

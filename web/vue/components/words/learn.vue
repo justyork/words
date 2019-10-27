@@ -1,45 +1,36 @@
 <template>
     <div class="learn">
-        <div class="learn-tip" v-if="hasAnswer">
-            <a href="javascript:;" @click="tipForm = true" v-if="!tipForm">Add tip</a>
-            <div v-if="tipForm">
-                <input type="text" v-model="tipText">
-                <button @click="saveTip" class="">OK</button>
+        <div class="ui center aligned segment"  v-if="words.length">
+            <h2>{{word}}</h2>
+            <div class="ui horizontal divider" v-if="hasAnswer">
+                <i class="icon line"></i>
             </div>
+            <h2  v-if="hasAnswer">{{translate}}</h2>
         </div>
+
         <div v-if="words.length && only_new == 1" class="learn-series">
             <span :class="'ui '+seriesColor(words[0])+' horizontal label'">{{seriesStat(words[0])}}</span>
         </div>
-        <div class="learn__item" v-if="words.length">
-            <div class="learn__item-word">
-                {{word}}
-            </div>
-            <div class="learn__item-translate" v-if="hasAnswer">
-                {{translate}}
-            </div>
 
-            <div class="learn__item-tip" v-if="hasAnswer">
-                {{words[0].tip}} &nbsp;
-            </div>
-        </div>
-
-        <div class="learn-button">
+        <div class="word-buttons">
             <div class="learn-button__start fluid ui buttons" v-if="wordStatus == 0">
-                <a @click="know(false)" href="javascript:;" class="ui massive red button">DON'T KNOW</a>
-                <a @click="know(true)" href="javascript:;" class="ui massive teal button">KNOW IT</a>
+                <a @click="know(false)" href="javascript:;" class="ui massive red button">не знаю</a>
+                <a @click="know(true)" href="javascript:;" class="ui massive teal button">знаю</a>
             </div>
             <div class="learn-button__know fluid ui buttons" v-if="wordStatus == 1">
-                <a @click="correct(false)" href="javascript:;" class="ui massive red button">NOT CORRECT</a>
-                <a @click="correct(true)" href="javascript:;" class="ui massive teal button">CORRECT</a>
+                <a @click="correct(false)" href="javascript:;" class="ui massive red button">не верно</a>
+                <a @click="correct(true)" href="javascript:;" class="ui massive teal button">верно</a>
             </div>
             <div class="learn-button__dontknow fluid ui buttons" v-if="wordStatus == 2">
-                <a @click="correct(false)" href="javascript:;" class="ui massive blue button">NEXT</a>
+                <a @click="correct(false)" href="javascript:;" class="ui massive blue button">дальше</a>
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
+    import config from '../../config.js'
     module.exports = {
         props: [
             'pack_id',
@@ -50,7 +41,10 @@
         ],
         data: function () {
             return {
-                apiUrl: '/api/',
+                repeatApiLink: 'learn/repeat-words',
+                wordsApiLink: 'pack/',
+                wordCheckApiLink: 'word/check',
+
                 words: [],
                 activeNum: 0,
                 wordStatus: 0,
@@ -90,10 +84,12 @@
                 }
                 return color;
             },
-            getWords(){
+            loadWords(){
+                let url = config.API_LOCATION;
+                if(this.repeat == 1) url += this.repeatApiLink;
+                else url += this.wordsApiLink+this.pack_id + '/' + this.type + '/' + this.only_new;
 
-                let url = this.repeat == 1 ? 'repeat-words' : 'words-by-pack?id='+this.pack_id+'&type='+this.type+'&only_new='+this.only_new
-                this.$http.get(this.apiUrl+url).then(response => {
+                this.$http.get(url).then(response => {
                     if(response.status){
                         this.words = response.body;
                         this.lastPosition = this.words.length - 1;
@@ -139,17 +135,6 @@
                 arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
                 return arr; // for testing
             },
-            saveTip(){
-                let data = new FormData();
-                data.append('tip', this.tipText);
-                data.append('word_id', this.words[0].id);
-                this.$http.post(this.apiUrl+'add-word-tip', data ).then(response => {
-                    if(response.status){
-                        this.tipForm = false;
-                        this.words[0].tip = this.tipText;
-                    }
-                })
-            },
             wordChecked(correct){
                 let data = new FormData();
                 data.append('word_id', this.words[0].id);
@@ -157,12 +142,12 @@
                 data.append('type', this.words[0].type);
                 data.append('level', this.words[0].level);
                 data.append('repeat', this.repeat);
-                this.$http.post(this.apiUrl+'check-word', data )
+                this.$http.post(config.API_LOCATION + this.wordCheckApiLink, data )
             },
         },
         created: function () {
-            if(!this.type) this.type = 'ab';
-            this.getWords()
+            if(!this.type) this.type = 'a';
+            this.loadWords()
             console.log(this.repeat)
         }
     }

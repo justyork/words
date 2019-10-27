@@ -27,7 +27,7 @@
     text-align: center;
 }
 .learn__item{
-    height: 250px;
+    /*height: 250px;*/
     padding: 50px 20px;
     font-size: 25px;
 }
@@ -129,4 +129,24 @@ a.learn-button--left{
 .learn-series{
     right: 0;
     position: absolute;
+}
+
+
+.word-buttons {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    left: 15px;
+    padding-right: 30px;
+}
+
+
+.chart{
+    max-height: 250px;
+}
+
+@media only screen and (max-width: 600px) {
+    .chart{
+        max-height: 200px;
+    }
 }

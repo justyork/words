@@ -1,59 +1,56 @@
 <template>
-    <div class="learn" v-touch:swipe="swipeHandler">
-        <div class="learn-tip">
-            <a href="javascript:;" @click="tipForm = true" v-if="!tipForm">Add tip</a>
-            <div v-if="tipForm">
-                <input type="text" v-model="tipText">
-                <button @click="saveTip" class="">OK</button>
-            </div>
-        </div>
-        <div class="learn__item" v-if="words.length">
-            <div class="learn__item-word">
-                {{words[activeNum].word}}
-            </div>
-            <div class="learn-skip">
-                <a href="javascript:;" class="ui mini blue button " @click="skip">Skip</a>
-            </div>
-            <div class="learn__item-translate">
-                {{words[activeNum].translate}}
-            </div>
+    <div class="" v-touch:swipe="swipeHandler">
 
-            <div class="learn__item-tip" >
-                {{words[activeNum].tip}} &nbsp;
+        <div class="ui center aligned segment"  v-if="words.length && !skipWordLoading">
+            <h2>{{words[activeNum].word}}</h2>
+            <div class="ui horizontal divider">
+                <i class="icon line"></i>
             </div>
+            <h2>{{words[activeNum].translate}}</h2>
         </div>
-        <div class="learn-button">
-            <div class="learn-button__know fluid ui buttons">
-                <a @click="prev" href="javascript:;" class="ui massive blue button">PREV</a>
-                <a @click="next" href="javascript:;" class="ui massive teal button">NEXT</a>
+        <div class="" v-else-if="skipWordLoading">
+            <div class="ui active inverted dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+            <p></p>
+        </div>
+        <div class="learn-skip">
+            <a href="#" class="ui mini blue button " @click="skip">Заменить</a>
+        </div>
+
+        <div class="word-buttons">
+            <div class="fluid ui buttons">
+                <a @click="prev" href="javascript:;" class="ui massive blue button">НАЗАД</a>
+                <a @click="next" href="javascript:;" class="ui massive teal button">ВПЕРЕД</a>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import config from '../../config.js'
     module.exports = {
         props: ['pack_id',],
         data: function () {
             return {
-                apiUrl: '/api/',
+                wordsApiLink: 'pack/',
+                skipWordApiLink: 'pack/skip-word',
+
                 words: [],
                 activeNum: 0,
-                tipForm: false,
-                tipText: '',
+                skipWordLoading: false,
             }
         },
         computed:{
         },
         methods: {
-            getWords(){
-                this.$http.get(this.apiUrl+'words-by-pack?id='+this.pack_id).then(response => {
+            loadWords(){
+                this.$http.get(config.API_LOCATION + this.wordsApiLink + this.pack_id + '').then(response => {
                     if(response.status)
                         this.words = response.body;
                 })
             },
             swipeHandler(direction){
-                console.log(direction);
                 if(direction === 'left') this.next()
                 else this.prev();
 
@@ -67,34 +64,23 @@
                 else this.activeNum++;
             },
             skip(){
+                this.skipWordLoading = true;
                 let data = new FormData()
                 data.append('word_id', this.words[this.activeNum].id)
                 data.append('pack_id', this.pack_id)
-                this.$http.post(this.apiUrl+'skip-word', data ).then(response => {
+                this.$http.post(config.API_LOCATION + this.skipWordApiLink, data ).then(response => {
                     if(response.status){
-                        console.log(response.data)
-                        console.log(this.activeNum)
                         this.words[this.activeNum] = response.data;
                         var oldNum = this.activeNum;
                         this.activeNum = 0;
                         this.activeNum = oldNum;
+                        this.skipWordLoading = false;
                     }
                 })
             },
-            saveTip(){
-                let data = new FormData()
-                data.append('tip', this.tipText)
-                data.append('word_id', this.words[this.activeNum].id)
-                this.$http.post(this.apiUrl+'add-word-tip', data ).then(response => {
-                    if(response.status){
-                        this.tipForm = false;
-                        this.words[this.activeNum].tip = this.tipText;
-                    }
-                })
-            }
         },
         created: function () {
-            this.getWords()
+            this.loadWords()
 
         }
     }

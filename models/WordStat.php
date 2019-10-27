@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $date
  * @property int $count_words
+ * @property int $user_id
  */
 class WordStat extends \yii\db\ActiveRecord
 {
@@ -27,8 +28,19 @@ class WordStat extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'count_words'], 'integer'],
+            [['date', 'count_words', 'user_id'], 'integer'],
         ];
+    }
+
+    public function fields()
+    {
+        $data = parent::fields();
+        unset($data['user_id']);
+        unset($data['id']);
+        $data['fdate'] = function (){
+            return date('d.m', $this->date);
+        };
+        return $data;
     }
 
     /**

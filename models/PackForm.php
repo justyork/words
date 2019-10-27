@@ -31,36 +31,36 @@ class PackForm extends Model
         ];
     }
 
+    /** Добавить пачку
+     * @return bool
+     */
     public function save(){
         if(!$this->validate()) return false;
 
-
-        $model = new WordPack();
-        $wordArr = [];
-        $wordsCond = Word::find()
+        $activeIdList = $this->getWordsInPacks();
+        $words = Word::find()
             ->where(['category_id' => $this->category_id])
             ->andWhere(['user_id' => Yii::$app->user->id])
-            ->andWhere('skip IS NULL OR skip = 0');
-        if($this->onlyNew){
-            $activeIdList = $this->getWordsInPacks();
-            if($activeIdList)
-                $wordsCond = $wordsCond->andWhere(['NOT IN', 'id', $activeIdList]);
-        }
+            ->andWhere('skip IS NULL OR skip = 0')
+            ->andWhere(['NOT IN', 'id', $activeIdList])
+            ->orderBy('RAND()')
+            ->limit($this->count)
+            ->all();
 
-        $words = $wordsCond->all();
-        shuffle($words);
-        $items = array_slice($words, 0, $this->count);
-        foreach ($items as $item)
+        $wordArr = [];
+        foreach ($words as $item)
             $wordArr[] = $item->id;
 
+        $model = new WordPack();
         $model->items = json_encode($wordArr);
-        $model->date = time();
         $model->category_id = $this->category_id;
         $model->save();
-
         return true;
     }
 
+    /**
+     * @return array
+     */
     private function getWordsInPacks(){
         $model = WordCategory::findOneByUser($this->category_id);
         $idList = [];

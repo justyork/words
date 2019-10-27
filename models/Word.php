@@ -16,18 +16,24 @@ use yii\behaviors\TimestampBehavior;
  * @property int $created_at
  * @property int $updated_at
  * @property int $skip
- * @property int $level_ab
- * @property int $level_ba
- * @property int $ab_series
- * @property int $ba_series
- * @property int $level_ab_date
- * @property int $level_ba_date
+ * @property int $a_level
+ * @property int $b_level
+ * @property int $a_series
+ * @property int $b_series
+ * @property int $a_level_date
+ * @property int $b_level_date
  *
  * @property WordCategory $category
  * @property int $user_id [int(11)]
+ * @property int level
+ * @property int levelDate
+ * @property int series
  */
-class Word extends \yii\db\ActiveRecord
+class Word extends ActiveRecord
 {
+
+    public $currentType;
+    public $isRepeat;
 
     public function behaviors()
     {
@@ -48,12 +54,12 @@ class Word extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'created_at', 'updated_at', 'level_ab_date', 'level_ba_date', 'level_ab', 'level_ba',  'ab_series', 'ba_series', 'user_id'], 'integer'],
+            [['category_id', 'created_at', 'updated_at', 'a_level_date', 'b_level_date', 'a_level', 'b_level',  'a_series', 'b_series', 'user_id'], 'integer'],
             [['word', 'translate', 'tip'], 'string', 'max' => 255],
             [['word', 'translate', 'tip'], 'trim'],
             [['skip'], 'boolean'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => WordCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
-            [['skip', 'level_ab'], 'default', 'value' => 0]
+            [['skip', 'a_level'], 'default', 'value' => 0]
         ];
     }
 
@@ -71,18 +77,22 @@ class Word extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'skip' => Yii::t('app', 'Skip'),
-            'level_ab' => Yii::t('app', 'Level'),
-            'level_ba' => Yii::t('app', 'Level'),
-            'ab_series' => Yii::t('app', 'Ab Series'),
-            'ba_series' => Yii::t('app', 'Ba Series'),
+            'a_level' => Yii::t('app', 'Level'),
+            'b_level' => Yii::t('app', 'Level'),
+            'a_series' => Yii::t('app', 'Ab Series'),
+            'b_series' => Yii::t('app', 'Ba Series'),
         ];
+    }
+
+    public static function find(){
+        return parent::find()->where(['user_id' => Yii::$app->user->id]);
     }
 
     public function afterFind()
     {
         parent::afterFind();
-//        if($this->ba_series === null) $this->ba_series = 0;
-//        if($this->ab_series === null) $this->ab_series = 0;
+//        if($this->b_series === null) $this->b_series = 0;
+//        if($this->a_series === null) $this->a_series = 0;
         if($this->skip === null) $this->skip = false;
     }
 
@@ -101,70 +111,18 @@ class Word extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
-    public function answered($isCorrect, $type, $isRepeat = false){
-        if(is_null($this->level_ab)) $this->level_ab = 0;
-        if(is_null($this->level_ba)) $this->level_ab = 0;
-        if($this->canSeriesUpdate($type, $isRepeat)){
-            if($isCorrect){
-                if($type == 'a' || $type == 'ab') $this->ab_series++;
-                if($type == 'b' || $type == 'ba') $this->ba_series++;
-            }
-            else{
-                if($type == 'a' || $type == 'ab') {
-                    $this->ab_series = 0;
-                    $this->level_ab = $this->level_ab > 1 ? $this->level_ab - 1 : 1;
-                }
-                if($type == 'b' || $type == 'ba') {
-                    $this->ba_series = 0;
-                    $this->level_ba = $this->level_ba > 1 ? $this->level_ba - 1 : 1;
-                }
-            }
-        }
-        return $this->nextLevel();
-    }
 
-    private function canSeriesUpdate($type, $isRepeat){
-        $paramsDay = Yii::$app->params['days_by_level'];
-        $isA = $type == 'a' || $type == 'ab';
-        $isB = $type == 'b' || $type == 'ba';
 
-        if(($isA && $this->level_ab == 0) || ( $isB && $this->level_ba == 0))
-            return true;
-        if($isA && $isRepeat && $this->level_ab_date < time() - 86400 * $paramsDay[$this->level_ab]) return true;
-        if($isB && $isRepeat && $this->level_ba_date < time() - 86400 * $paramsDay[$this->level_ba]) return true;
-
-        return false;
-    }
-
-    private function nextLevel(){
-        $firstLevelSeries = Yii::$app->params['first_level_series'];
-        $nextLevelSeries = Yii::$app->params['next_level_series'];
-        if(($this->level_ab == 0 && $this->ab_series >= $firstLevelSeries) || ($this->level_ab > 0 && $this->ab_series >= $nextLevelSeries)){
-            $this->level_ab += 1;
-            $this->ab_series = 0;
-            $this->level_ab_date = time();
-        }
-
-        if(($this->level_ba == 0 && $this->ba_series >= $firstLevelSeries) || ($this->level_ba > 0 && $this->ba_series >= $nextLevelSeries)){
-            $this->level_ba += 1;
-            $this->ba_series = 0;
-            $this->level_ba_date = time();
-        }
-
-        if($this->save()){
-            WordStat::addToday();
-            return 'OK';
-        }
-        var_dump($this->errors);
-    }
-
+    /** Получить слова для повторения
+     * @return array
+     */
     public static function repeatWords(){
         $paramsDays = Yii::$app->params['days_by_level'];
         $model = self::find()
-            ->where('((level_ab = :level AND level_ab_date < :time) OR (level_ba = :level AND level_ba_date < :time)) OR 
-            ((level_ab = :level2 AND level_ab_date < :time2) OR (level_ba = :level2 AND level_ba_date < :time2)) OR 
-            ((level_ab = :level3 AND level_ab_date < :time3) OR (level_ba = :level3 AND level_ba_date < :time3)) OR 
-            ((level_ab = :level4 AND level_ab_date < :time4) OR (level_ba = :level4 AND level_ba_date < :time4))', [
+            ->where('((a_level = :level AND a_level_date < :time) OR (b_level = :level AND b_level_date < :time)) OR 
+            ((a_level = :level2 AND a_level_date < :time2) OR (b_level = :level2 AND b_level_date < :time2)) OR 
+            ((a_level = :level3 AND a_level_date < :time3) OR (b_level = :level3 AND b_level_date < :time3)) OR 
+            ((a_level = :level4 AND a_level_date < :time4) OR (b_level = :level4 AND b_level_date < :time4))', [
                 ':level' => 1,
                 ':time' => time() - 3600 * 24 * $paramsDays[1],
                 ':level2' => 2,
@@ -189,17 +147,190 @@ class Word extends \yii\db\ActiveRecord
         return $arr;
     }
 
-    /**
+    /** Получить список сторон для повторения
      * @return array
      */
     public function getRepeatSide(){
         $paramsDay = Yii::$app->params['days_by_level'];
         $list = [];
-        if($this->level_ab != 0 && $this->level_ab_date < time() - 86400 * $paramsDay[$this->level_ab])
+        if($this->a_level != 0 && $this->a_level_date < time() - 86400 * $paramsDay[$this->a_level])
             $list[] = 'a';
-        if($this->level_ba != 0 && $this->level_ba_date < time() - 86400 * $paramsDay[$this->level_ba])
+        if($this->b_level != 0 && $this->b_level_date < time() - 86400 * $paramsDay[$this->b_level])
             $list[] = 'b';
 
         return $list;
     }
+
+
+    /**
+     * Верный ответ
+     */
+    public function correct(){
+        if($this->canSeriesUp())
+            $this->series++;
+
+        if($this->canLevelUp()){
+            $this->level++;
+            $this->levelDate = time();
+            $this->series = 0;
+        }
+    }
+
+    /**
+     * Не верный ответ
+     */
+    public function fail(){
+        $this->series = 0;
+        if($this->level > 1)
+            $this->level--;
+    }
+
+    /** Можно ли повысить серию
+     * @return bool
+     */
+    private function canSeriesUp(){
+        $countDaysToTakeWord = Yii::$app->params['days_by_level'];
+        if($this->level == 0) return true;
+        if($this->isRepeat && $this->levelDate < time() - 86400 * $countDaysToTakeWord[$this->level])
+            return true;
+
+        return false;
+    }
+
+    /** Можем ли мы повысить уровень
+     * @return bool
+     */
+    private function canLevelUp(){
+        $firstLevelSeries = Yii::$app->params['first_level_series'];
+        $nextLevelSeries = Yii::$app->params['next_level_series'];
+        if($this->level == 0 && $this->series >= $firstLevelSeries)
+            return true;
+        if($this->level > 0 && $this->series >= $nextLevelSeries)
+            return true;
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLevel(){
+        $name = $this->currentType.'_level';
+        return $this->$name;
+    }
+
+    /**
+     * @param $val
+     */
+    public function setLevel($val){
+        $name = $this->currentType.'_level';
+        $this->$name = $val;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLevelDate(){
+        $name = $this->currentType.'_level_date';
+        return $this->$name;
+    }
+
+    /**
+     * @param $val
+     */
+    public function setLevelDate($val){
+        $name = $this->currentType.'_level_date';
+        $this->$name = $val;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSeries(){
+        $name = $this->currentType.'_series';
+        return $this->$name;
+    }
+
+    /**
+     * @param $val
+     */
+    public function setSeries($val){
+        $name = $this->currentType.'_series';
+        $this->$name = $val;
+    }
+
+
+
+
+
+
+
+    /**
+     * НИЖЕ ТРЕШ НАДО ПЕРЕДЕЛАТЬ
+     *
+     *
+     * @param $isCorrect
+     * @param $type
+     * @param bool $isRepeat
+     * @return string
+     */
+
+
+    public function answered($isCorrect, $type, $isRepeat = false){
+        if(is_null($this->a_level)) $this->a_level = 0;
+        if(is_null($this->b_level)) $this->a_level = 0;
+        if($this->canSeriesUpdate($type, $isRepeat)){
+            if($isCorrect){
+                if($type == 'a' || $type == 'ab') $this->a_series++;
+                if($type == 'b' || $type == 'ba') $this->b_series++;
+            }
+            else{
+                if($type == 'a' || $type == 'ab') {
+                    $this->a_series = 0;
+                    $this->a_level = $this->a_level > 1 ? $this->a_level - 1 : 1;
+                }
+                if($type == 'b' || $type == 'ba') {
+                    $this->b_series = 0;
+                    $this->b_level = $this->b_level > 1 ? $this->b_level - 1 : 1;
+                }
+            }
+        }
+        return $this->nextLevel();
+    }
+
+    private function canSeriesUpdate($type, $isRepeat){
+        $paramsDay = Yii::$app->params['days_by_level'];
+        $isA = $type == 'a' || $type == 'ab';
+        $isB = $type == 'b' || $type == 'ba';
+
+        if(($isA && $this->a_level == 0) || ( $isB && $this->b_level == 0))
+            return true;
+        if($isA && $isRepeat && $this->a_level_date < time() - 86400 * $paramsDay[$this->a_level]) return true;
+        if($isB && $isRepeat && $this->b_level_date < time() - 86400 * $paramsDay[$this->b_level]) return true;
+
+        return false;
+    }
+
+    private function nextLevel(){
+        $firstLevelSeries = Yii::$app->params['first_level_series'];
+        $nextLevelSeries = Yii::$app->params['next_level_series'];
+        if(($this->a_level == 0 && $this->a_series >= $firstLevelSeries) || ($this->a_level > 0 && $this->a_series >= $nextLevelSeries)){
+            $this->a_level += 1;
+            $this->a_series = 0;
+            $this->a_level_date = time();
+        }
+
+        if(($this->b_level == 0 && $this->b_series >= $firstLevelSeries) || ($this->b_level > 0 && $this->b_series >= $nextLevelSeries)){
+            $this->b_level += 1;
+            $this->b_series = 0;
+            $this->b_level_date = time();
+        }
+
+        if($this->save()){
+            WordStat::addToday();
+            return 'OK';
+        }
+        var_dump($this->errors);
+    }
+
+
 }

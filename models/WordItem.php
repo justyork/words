@@ -26,14 +26,14 @@ class WordItem
         if($side == 'a' || $side == 'ab'){
             $this->word = $model->word;
             $this->translate = $model->translate;
-            $this->level = $model->level_ab;
-            $this->series = $model->ab_series;
+            $this->level = $model->a_level ?? 0;
+            $this->series = $model->a_series ?? 0;
         }
         else{
             $this->word = $model->translate;
             $this->translate = $model->word;
-            $this->level = $model->level_ba;
-            $this->series = $model->ba_series;
+            $this->level = $model->b_level ?? 0;
+            $this->series = $model->b_series ?? 0;
         }
         $this->series_need = $this->level == 0 || $this->level == null ? \Yii::$app->params['first_level_series'] : \Yii::$app->params['next_level_series'];
 

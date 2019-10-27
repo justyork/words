@@ -10,11 +10,11 @@ $this->title = Yii::t('app', 'Learn words');
 $arr = [];
 $arr[] = ["label" => Yii::t('app', 'Show words'), "url" => ['learn/check', 'id' => $model->id]];
 if($_GET['type'] != 'ab')
-    $arr[] = ["label" => Yii::t('app', 'Start {type}', ['type' => 'AB']), "url" => ['learn/start', 'id' => $model->id, 'type' => 'ab']];
+    $arr[] = ["label" => Yii::t('app', 'Start {type}', ['type' => Yii::t('app', 'A-B')]), "url" => ['learn/start', 'id' => $model->id, 'type' => 'a']];
 if($_GET['type'] != 'ba')
-    $arr[] = ["label" => Yii::t('app', 'Start {type}', ['type' => 'BA']), "url" => ['learn/start', 'id' => $model->id, 'type' => 'ba']];
+    $arr[] = ["label" => Yii::t('app', 'Start {type}', ['type' => Yii::t('app', 'B-A')]), "url" => ['learn/start', 'id' => $model->id, 'type' => 'b']];
 if($_GET['type'] != 'r')
-    $arr[] = ["label" => Yii::t('app', 'Start {type}', ['type' => 'Rand']), "url" => ['learn/start', 'id' => $model->id, 'type' => 'r']];
+    $arr[] = ["label" => Yii::t('app', 'Start {type}', ['type' => Yii::t('app', 'Random')]), "url" => ['learn/start', 'id' => $model->id, 'type' => 'r']];
 
 
 $this->params['sidebar'] = $arr;

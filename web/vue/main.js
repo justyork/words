@@ -3,7 +3,10 @@ var VueResource = require('vue-resource');
 var moment = require('moment');
 var VueMomentJS = require('vue-momentjs');
 var Vue2TouchEvents  = require('vue2-touch-events');
+var VueApexCharts   = require('vue-apexcharts');
 
+var main = require('./components/main.vue')
+var category = require('./components/words/category.vue')
 var learn = require('./components/words/learn.vue')
 var learnCheck = require('./components/words/learn-check.vue')
 var packRow = require('./components/words/pack-row.vue')
@@ -11,6 +14,7 @@ var packRow = require('./components/words/pack-row.vue')
 Vue.use(VueResource);
 Vue.use(VueMomentJS, moment);
 Vue.use(Vue2TouchEvents);
+Vue.component('apexchart', VueApexCharts)
 
 new Vue({
     el: '.vue-block',
@@ -20,6 +24,8 @@ new Vue({
        }
     },
     components: {
+        'main-page' : main,
+        'category' : category,
         'learn' : learn,
         'learn-check' : learnCheck,
         'pack-row' : packRow,
