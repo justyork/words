@@ -100,7 +100,7 @@ $config = [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-//                '' => 'site/index',
+                '' => 'site/index',
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['api/category']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['api/stat']],
 //                ['class' => 'yii\rest\UrlRule', 'controller' => ['api/pack']],
