@@ -13,6 +13,8 @@ class PackForm extends Model
     public $count = '20';
     public $onlyNew = true;
     public $category_id;
+    /** @var WordCategory */
+    public $category;
 
 
     public function rules()
@@ -38,10 +40,8 @@ class PackForm extends Model
         if(!$this->validate()) return false;
 
         $activeIdList = $this->getWordsInPacks();
-        $words = Word::find()
-            ->where(['category_id' => $this->category_id])
-            ->andWhere(['user_id' => Yii::$app->user->id])
-            ->andWhere('skip IS NULL OR skip = 0')
+
+        $words = $this->category->getUnlearnedWords()
             ->andWhere(['NOT IN', 'id', $activeIdList])
             ->orderBy('RAND()')
             ->limit($this->count)

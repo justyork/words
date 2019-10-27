@@ -159,7 +159,6 @@ class WordPack extends ActiveRecord
      */
     private function getUnlernedWord(){
         return $this->category->getUnlearnedWords()
-            ->andWhere('skip IS NULL OR skip = 0')
             ->andWhere(['not in', 'id', $this->wordArr])
             ->orderBy('RAND()')
             ->one();

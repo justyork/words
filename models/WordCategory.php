@@ -124,6 +124,7 @@ class WordCategory extends ActiveRecord
             ->andWhere('a_level IS NULL OR a_level = 0')
             ->andWhere('b_level IS NULL OR b_level = 0')
             ->andWhere('a_series IS NULL OR a_series = 0')
-            ->andWhere('b_series IS NULL OR b_series = 0');
+            ->andWhere('b_series IS NULL OR b_series = 0')
+            ->andWhere('skip IS NULL OR skip = 0');
     }
 }

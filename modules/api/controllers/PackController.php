@@ -40,10 +40,10 @@ class PackController extends Controller
     public function actionCreate(){
         $category_id = \Yii::$app->request->post('category_id');
         $category = WordCategory::findOne($category_id);
-        if(!$category->isOwner)
-            throw new BadRequestHttpException();
+        if(!$category || !$category->isOwner) throw new BadRequestHttpException();
 
         $model = new PackForm();
+        $model->category = $category;
         $model->count = \Yii::$app->request->post('count');
         $model->category_id = $category_id;
         if($model->save()) return 'OK';
@@ -51,12 +51,12 @@ class PackController extends Controller
 
     /** Получить слова из пачки
      * @param $id
-     * @param bool $type
+     * @param string $type
      * @param bool $new
      * @return array
      * @throws BadRequestHttpException
      */
-    public function actionGet($id, $type = a, $new = false){
+    public function actionGet($id, $type = 'a', $new = false){
         $model = WordPack::findOne($id);
         if(!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
 
