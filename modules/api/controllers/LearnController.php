@@ -33,7 +33,9 @@ class LearnController extends Controller
     }
 
     public function actionRepeatWords(){
-        return Word::repeatWords();
+        $words = Word::repeatWords();
+        shuffle($words);
+        return $words;
     }
 
     public function actionCountRepeatWords(){
