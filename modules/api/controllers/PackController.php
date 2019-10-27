@@ -23,13 +23,23 @@ class PackController extends Controller
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['create', 'get', 'skip-word'],
+                    'actions' => ['create', 'get', 'skip-word', 'delete'],
                     'allow' => true,
                     'roles' => ['@'],
                 ],
             ],
         ];
 
+        return $data;
+    }
+
+
+    protected function verbs()
+    {
+        $data = parent::verbs();
+        $data['create'] = ['POST'];
+        $data['skip-word'] = ['POST'];
+        $data['delete'] = ['POST'];
         return $data;
     }
 
@@ -78,6 +88,21 @@ class PackController extends Controller
         if(!$pack || !$pack->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
 
         return $pack->skipWord($model);
+    }
+
+
+    /** Удалить пачку
+     * @return string
+     * @throws BadRequestHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDelete(){
+        $model = WordPack::findOne(Yii::$app->request->post('id'));
+        if(!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
+
+        $model->delete();
+        return 'OK';
     }
 
 }

@@ -32,6 +32,14 @@
         <div class="ui cards" v-if="categoryModel">
             <div :class="'card ' + (item.learned.all ? 'teal' : '')" v-for="item in categoryModel.packs">
                 <div class="content">
+
+                    <div class="pack-actions">
+                        <span class="ui icon mini buttons">
+                            <button class="ui button  red" @click="openDeletePackModal(item.id)"><i class="icon trash"></i></button>
+<!--                                <button class="ui button red"><i class="icon trash"></i></button>-->
+                        </span>
+                    </div>
+
                     <a :href="item.url.check" class="header">Пачка №{{item.id}}</a>
                     <div class="meta">
                         <span class="right floated time">всего: {{item.count.total}}</span>
@@ -63,6 +71,22 @@
             <p><b>A-B</b> - Учить иностранное слово</p>
             <p><b>B-A</b> - Учить перевод</p>
         </div>
+        <div id="delete-pack"  class="ui small basic test modal">
+            <div class="ui icon header">
+                <i class="trash icon"></i>
+                Удалить пачку?
+            </div>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    Нет
+                </div>
+                <div class="ui green ok inverted button" @click="deletePack(deletePackId)">
+                    <i class="checkmark icon"></i>
+                    Да
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -74,11 +98,13 @@
             return {
                 categoryApiLink: 'categories/',
                 addPackApiLink: 'pack/create',
+                deletePackApiLink: 'pack/delete',
 
                 categoryModel: false,
                 countWords: 15,
                 showAddPack: false,
-                loadingAddPackButton: false
+                loadingAddPackButton: false,
+                deletePackId: 0,
             }
         },
         methods: {
@@ -103,6 +129,25 @@
                         }
                     }
                 })
+            },
+            openDeletePackModal:function(pack_id){
+                this.deletePackId = pack_id;
+                $('#delete-pack')
+                    .modal('setting', 'closable', false)
+                    .modal('show')
+                ;
+            },
+            deletePack:function (id) {
+                // if(!confirm("Удалить пачку?"))
+                let data = new FormData();
+                data.append('id', id);
+                this.$http.post(config.API_LOCATION + this.deletePackApiLink, data ).then(response => {
+                    if(response.status){
+                        if(response.body == 'OK'){
+                            this.loadCategory();
+                        }
+                    }
+                })
             }
         },
         created: function () {
@@ -112,4 +157,9 @@
 </script>
 
 <style>
+    .pack-actions{
+        right: 0;
+        top: 0;
+        position: absolute;
+    }
 </style>
