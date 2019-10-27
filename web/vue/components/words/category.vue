@@ -40,7 +40,7 @@
                         </span>
                     </div>
 
-                    <a :href="item.url.check" class="header">Пачка №{{item.id}}</a>
+                    <a :href="item.url.check" style="margin-top: 5px;" class="header">Пачка №{{item.id}}</a>
                     <div class="meta">
                         <span class="right floated time">всего: {{item.count.total}}</span>
                         <span>{{item.date}}</span>
