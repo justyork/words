@@ -6,6 +6,8 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\db\QueryBuilder;
+use yii\debug\models\search\Db;
 
 class WordImportForm extends Model
 {
@@ -35,13 +37,19 @@ class WordImportForm extends Model
 
         $rows = explode("\n", $this->row);
 
+        $sql = "INSERT INTO word (`word`, `translate`, category_id, user_id, created_at, updated_at) VALUES ";
+        $user_id = Yii::$app->user->id;
+        $time = time();
+        $sql_rows = [];
         foreach ($rows as $row) {
             if(empty($row) || trim($row) == '' || trim($row) == ' ') continue;
-            $model = new Word();
-            $model->category_id = $this->category_id;
-            list($model->word, $model->translate) = explode(';', $row);
-            $model->save();
+
+            list($word, $translate) = explode(';', $row);
+            $sql_rows[] = "('$word', '$translate', $this->category_id, $user_id, $time, $time)";
         }
+
+        $sql .= implode(',', $sql_rows);
+        Yii::$app->db->createCommand($sql)->execute();
 
         return true;
     }
