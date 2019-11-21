@@ -68,8 +68,9 @@ class CategoryController extends Controller
     }
     public function actionImport(){
         $model = new WordImportForm();
-        if($model->load(\Yii::$app->request->post()) && $model->save())
+        if($model->load(\Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['get', 'id' => $model->category_id]);
+        }
         return $this->render('import', ['model' => $model]);
     }
 
