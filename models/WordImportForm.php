@@ -50,8 +50,8 @@ class WordImportForm extends Model
 
 
         $sql .= implode(',', $sql_rows);
-        var_dump($sql);
-        die();
+//        var_dump($sql);
+//        die();
         Yii::$app->db->createCommand($sql)->execute();
 
         return true;
