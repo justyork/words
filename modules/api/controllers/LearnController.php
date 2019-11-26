@@ -32,8 +32,8 @@ class LearnController extends Controller
         return $data;
     }
 
-    public function actionRepeatWords(){
-        $words = Word::repeatWords();
+    public function actionRepeatWords($category_id = 0){
+        $words = Word::repeatWords($category_id);
         shuffle($words);
         return $words;
     }

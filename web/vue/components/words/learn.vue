@@ -38,6 +38,7 @@
             'repeat',
             'only_new',
             'rep',
+            'category_id'
         ],
         data: function () {
             return {
@@ -86,7 +87,7 @@
             },
             loadWords(){
                 let url = config.API_LOCATION;
-                if(this.repeat == 1) url += this.repeatApiLink;
+                if(this.repeat == 1)  url += this.repeatApiLink+'?category_id='+this.category_id;
                 else url += this.wordsApiLink+this.pack_id + '/' + this.type + '/' + this.only_new;
 
                 this.$http.get(url).then(response => {
@@ -148,7 +149,6 @@
         created: function () {
             if(!this.type) this.type = 'a';
             this.loadWords()
-            console.log(this.repeat)
         }
     }
 </script>

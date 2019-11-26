@@ -35,8 +35,8 @@ class LearnController extends Controller
         return $this->render('index', compact('model'));
     }
 
-    public function actionRepeat(){
-        $count = count(Word::repeatWords());
+    public function actionRepeat($category_id = false){
+        $count = count(Word::repeatWords($category_id));
         return $this->render('repeat', compact('count'));
     }
     public function actionStart($id){

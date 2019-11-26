@@ -112,13 +112,13 @@ class Word extends ActiveRecord
     }
 
 
-
     /** Получить слова для повторения
+     * @param bool $category_id
      * @return array
      */
-    public static function repeatWords(){
+    public static function repeatWords($category_id = false){
         $paramsDays = Yii::$app->params['days_by_level'];
-        $model = self::find()
+        $q = self::find()
             ->where('((a_level = :level AND a_level_date < :time) OR (b_level = :level AND b_level_date < :time)) OR 
             ((a_level = :level2 AND a_level_date < :time2) OR (b_level = :level2 AND b_level_date < :time2)) OR 
             ((a_level = :level3 AND a_level_date < :time3) OR (b_level = :level3 AND b_level_date < :time3)) OR 
@@ -132,8 +132,11 @@ class Word extends ActiveRecord
                 ':level4' => 4,
                 ':time4' => time() - 3600 * 24 * $paramsDays[4]
             ])
-            ->andWhere(['user_id' => Yii::$app->user->id])
-            ->all();
+            ->andWhere(['user_id' => Yii::$app->user->id]);
+        if($category_id)
+            $q->andWhere(['category_id' => $category_id]);
+
+        $model = $q->all();
 
         $arr = [];
         foreach ($model as $item) {

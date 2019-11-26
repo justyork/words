@@ -70,6 +70,12 @@ class WordCategory extends ActiveRecord
         $data['count'] = function (){
             return $this->getWords()->count();
         };
+        $data['has_review'] = function (){
+            return $this->getCountReviewWords();
+        };
+        $data['repeatUrl'] = function (){
+            return '/learn/repeat?category_id='.$this->id;
+        };
         return $data;
     }
 
@@ -84,6 +90,20 @@ class WordCategory extends ActiveRecord
     public function getWords()
     {
         return $this->hasMany(Word::className(), ['category_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getReviewWords(){
+        return Word::repeatWords($this->id);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountReviewWords(){
+        return count($this->getReviewWords());
     }
 
     /**

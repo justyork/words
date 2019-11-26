@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="chart">
-            <apexchart v-if="modelStat" height="100%" width="100%" type="bar" :options="options" :series="series"></apexchart>
+<!--            <apexchart v-if="modelStat" height="100%" width="100%" type="bar" :options="options" :series="series"></apexchart>-->
         </div>
         <div class="ui cards">
             <div class="card">
@@ -53,8 +53,13 @@
                     <div class="header">Ваши категории</div>
                     <div class="ui middle aligned selection list" v-if="modelCategories.length">
                         <div class="item" v-for="item in modelCategories">
+                            <div class="right floated content" v-if="item.has_review">
+                                <a :href="item.repeatUrl" class="ui button tiny icon float right">
+                                    <i class="refresh icon" style="margin-left: 10px;"></i>
+                                </a>
+                            </div>
                             <div class="content">
-                                <a :href="item.url" class="header">
+                                <a :href="item.url" class="header" style="display: inline-block">
                                     {{item.title}}
                                     <div class="ui mini circular label">{{item.count}}</div>
                                 </a>

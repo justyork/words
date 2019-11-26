@@ -19375,8 +19375,8 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"chart"},[(_vm.modelStat)?_c('apexchart',{attrs:{"height":"100%","width":"100%","type":"bar","options":_vm.options,"series":_vm.series}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"ui cards"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"content ui aligned center"},[(_vm.countRepeatWords && _vm.countRepeatWords > 0)?_c('div',[_c('div',{staticClass:"ui labeled button"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"ui basic label"},[_vm._v("\n                            "+_vm._s(_vm.countRepeatWords)+"\n                        ")])]),_vm._v(" "),_c('div',{staticClass:"description",staticStyle:{"margin-top":"15px"}},[_vm._v("\n                        Если вы выучили слово, оно попадает в список на повторение, чтобы вы могли его лучше запомнить\n                    ")])]):(_vm.countRepeatWords === 0)?_c('div',[_vm._v("\n                    Молодец, у тебя нет слов для повторения!\n                ")]):_c('div',[_vm._m(1),_vm._v(" "),_vm._m(2)])])]),_vm._v(" "),_c('div',{staticClass:"card"},[_c('div',{staticClass:"content"},[_c('div',{staticClass:"header"},[_vm._v("Ваши категории")]),_vm._v(" "),(_vm.modelCategories.length)?_c('div',{staticClass:"ui middle aligned selection list"},_vm._l((_vm.modelCategories),function(item){return _c('div',{staticClass:"item"},[_c('div',{staticClass:"content"},[_c('a',{staticClass:"header",attrs:{"href":item.url}},[_vm._v("\n                                "+_vm._s(item.title)+"\n                                "),_c('div',{staticClass:"ui mini circular label"},[_vm._v(_vm._s(item.count))])])])])}),0):_c('div',[_vm._m(3)])]),_vm._v(" "),(_vm.modelCategories.length)?_c('a',{staticClass:"ui bottom attached teal button",attrs:{"href":"/category/create"}},[_c('i',{staticClass:"add icon"}),_vm._v("\n                Добавить новую категорию\n            ")]):_vm._e()])])])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"ui teal button",attrs:{"href":"/learn/repeat"}},[_c('i',{staticClass:"lightbulb outline icon"}),_vm._v("\n                            Повторить слова\n                        ")])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ui labeled button"},[_c('button',{staticClass:"ui disabled teal button"},[_c('i',{staticClass:"lightbulb outline icon"}),_vm._v("\n                            Повторить слова\n                        ")]),_vm._v(" "),_c('div',{staticClass:"ui basic label"},[_vm._v("\n                            999\n                        ")])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"description",staticStyle:{"margin-top":"15px"}},[_c('div',{staticClass:"ui placeholder"},[_c('div',{staticClass:"paragraph"},[_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"short line"})])])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ui placeholder"},[_c('div',{staticClass:"header"},[_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"line"})]),_vm._v(" "),_c('div',{staticClass:"paragraph"},[_c('div',{staticClass:"short line"}),_vm._v(" "),_c('div',{staticClass:"short line"}),_vm._v(" "),_c('div',{staticClass:"short line"})])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"chart"}),_vm._v(" "),_c('div',{staticClass:"ui cards"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"content ui aligned center"},[(_vm.countRepeatWords && _vm.countRepeatWords > 0)?_c('div',[_c('div',{staticClass:"ui labeled button"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"ui basic label"},[_vm._v("\n                                "+_vm._s(_vm.countRepeatWords)+"\n                            ")])]),_vm._v(" "),_c('div',{staticClass:"description",staticStyle:{"margin-top":"15px"}},[_vm._v("\n                            Если вы выучили слово, оно попадает в список на повторение, чтобы вы могли его лучше запомнить\n                        ")])]):(_vm.countRepeatWords === 0)?_c('div',[_vm._v("\n                        Молодец, у тебя нет слов для повторения!\n                    ")]):_c('div',[_vm._m(1),_vm._v(" "),_vm._m(2)])])]),_vm._v(" "),_c('div',{staticClass:"card"},[_c('div',{staticClass:"content"},[_c('div',{staticClass:"header"},[_vm._v("Ваши категории")]),_vm._v(" "),(_vm.modelCategories.length)?_c('div',{staticClass:"ui middle aligned selection list"},_vm._l((_vm.modelCategories),function(item){return _c('div',{staticClass:"item"},[(item.has_review)?_c('div',{staticClass:"right floated content"},[_c('a',{staticClass:"ui button tiny icon float right",attrs:{"href":item.repeatUrl}},[_c('i',{staticClass:"refresh icon",staticStyle:{"margin-left":"10px"}})])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"content"},[_c('a',{staticClass:"header",staticStyle:{"display":"inline-block"},attrs:{"href":item.url}},[_vm._v("\n                                    "+_vm._s(item.title)+"\n                                    "),_c('div',{staticClass:"ui mini circular label"},[_vm._v(_vm._s(item.count))])])])])}),0):_c('div',[_vm._m(3)])]),_vm._v(" "),(_vm.modelCategories.length)?_c('a',{staticClass:"ui bottom attached teal button",attrs:{"href":"/category/create"}},[_c('i',{staticClass:"add icon"}),_vm._v("\n                    Добавить новую категорию\n                ")]):_vm._e()])])])}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"ui teal button",attrs:{"href":"/learn/repeat"}},[_c('i',{staticClass:"lightbulb outline icon"}),_vm._v("\n                                Повторить слова\n                            ")])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ui labeled button"},[_c('button',{staticClass:"ui disabled teal button"},[_c('i',{staticClass:"lightbulb outline icon"}),_vm._v("\n                                Повторить слова\n                            ")]),_vm._v(" "),_c('div',{staticClass:"ui basic label"},[_vm._v("\n                                999\n                            ")])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"description",staticStyle:{"margin-top":"15px"}},[_c('div',{staticClass:"ui placeholder"},[_c('div',{staticClass:"paragraph"},[_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"short line"})])])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ui placeholder"},[_c('div',{staticClass:"header"},[_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"line"})]),_vm._v(" "),_c('div',{staticClass:"paragraph"},[_c('div',{staticClass:"short line"}),_vm._v(" "),_c('div',{staticClass:"short line"}),_vm._v(" "),_c('div',{staticClass:"short line"})])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -19475,7 +19475,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-2b8a3e02", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-2b8a3e02", __vue__options__)
+    hotAPI.reload("data-v-2b8a3e02", __vue__options__)
   }
 })()}
 },{"../../config.js":20,"vue":12,"vue-hot-reload-api":7,"vueify/lib/insert-css":14}],17:[function(require,module,exports){
@@ -19553,7 +19553,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-8feecb64", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-8feecb64", __vue__options__)
+    hotAPI.reload("data-v-8feecb64", __vue__options__)
   }
 })()}
 },{"../../config.js":20,"vue":12,"vue-hot-reload-api":7}],18:[function(require,module,exports){
@@ -19567,7 +19567,7 @@ var _config2 = _interopRequireDefault(_config);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = {
-    props: ['pack_id', 'type', 'repeat', 'only_new', 'rep'],
+    props: ['pack_id', 'type', 'repeat', 'only_new', 'rep', 'category_id'],
     data: function data() {
         return {
             repeatApiLink: 'learn/repeat-words',
@@ -19617,7 +19617,7 @@ module.exports = {
             var _this = this;
 
             var url = _config2.default.API_LOCATION;
-            if (this.repeat == 1) url += this.repeatApiLink;else url += this.wordsApiLink + this.pack_id + '/' + this.type + '/' + this.only_new;
+            if (this.repeat == 1) url += this.repeatApiLink + '?category_id=' + this.category_id;else url += this.wordsApiLink + this.pack_id + '/' + this.type + '/' + this.only_new;
 
             this.$http.get(url).then(function (response) {
                 if (response.status) {
@@ -19675,7 +19675,6 @@ module.exports = {
     created: function created() {
         if (!this.type) this.type = 'a';
         this.loadWords();
-        console.log(this.repeat);
     }
 };
 })()
