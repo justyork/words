@@ -99,12 +99,19 @@
             },
             getVoice(){
                 var voices = synth.getVoices()
-                var voice
+                var voice = false
                 voices.forEach(function (val, index) {
                     if(val.name == 'Microsoft Hedda Desktop - German'){
                         voice = val
                     }
                 })
+                if(!voice){
+                    voices.forEach(function (val, index) {
+                        if(val.lang == 'de-DE'){
+                            voice = val
+                        }
+                    })
+                }
                 return voice
             },
         },
