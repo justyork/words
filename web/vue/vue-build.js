@@ -19384,7 +19384,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-86377d32", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-86377d32", __vue__options__)
+    hotAPI.reload("data-v-86377d32", __vue__options__)
   }
 })()}
 },{"../config.js":20,"vue":12,"vue-hot-reload-api":7}],16:[function(require,module,exports){
@@ -19488,6 +19488,7 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var synth = window.speechSynthesis;
 module.exports = {
     props: ['pack_id'],
     data: function data() {
@@ -19534,6 +19535,29 @@ module.exports = {
                     _this2.skipWordLoading = false;
                 }
             });
+        },
+        speak: function speak(word) {
+            var utterThis = new SpeechSynthesisUtterance(word);
+            utterThis.onend = function (event) {
+                console.log('SpeechSynthesisUtterance.onend');
+            };
+            utterThis.onerror = function (event) {
+                console.error('SpeechSynthesisUtterance.onerror');
+            };
+
+            utterThis.voice = this.getVoice();
+            utterThis.pitch = 1;
+            utterThis.rate = 0.7;
+
+            synth.speak(utterThis);
+        },
+        getVoice: function getVoice() {
+            var voices = synth.getVoices();
+            voices.forEach(function (val, index) {
+                if (val.lang == 'de-DE') {
+                    return val;
+                }
+            });
         }
     },
     created: function created() {
@@ -19544,7 +19568,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"touch",rawName:"v-touch:swipe",value:(_vm.swipeHandler),expression:"swipeHandler",arg:"swipe"}]},[(_vm.words.length && !_vm.skipWordLoading)?_c('div',{staticClass:"ui center aligned segment"},[_c('h2',[_vm._v(_vm._s(_vm.words[_vm.activeNum].word))]),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.words[_vm.activeNum].translate))])]):(_vm.skipWordLoading)?_c('div',{},[_vm._m(1),_vm._v(" "),_c('p')]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"learn-skip"},[_c('a',{staticClass:"ui mini blue button ",attrs:{"href":"#"},on:{"click":_vm.skip}},[_vm._v("Заменить")])]),_vm._v(" "),_c('div',{staticClass:"word-buttons"},[_c('div',{staticClass:"fluid ui buttons"},[_c('a',{staticClass:"ui massive blue button",attrs:{"href":"javascript:;"},on:{"click":_vm.prev}},[_vm._v("НАЗАД")]),_vm._v(" "),_c('a',{staticClass:"ui massive teal button",attrs:{"href":"javascript:;"},on:{"click":_vm.next}},[_vm._v("ВПЕРЕД")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"touch",rawName:"v-touch:swipe",value:(_vm.swipeHandler),expression:"swipeHandler",arg:"swipe"}]},[(_vm.words.length && !_vm.skipWordLoading)?_c('div',{staticClass:"ui center aligned segment"},[_c('h2',[_c('a',{on:{"click":function($event){return _vm.speak(_vm.words[_vm.activeNum].word)}}},[_c('i',{staticClass:"volume up icon"})]),_vm._v("\n            "+_vm._s(_vm.words[_vm.activeNum].word)+"\n        ")]),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.words[_vm.activeNum].translate))])]):(_vm.skipWordLoading)?_c('div',{},[_vm._m(1),_vm._v(" "),_c('p')]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"learn-skip"},[_c('a',{staticClass:"ui mini blue button ",attrs:{"href":"#"},on:{"click":_vm.skip}},[_vm._v("Заменить")])]),_vm._v(" "),_c('div',{staticClass:"word-buttons"},[_c('div',{staticClass:"fluid ui buttons"},[_c('a',{staticClass:"ui massive blue button",attrs:{"href":"javascript:;"},on:{"click":_vm.prev}},[_vm._v("НАЗАД")]),_vm._v(" "),_c('a',{staticClass:"ui massive teal button",attrs:{"href":"javascript:;"},on:{"click":_vm.next}},[_vm._v("ВПЕРЕД")])])])])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ui horizontal divider"},[_c('i',{staticClass:"icon line"})])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ui active inverted dimmer"},[_c('div',{staticClass:"ui text loader"},[_vm._v("Loading")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19553,7 +19577,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-8feecb64", __vue__options__)
   } else {
-    hotAPI.reload("data-v-8feecb64", __vue__options__)
+    hotAPI.rerender("data-v-8feecb64", __vue__options__)
   }
 })()}
 },{"../../config.js":20,"vue":12,"vue-hot-reload-api":7}],18:[function(require,module,exports){
@@ -19690,7 +19714,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-d6afc1da", __vue__options__)
   } else {
-    hotAPI.reload("data-v-d6afc1da", __vue__options__)
+    hotAPI.rerender("data-v-d6afc1da", __vue__options__)
   }
 })()}
 },{"../../config.js":20,"vue":12,"vue-hot-reload-api":7}],19:[function(require,module,exports){

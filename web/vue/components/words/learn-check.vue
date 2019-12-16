@@ -2,7 +2,10 @@
     <div class="" v-touch:swipe="swipeHandler">
 
         <div class="ui center aligned segment"  v-if="words.length && !skipWordLoading">
-            <h2>{{words[activeNum].word}}</h2>
+            <h2>
+                <a @click="speak(words[activeNum].word)"><i class="volume up icon"></i></a>
+                {{words[activeNum].word}}
+            </h2>
             <div class="ui horizontal divider">
                 <i class="icon line"></i>
             </div>
@@ -29,6 +32,7 @@
 
 <script>
     import config from '../../config.js'
+    var synth = window.speechSynthesis;
     module.exports = {
         props: ['pack_id',],
         data: function () {
@@ -75,6 +79,29 @@
                         this.activeNum = 0;
                         this.activeNum = oldNum;
                         this.skipWordLoading = false;
+                    }
+                })
+            },
+            speak(word){
+                var utterThis = new SpeechSynthesisUtterance(word);
+                utterThis.onend = function (event) {
+                    console.log('SpeechSynthesisUtterance.onend');
+                }
+                utterThis.onerror = function (event) {
+                    console.error('SpeechSynthesisUtterance.onerror');
+                }
+
+                utterThis.voice = this.getVoice();
+                utterThis.pitch = 1;
+                utterThis.rate = 0.7;
+
+                synth.speak(utterThis);
+            },
+            getVoice(){
+                var voices = synth.getVoices()
+                voices.forEach(function (val, index) {
+                    if(val.lang == 'de-DE'){
+                        return val
                     }
                 })
             },
