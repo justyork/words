@@ -19548,7 +19548,6 @@ module.exports = {
             utterThis.voice = this.getVoice();
             utterThis.pitch = 1;
             utterThis.rate = 0.7;
-            console.log(utterThis.voice, this.getVoice());
 
             synth.speak(utterThis);
         },
@@ -19556,7 +19555,7 @@ module.exports = {
             var voices = synth.getVoices();
             var voice;
             voices.forEach(function (val, index) {
-                if (val.lang == 'de-DE') {
+                if (val.name == 'Microsoft Hedda Desktop - German') {
                     voice = val;
                 }
             });
@@ -19580,7 +19579,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-8feecb64", __vue__options__)
   } else {
-    hotAPI.reload("data-v-8feecb64", __vue__options__)
+    hotAPI.rerender("data-v-8feecb64", __vue__options__)
   }
 })()}
 },{"../../config.js":20,"vue":12,"vue-hot-reload-api":7}],18:[function(require,module,exports){

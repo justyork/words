@@ -94,7 +94,6 @@
                 utterThis.voice = this.getVoice();
                 utterThis.pitch = 1;
                 utterThis.rate = 0.7;
-                console.log(utterThis.voice, this.getVoice())
 
                 synth.speak(utterThis);
             },
@@ -102,7 +101,7 @@
                 var voices = synth.getVoices()
                 var voice
                 voices.forEach(function (val, index) {
-                    if(val.lang == 'de-DE'){
+                    if(val.name == 'Microsoft Hedda Desktop - German'){
                         voice = val
                     }
                 })
