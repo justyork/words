@@ -19548,16 +19548,19 @@ module.exports = {
             utterThis.voice = this.getVoice();
             utterThis.pitch = 1;
             utterThis.rate = 0.7;
+            console.log(utterThis.voice, this.getVoice());
 
             synth.speak(utterThis);
         },
         getVoice: function getVoice() {
             var voices = synth.getVoices();
+            var voice;
             voices.forEach(function (val, index) {
                 if (val.lang == 'de-DE') {
-                    return val;
+                    voice = val;
                 }
             });
+            return voice;
         }
     },
     created: function created() {
@@ -19577,7 +19580,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-8feecb64", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-8feecb64", __vue__options__)
+    hotAPI.reload("data-v-8feecb64", __vue__options__)
   }
 })()}
 },{"../../config.js":20,"vue":12,"vue-hot-reload-api":7}],18:[function(require,module,exports){

@@ -94,16 +94,19 @@
                 utterThis.voice = this.getVoice();
                 utterThis.pitch = 1;
                 utterThis.rate = 0.7;
+                console.log(utterThis.voice, this.getVoice())
 
                 synth.speak(utterThis);
             },
             getVoice(){
                 var voices = synth.getVoices()
+                var voice
                 voices.forEach(function (val, index) {
                     if(val.lang == 'de-DE'){
-                        return val
+                        voice = val
                     }
                 })
+                return voice
             },
         },
         created: function () {
