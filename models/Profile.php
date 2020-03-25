@@ -22,14 +22,16 @@ use yii\web\UploadedFile;
  * @property integer $user_id
  * @property string $created_at
  * @property string $updated_at
- * @property string  $full_name
- * @property string  $company
- * @property string  $avatar
- * @property string  $timezone
- * @property string  $language
+ * @property string $full_name
+ * @property string $company
+ * @property string $avatar
+ * @property string $timezone
+ * @property string $language
  *
  * @property User $user
- * @property mixed   $image
+ * @property string $imageFile
+ * @property string $avatarUrl
+ * @property mixed $image
  */
 class Profile extends ActiveRecord
 {
@@ -81,16 +83,16 @@ class Profile extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => Yii::t('app', 'ID'),
-            'user_id'     => Yii::t('app', 'User ID'),
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
-            'full_name'   => Yii::t('app', 'Full Name'),
-            'company'   => Yii::t('app', 'Company'),
-            'avatar'   => Yii::t('app', 'Avatar'),
-            'image'   => Yii::t('app', 'Avatar'),
-            'language'   => Yii::t('app', 'Language'),
-            'timezone'   => Yii::t('app', 'Timezone'),
+            'full_name' => Yii::t('app', 'Full Name'),
+            'company' => Yii::t('app', 'Company'),
+            'avatar' => Yii::t('app', 'Avatar'),
+            'image' => Yii::t('app', 'Avatar'),
+            'language' => Yii::t('app', 'Language'),
+            'timezone' => Yii::t('app', 'Timezone'),
         ];
     }
 

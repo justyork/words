@@ -33,7 +33,7 @@ class WordImportForm extends Model
 
     public function save()
     {
-        if(!$this->validate()) return false;
+        if (!$this->validate()) return false;
 
         $rows = explode("\n", $this->row);
 
@@ -42,7 +42,7 @@ class WordImportForm extends Model
         $time = time();
         $sql_rows = [];
         foreach ($rows as $row) {
-            if(empty($row) || trim($row) == '' || trim($row) == ' ') continue;
+            if (empty($row) || trim($row) == '' || trim($row) == ' ') continue;
 
             list($word, $translate) = explode(';', $row);
             $sql_rows[] = "('$word', '$translate', $this->category_id, $user_id, $time, $time)";
@@ -50,8 +50,6 @@ class WordImportForm extends Model
 
 
         $sql .= implode(',', $sql_rows);
-//        var_dump($sql);
-//        die();
         Yii::$app->db->createCommand($sql)->execute();
 
         return true;

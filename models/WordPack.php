@@ -18,6 +18,7 @@ use yii\helpers\Url;
  * @property Word[] $wordModels
  * @property WordCategory $category
  * @property array $allCounts
+ * @property \yii\db\ActiveRecord|null|\app\models\Word $unlernedWord
  * @property int $user_id [int(11)]
  */
 class WordPack extends ActiveRecord
@@ -63,16 +64,16 @@ class WordPack extends ActiveRecord
         unset($data['category_id']);
         unset($data['items']);
         unset($data['user_id']);
-        $data['date'] = function (){
+        $data['date'] = function () {
             return Yii::$app->formatter->asDate($this->date, 'd MMMM YYYY');
         };
-        $data['count'] = function (){
+        $data['count'] = function () {
             return $this->allCounts;
         };
-        $data['learned'] = function (){
+        $data['learned'] = function () {
             return $this->isLearned;
         };
-        $data['url'] = function (){
+        $data['url'] = function () {
             return [
                 'check' => Url::to(['/learn/check', 'id' => $this->id]),
                 'a' => Url::to(['/learn/start', 'id' => $this->id, 'type' => 'a']),
@@ -87,14 +88,16 @@ class WordPack extends ActiveRecord
     /**
      * @return int
      */
-    public function getCount(){
+    public function getCount()
+    {
         return count($this->wordArr);
     }
 
     /** Получить список кол-ва слов
      * @return array
      */
-    public function getAllCounts(){
+    public function getAllCounts()
+    {
         return [
             'total' => $this->count,
             'learned' => [
@@ -108,12 +111,13 @@ class WordPack extends ActiveRecord
      * @param $side
      * @return array
      */
-    public function getLearnedWords($side = 'a'){
+    public function getLearnedWords($side = 'a')
+    {
 //        assert(!in_array($side, ['a', 'b']), Yii::t('app', 'Incorrect side name'));
         $arr = [];
         foreach ($this->wordModels as $item) {
-            if($side == 'a' && $item->a_level == 0)  continue;
-            if($side == 'b' && $item->b_level == 0)  continue;
+            if ($side == 'a' && $item->a_level == 0) continue;
+            if ($side == 'b' && $item->b_level == 0) continue;
             $arr[] = $item;
         }
         return $arr;
@@ -122,17 +126,18 @@ class WordPack extends ActiveRecord
     /** Выучено ли слово
      * @return array
      */
-    public function getIsLearned(){
+    public function getIsLearned()
+    {
         $arr = [
             'a' => true,
             'b' => true,
             'all' => true,
         ];
         foreach ($this->wordModels as $item) {
-            if($item->a_level == 0) $arr['a'] = false;
-            if($item->b_level == 0) $arr['b'] = false;
+            if ($item->a_level == 0) $arr['a'] = false;
+            if ($item->b_level == 0) $arr['b'] = false;
         }
-        if(!$arr['a'] || !$arr['b']) $arr['all'] = false;
+        if (!$arr['a'] || !$arr['b']) $arr['all'] = false;
 
         return $arr;
     }
@@ -142,7 +147,8 @@ class WordPack extends ActiveRecord
      * @param Word $word
      * @return Word|\yii\db\ActiveRecord|null
      */
-    public function skipWord(Word $word){
+    public function skipWord(Word $word)
+    {
         $word->skip = 1;
         $word->save();
 
@@ -157,7 +163,8 @@ class WordPack extends ActiveRecord
     /** Получить невыученное слово
      * @return Word|\yii\db\ActiveRecord|null
      */
-    private function getUnlernedWord(){
+    private function getUnlernedWord()
+    {
         return $this->category->getUnlearnedWords()
             ->andWhere(['not in', 'id', $this->wordArr])
             ->orderBy('RAND()')
@@ -168,37 +175,39 @@ class WordPack extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery|WordCategory
      */
-    public function getCategory(){
+    public function getCategory()
+    {
         return $this->hasOne(WordCategory::className(), ['id' => 'category_id']);
     }
 
 
-    public function getWordModels(){
-        if(!$this->_wordModels){
+    public function getWordModels()
+    {
+        if (!$this->_wordModels) {
             $this->_wordModels = Word::find()->where(['id' => $this->wordArr])->all();
         }
         return $this->_wordModels;
     }
+
     /**
      * @param $id
      * @param $side
      * @param $only_new
      * @return array
      */
-    public static function apiWords($id, $side, $only_new = false){
+    public static function apiWords($id, $side, $only_new = false)
+    {
         $model = WordPack::findOne($id);
         $arr = [];
         foreach ($model->wordModels as $item) {
-            if(in_array($side, ['a', 'ab']) && $only_new && $item->a_level != 0) continue;
-            if(in_array($side, ['b', 'ba']) && $only_new && $item->b_level != 0) continue;
+            if (in_array($side, ['a', 'ab']) && $only_new && $item->a_level != 0) continue;
+            if (in_array($side, ['b', 'ba']) && $only_new && $item->b_level != 0) continue;
 
             $m = new WordItem();
             $arr[] = $m->import($item, $side);
         }
         return $arr;
     }
-
-
 
 
     public function afterFind()
@@ -211,10 +220,9 @@ class WordPack extends ActiveRecord
 
     public function beforeSave($insert)
     {
-        if(!$insert){
+        if (!$insert) {
             $this->items = json_encode($this->wordArr);
-        }
-        else{
+        } else {
             $this->user_id = Yii::$app->user->id;
             $this->date = time();
         }

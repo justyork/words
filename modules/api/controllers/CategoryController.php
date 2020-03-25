@@ -7,8 +7,10 @@
 namespace app\modules\api\controllers;
 
 
-
-
+/**
+ * Class CategoryController
+ * @package app\modules\api\controllers
+ */
 class CategoryController extends CustomActiveController
 {
     public $modelClass = 'app\models\WordCategory';

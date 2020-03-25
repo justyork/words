@@ -26,6 +26,7 @@ use app\helpers\ArrayHelper;
  * @property string $value
  * @property integer $status
  * @property integer $created_at
+ * @property array $settings
  * @property integer $updated_at
  */
 class Setting extends ActiveRecord
@@ -79,7 +80,7 @@ class Setting extends ActiveRecord
         ];
 
         // Applies only for email setting
-        if ($this->key == "adminEmail" || $this->key == "supportEmail" || $this->key == "noreplyEmail") {
+        if ($this->key === "adminEmail" || $this->key === "supportEmail" || $this->key === "noreplyEmail") {
             array_push($rules, [['value'], 'email']);
         }
 
@@ -110,7 +111,7 @@ class Setting extends ActiveRecord
     public function beforeSave($insert)
     {
 
-        if ($this->key == "password") {
+        if ($this->key === "password") {
             $this->value = base64_encode($this->value);
         }
 
@@ -140,7 +141,7 @@ class Setting extends ActiveRecord
      *
      * @return array
      */
-    public function getSettings()
+    public function getSettings(): array
     {
         $settings = static::find()->where(['status' => true])->asArray()->all();
         return array_merge_recursive(
@@ -159,7 +160,7 @@ class Setting extends ActiveRecord
      * @return bool
      * @throws \yii\base\InvalidConfigException
      */
-    public function setSetting($category, $key, $value, $type = null)
+    public function setSetting($category, $key, $value, $type = null): bool
     {
         $model = static::findOne(['category' => $category, 'key' => $key]);
         if ($model === null) {
@@ -184,7 +185,7 @@ class Setting extends ActiveRecord
      * @param $category
      * @return boolean True on success, false on error
      */
-    public function activateSetting($category, $key)
+    public function activateSetting($category, $key): bool
     {
         $model = static::findOne(['category' => $category, 'key' => $key]);
         if ($model && $model->status == static::STATUS_INACTIVE) {
@@ -201,10 +202,10 @@ class Setting extends ActiveRecord
      * @param $category
      * @return boolean True on success, false on error
      */
-    public function deactivateSetting($category, $key)
+    public function deactivateSetting($category, $key): bool
     {
         $model = static::findOne(['category' => $category, 'key' => $key]);
-        if ($model && $model->status == static::STATUS_ACTIVE) {
+        if ($model && $model->status === static::STATUS_ACTIVE) {
             $model->status = static::STATUS_INACTIVE;
             return $model->save();
         }
@@ -214,11 +215,13 @@ class Setting extends ActiveRecord
     /**
      * Deletes a settings
      *
-     * @param $key
      * @param $category
+     * @param $key
      * @return boolean True on success, false on error
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
-    public function deleteSetting($category, $key)
+    public function deleteSetting($category, $key): bool
     {
         $model = static::findOne(['category' => $category, 'key' => $key]);
         if ($model) {
@@ -232,7 +235,7 @@ class Setting extends ActiveRecord
      *
      * @return boolean True on success, false on error
      */
-    public function deleteAllSettings()
+    public function deleteAllSettings(): bool
     {
         return static::deleteAll();
     }

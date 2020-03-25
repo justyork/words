@@ -10,9 +10,16 @@ use yii\filters\AccessControl;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 
+/**
+ * Class WordController
+ * @package app\modules\api\controllers
+ */
 class WordController extends Controller
 {
 
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         $data = parent::behaviors();
@@ -41,14 +48,15 @@ class WordController extends Controller
      * @return string
      * @throws BadRequestHttpException
      */
-    public function actionCheck(){
+    public function actionCheck()
+    {
         $model = Word::findOne(\Yii::$app->request->post('word_id'));
-        if(!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Icorrect request'));
+        if (!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Icorrect request'));
 
         $model->currentType = \Yii::$app->request->post('type');
         $model->isRepeat = \Yii::$app->request->post('repeat');
 
-        if(\Yii::$app->request->post('correct')) $model->correct();
+        if (\Yii::$app->request->post('correct')) $model->correct();
         else $model->fail();
         $model->save();
 

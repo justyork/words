@@ -13,9 +13,16 @@ use yii\rest\ActiveController;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 
+/**
+ * Class PackController
+ * @package app\modules\api\controllers
+ */
 class PackController extends Controller
 {
 
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         $data = parent::behaviors();
@@ -34,6 +41,9 @@ class PackController extends Controller
     }
 
 
+    /**
+     * @return array
+     */
     protected function verbs()
     {
         $data = parent::verbs();
@@ -47,16 +57,17 @@ class PackController extends Controller
      * @return string
      * @throws BadRequestHttpException
      */
-    public function actionCreate(){
+    public function actionCreate()
+    {
         $category_id = \Yii::$app->request->post('category_id');
         $category = WordCategory::findOne($category_id);
-        if(!$category || !$category->isOwner) throw new BadRequestHttpException();
+        if (!$category || !$category->isOwner) throw new BadRequestHttpException();
 
         $model = new PackForm();
         $model->category = $category;
         $model->count = \Yii::$app->request->post('count');
         $model->category_id = $category_id;
-        if($model->save()) return 'OK';
+        if ($model->save()) return 'OK';
     }
 
     /** Получить слова из пачки
@@ -66,12 +77,13 @@ class PackController extends Controller
      * @return array
      * @throws BadRequestHttpException
      */
-    public function actionGet($id, $type = 'a', $new = false){
+    public function actionGet($id, $type = 'a', $new = false)
+    {
         $model = WordPack::findOne($id);
-        if(!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
+        if (!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
 
         $data = WordPack::apiWords($id, $type, $new);
-        if($type)
+        if ($type)
             shuffle($data);
         return $data;
 
@@ -80,12 +92,13 @@ class PackController extends Controller
     /** Поменять слово
      * @throws BadRequestHttpException
      */
-    public function actionSkipWord(){
+    public function actionSkipWord()
+    {
         $model = Word::findOne(Yii::$app->request->post('word_id'));
-        if(!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
+        if (!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
 
         $pack = WordPack::findOne(Yii::$app->request->post('pack_id'));
-        if(!$pack || !$pack->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
+        if (!$pack || !$pack->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
 
         return $pack->skipWord($model);
     }
@@ -97,9 +110,10 @@ class PackController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDelete(){
+    public function actionDelete()
+    {
         $model = WordPack::findOne(Yii::$app->request->post('id'));
-        if(!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
+        if (!$model || !$model->isOwner) throw new BadRequestHttpException(Yii::t('app', 'Bad request'));
 
         $model->delete();
         return 'OK';

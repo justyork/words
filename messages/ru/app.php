@@ -34,6 +34,7 @@ return [
     'Count words' => 'Кол-во слов',
     'Create new' => 'Добавить',
     'Categories' => 'Категории',
+    'Category list' => 'Список категорий',
     'Are you sure?' => 'Вы уверены, что хотите это сделать?',
     'Empty' => 'Пусто',
     'Home' => 'Главная',

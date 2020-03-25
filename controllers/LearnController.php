@@ -8,7 +8,6 @@ use app\models\Word;
 use app\models\WordCategory;
 use app\models\WordPack;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 
 class LearnController extends Controller
 {

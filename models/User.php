@@ -30,9 +30,9 @@ use app\helpers\MailHelper;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Profile   $profile
+ * @property Profile $profile
  *
- * @property \app\modules\user\models\Role      $role
+ * @property \app\modules\user\models\Role $role
  * @property \app\modules\user\models\UserToken[] $userTokens
  * @property \app\modules\user\models\UserAuth[] $userAuths
  * @property string $name [varchar(255)]
@@ -83,16 +83,16 @@ class User extends \app\modules\user\models\User
         /** @var Message $message */
 
         // modify view path to module views
-        $mailer           = Yii::$app->mailer;
-        $oldViewPath      = $mailer->viewPath;
+        $mailer = Yii::$app->mailer;
+        $oldViewPath = $mailer->viewPath;
         $mailer->viewPath = Yii::$app->getModule("user")->emailViewPath;
 
         // send email
-        $user    = $this;
+        $user = $this;
         $profile = $user->profile;
         $email = $userToken->data ?: $user->email;
         $subject = Yii::$app->settings->get("app.name") . " - " . Yii::t("app", "Email Confirmation");
-        $message  = $mailer->compose('confirmEmail', compact("subject", "user", "profile", "userToken"))
+        $message = $mailer->compose('confirmEmail', compact("subject", "user", "profile", "userToken"))
             ->setTo($email)
             ->setSubject($subject);
 

@@ -13,5 +13,5 @@ use yii\helpers\Url;
 $this->params['back_link'] = Url::to(['category/index']);
 $this->title = $model->title;
 ?>
-
+<span style="display: none"><?= $model->title ?> <?= count($model->words) ?></span>
 <category :id="<?= $_GET['id'];?>"></category>

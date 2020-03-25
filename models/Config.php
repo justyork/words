@@ -54,8 +54,9 @@ class Config extends \yii\db\ActiveRecord
         ];
     }
 
-    public function field(){
-        $f = Html::textInput('Config['.$this->name.']', $this->value, ['class' => 'form-control']);
+    public function field()
+    {
+        $f = Html::textInput('Config[' . $this->name . ']', $this->value, ['class' => 'form-control']);
 
         return $f;
     }

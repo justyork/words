@@ -37,7 +37,7 @@ class WordStat extends \yii\db\ActiveRecord
         $data = parent::fields();
         unset($data['user_id']);
         unset($data['id']);
-        $data['fdate'] = function (){
+        $data['fdate'] = function () {
             return date('d.m', $this->date);
         };
         return $data;
@@ -55,9 +55,10 @@ class WordStat extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function addToday(){
+    public static function addToday()
+    {
         $model = WordStat::find()->where(['>', 'date', strtotime('today 00:00:00')])->one();
-        if(!$model){
+        if (!$model) {
             $model = new WordStat();
             $model->date = time();
             $model->count_words = 0;

@@ -7,6 +7,10 @@
 namespace app\models;
 
 
+/**
+ * Class WordItem
+ * @package app\models
+ */
 class WordItem
 {
     public $id;
@@ -18,18 +22,23 @@ class WordItem
     public $series_need;
     public $tip;
 
-    public function import(Word $model, $side){
+    /**
+     * @param Word $model
+     * @param $side
+     * @return $this
+     */
+    public function import(Word $model, $side)
+    {
         $this->id = $model->id;
         $this->type = $side;
         $this->tip = $model->tip;
 
-        if($side == 'a' || $side == 'ab'){
+        if ($side === 'a' || $side === 'ab') {
             $this->word = $model->word;
             $this->translate = $model->translate;
             $this->level = $model->a_level ?? 0;
             $this->series = $model->a_series ?? 0;
-        }
-        else{
+        } else {
             $this->word = $model->translate;
             $this->translate = $model->word;
             $this->level = $model->b_level ?? 0;

@@ -25,7 +25,7 @@ use app\models\forms\CaptchaForm;
  * Class UserController
  * @package app\controllers
  */
-class UserController extends Controller
+class UserController1 extends Controller
 {
     /**
      * @inheritdoc
@@ -115,7 +115,6 @@ class UserController extends Controller
     public function actionLogin()
     {
 
-//        Yii::$app->session->addFlash('success', 'test');
         // Validate IP Address
         // $ip = Yii::$app->getRequest()->getUserIP();
         $ip = getenv('HTTP_CLIENT_IP')?:

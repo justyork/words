@@ -9,7 +9,6 @@ use app\models\Word;
 use app\models\WordCategory;
 use app\models\WordImportForm;
 use app\models\WordPack;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 

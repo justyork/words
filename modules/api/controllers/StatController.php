@@ -9,13 +9,19 @@ namespace app\modules\api\controllers;
 
 use yii\rest\ActiveController;
 
+/**
+ * Class StatController
+ * @package app\modules\api\controllers
+ */
 class StatController extends CustomActiveController
 {
 
     public $modelClass = 'app\models\WordStat';
 
 
-
+    /**
+     * @return \yii\data\ActiveDataProvider
+     */
     public function prepareDataProvider()
     {
         $this->limit = 7;

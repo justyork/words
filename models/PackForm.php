@@ -7,6 +7,10 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 
+/**
+ *
+ * @property array $wordsInPacks
+ */
 class PackForm extends Model
 {
 
@@ -36,8 +40,9 @@ class PackForm extends Model
     /** Добавить пачку
      * @return bool
      */
-    public function save(){
-        if(!$this->validate()) return false;
+    public function save()
+    {
+        if (!$this->validate()) return false;
 
         $activeIdList = $this->getWordsInPacks();
 
@@ -61,7 +66,8 @@ class PackForm extends Model
     /**
      * @return array
      */
-    private function getWordsInPacks(){
+    private function getWordsInPacks()
+    {
         $model = WordCategory::findOneByUser($this->category_id);
         $idList = [];
         foreach ($model->packs as $item) {

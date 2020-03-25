@@ -16,6 +16,8 @@ use yii\helpers\ArrayHelper;
  * @property Word[] $words
  * @property Word[] $unlearnedWords
  * @property WordPack[] $packs
+ * @property array $reviewWords
+ * @property int $countReviewWords
  * @property int $user_id [int(11)]
  */
 class WordCategory extends ActiveRecord
@@ -41,6 +43,7 @@ class WordCategory extends ActiveRecord
     public function rules()
     {
         return [
+            [['title'], 'required'],
             [['last_update', 'user_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
         ];
@@ -64,17 +67,17 @@ class WordCategory extends ActiveRecord
         unset($data['last_update']);
         unset($data['id']);
         unset($data['user_id']);
-        $data['url'] = function (){
+        $data['url'] = function () {
             return \yii\helpers\Url::to(['/category/get', 'id' => $this->id]);
         };
-        $data['count'] = function (){
+        $data['count'] = function () {
             return $this->getWords()->count();
         };
-        $data['has_review'] = function (){
+        $data['has_review'] = function () {
             return $this->getCountReviewWords();
         };
-        $data['repeatUrl'] = function (){
-            return '/learn/repeat?category_id='.$this->id;
+        $data['repeatUrl'] = function () {
+            return '/learn/repeat?category_id=' . $this->id;
         };
         return $data;
     }
@@ -95,28 +98,31 @@ class WordCategory extends ActiveRecord
     /**
      * @return array
      */
-    public function getReviewWords(){
+    public function getReviewWords()
+    {
         return Word::repeatWords($this->id);
     }
 
     /**
      * @return int
      */
-    public function getCountReviewWords(){
+    public function getCountReviewWords()
+    {
         return count($this->getReviewWords());
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPacks(){
+    public function getPacks()
+    {
         return $this->hasMany(WordPack::className(), ['category_id' => 'id'])->orderBy('date DESC');
     }
 
 
     public function beforeSave($insert)
     {
-        if($insert)
+        if ($insert)
             $this->user_id = Yii::$app->user->id;
         $this->last_update = time();
         return parent::beforeSave($insert);
@@ -129,17 +135,21 @@ class WordCategory extends ActiveRecord
         return parent::beforeDelete();
     }
 
-    public static function findAllByUser(){
+    public static function findAllByUser()
+    {
         return WordCategory::find()->where(['user_id' => Yii::$app->user->id])->all();
     }
-    public static function findOneByUser($id){
+
+    public static function findOneByUser($id)
+    {
         return WordCategory::findOne(['user_id' => Yii::$app->user->id, 'id' => $id]);
     }
 
     /**
      * @return \yii\db\ActiveQuery | Word[]
      */
-    public function getUnlearnedWords(){
+    public function getUnlearnedWords()
+    {
         return $this->getWords()
             ->andWhere('a_level IS NULL OR a_level = 0')
             ->andWhere('b_level IS NULL OR b_level = 0')

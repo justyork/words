@@ -1,0 +1,13 @@
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+              url: 'http://localhost/'
+              window_size: false # disabled in ChromeDriver
+              port: 9515
+              browser: firefox
+              path: '/'
+        - Yii2:
+            part: [orm, fixtures]
+            entryScript: index-test.php
+            cleanup: false

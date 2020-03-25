@@ -22,7 +22,7 @@ $config = [
         'user' => [
             'class' => 'app\modules\user\Module',
             'controllerMap' => [
-                'default' => 'app\controllers\UserController',
+                'default' => 'app\controllers\UserController1',
                 'admin' => 'app\controllers\user\AdminController',
             ],
             'emailConfirmation' => false,

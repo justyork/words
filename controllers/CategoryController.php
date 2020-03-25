@@ -10,7 +10,6 @@ use app\models\WordImportForm;
 use app\models\WordPack;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class CategoryController extends Controller

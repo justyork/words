@@ -1,7 +1,7 @@
 <?php
 /* @var $this \yii\web\View */
 /* @var $model WordCategory[] */
-$this->title = Yii::t('app', 'Categories');
+$this->title = Yii::t('app', 'Category list');
 use app\models\WordCategory;
 use yii\helpers\Html;
 use yii\helpers\Url;

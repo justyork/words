@@ -27,6 +27,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $user_id [int(11)]
  * @property int level
  * @property int levelDate
+ * @property array $repeatSide
  * @property int series
  */
 class Word extends ActiveRecord
@@ -54,7 +55,8 @@ class Word extends ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'created_at', 'updated_at', 'a_level_date', 'b_level_date', 'a_level', 'b_level',  'a_series', 'b_series', 'user_id'], 'integer'],
+            [['word', 'translate'], 'required'],
+            [['category_id', 'created_at', 'updated_at', 'a_level_date', 'b_level_date', 'a_level', 'b_level', 'a_series', 'b_series', 'user_id'], 'integer'],
             [['word', 'translate', 'tip'], 'string', 'max' => 255],
             [['word', 'translate', 'tip'], 'trim'],
             [['skip'], 'boolean'],
@@ -84,16 +86,15 @@ class Word extends ActiveRecord
         ];
     }
 
-    public static function find(){
+    public static function find()
+    {
         return parent::find()->where(['user_id' => Yii::$app->user->id]);
     }
 
     public function afterFind()
     {
         parent::afterFind();
-//        if($this->b_series === null) $this->b_series = 0;
-//        if($this->a_series === null) $this->a_series = 0;
-        if($this->skip === null) $this->skip = false;
+        if ($this->skip === null) $this->skip = false;
     }
 
     /**
@@ -106,7 +107,7 @@ class Word extends ActiveRecord
 
     public function beforeSave($insert)
     {
-        if($insert)
+        if ($insert)
             $this->user_id = Yii::$app->user->id;
         return parent::beforeSave($insert);
     }
@@ -116,7 +117,8 @@ class Word extends ActiveRecord
      * @param bool $category_id
      * @return array
      */
-    public static function repeatWords($category_id = false){
+    public static function repeatWords($category_id = false)
+    {
         $paramsDays = Yii::$app->params['days_by_level'];
         $q = self::find()
             ->where('((a_level = :level AND a_level_date < :time) OR (b_level = :level AND b_level_date < :time)) OR 
@@ -133,7 +135,7 @@ class Word extends ActiveRecord
                 ':time4' => time() - 3600 * 24 * $paramsDays[4]
             ])
             ->andWhere(['user_id' => Yii::$app->user->id]);
-        if($category_id)
+        if ($category_id)
             $q->andWhere(['category_id' => $category_id]);
 
         $model = $q->all();
@@ -153,12 +155,13 @@ class Word extends ActiveRecord
     /** Получить список сторон для повторения
      * @return array
      */
-    public function getRepeatSide(){
+    public function getRepeatSide()
+    {
         $paramsDay = Yii::$app->params['days_by_level'];
         $list = [];
-        if($this->a_level != 0 && $this->a_level_date < time() - 86400 * $paramsDay[$this->a_level])
+        if ($this->a_level != 0 && $this->a_level_date < time() - 86400 * $paramsDay[$this->a_level])
             $list[] = 'a';
-        if($this->b_level != 0 && $this->b_level_date < time() - 86400 * $paramsDay[$this->b_level])
+        if ($this->b_level != 0 && $this->b_level_date < time() - 86400 * $paramsDay[$this->b_level])
             $list[] = 'b';
 
         return $list;
@@ -168,11 +171,12 @@ class Word extends ActiveRecord
     /**
      * Верный ответ
      */
-    public function correct(){
-        if($this->canSeriesUp())
+    public function correct()
+    {
+        if ($this->canSeriesUp())
             $this->series++;
 
-        if($this->canLevelUp()){
+        if ($this->canLevelUp()) {
             $this->level++;
             $this->levelDate = time();
             $this->series = 0;
@@ -182,19 +186,21 @@ class Word extends ActiveRecord
     /**
      * Не верный ответ
      */
-    public function fail(){
+    public function fail()
+    {
         $this->series = 0;
-        if($this->level > 1)
+        if ($this->level > 1)
             $this->level--;
     }
 
     /** Можно ли повысить серию
      * @return bool
      */
-    private function canSeriesUp(){
+    private function canSeriesUp()
+    {
         $countDaysToTakeWord = Yii::$app->params['days_by_level'];
-        if($this->level == 0) return true;
-        if($this->isRepeat && $this->levelDate < time() - 86400 * $countDaysToTakeWord[$this->level])
+        if ($this->level == 0) return true;
+        if ($this->isRepeat && $this->levelDate < time() - 86400 * $countDaysToTakeWord[$this->level])
             return true;
 
         return false;
@@ -203,12 +209,13 @@ class Word extends ActiveRecord
     /** Можем ли мы повысить уровень
      * @return bool
      */
-    private function canLevelUp(){
+    private function canLevelUp()
+    {
         $firstLevelSeries = Yii::$app->params['first_level_series'];
         $nextLevelSeries = Yii::$app->params['next_level_series'];
-        if($this->level == 0 && $this->series >= $firstLevelSeries)
+        if ($this->level == 0 && $this->series >= $firstLevelSeries)
             return true;
-        if($this->level > 0 && $this->series >= $nextLevelSeries)
+        if ($this->level > 0 && $this->series >= $nextLevelSeries)
             return true;
         return false;
     }
@@ -216,55 +223,56 @@ class Word extends ActiveRecord
     /**
      * @return mixed
      */
-    public function getLevel(){
-        $name = $this->currentType.'_level';
+    public function getLevel()
+    {
+        $name = $this->currentType . '_level';
         return $this->$name;
     }
 
     /**
      * @param $val
      */
-    public function setLevel($val){
-        $name = $this->currentType.'_level';
+    public function setLevel($val)
+    {
+        $name = $this->currentType . '_level';
         $this->$name = $val;
     }
 
     /**
      * @return mixed
      */
-    public function getLevelDate(){
-        $name = $this->currentType.'_level_date';
+    public function getLevelDate()
+    {
+        $name = $this->currentType . '_level_date';
         return $this->$name;
     }
 
     /**
      * @param $val
      */
-    public function setLevelDate($val){
-        $name = $this->currentType.'_level_date';
+    public function setLevelDate($val)
+    {
+        $name = $this->currentType . '_level_date';
         $this->$name = $val;
     }
 
     /**
      * @return mixed
      */
-    public function getSeries(){
-        $name = $this->currentType.'_series';
+    public function getSeries()
+    {
+        $name = $this->currentType . '_series';
         return $this->$name;
     }
 
     /**
      * @param $val
      */
-    public function setSeries($val){
-        $name = $this->currentType.'_series';
+    public function setSeries($val)
+    {
+        $name = $this->currentType . '_series';
         $this->$name = $val;
     }
-
-
-
-
-
 
 
     /**
@@ -278,20 +286,20 @@ class Word extends ActiveRecord
      */
 
 
-    public function answered($isCorrect, $type, $isRepeat = false){
-        if(is_null($this->a_level)) $this->a_level = 0;
-        if(is_null($this->b_level)) $this->a_level = 0;
-        if($this->canSeriesUpdate($type, $isRepeat)){
-            if($isCorrect){
-                if($type == 'a' || $type == 'ab') $this->a_series++;
-                if($type == 'b' || $type == 'ba') $this->b_series++;
-            }
-            else{
-                if($type == 'a' || $type == 'ab') {
+    public function answered($isCorrect, $type, $isRepeat = false)
+    {
+        if (is_null($this->a_level)) $this->a_level = 0;
+        if (is_null($this->b_level)) $this->a_level = 0;
+        if ($this->canSeriesUpdate($type, $isRepeat)) {
+            if ($isCorrect) {
+                if ($type == 'a' || $type == 'ab') $this->a_series++;
+                if ($type == 'b' || $type == 'ba') $this->b_series++;
+            } else {
+                if ($type == 'a' || $type == 'ab') {
                     $this->a_series = 0;
                     $this->a_level = $this->a_level > 1 ? $this->a_level - 1 : 1;
                 }
-                if($type == 'b' || $type == 'ba') {
+                if ($type == 'b' || $type == 'ba') {
                     $this->b_series = 0;
                     $this->b_level = $this->b_level > 1 ? $this->b_level - 1 : 1;
                 }
@@ -300,35 +308,37 @@ class Word extends ActiveRecord
         return $this->nextLevel();
     }
 
-    private function canSeriesUpdate($type, $isRepeat){
+    private function canSeriesUpdate($type, $isRepeat)
+    {
         $paramsDay = Yii::$app->params['days_by_level'];
         $isA = $type == 'a' || $type == 'ab';
         $isB = $type == 'b' || $type == 'ba';
 
-        if(($isA && $this->a_level == 0) || ( $isB && $this->b_level == 0))
+        if (($isA && $this->a_level == 0) || ($isB && $this->b_level == 0))
             return true;
-        if($isA && $isRepeat && $this->a_level_date < time() - 86400 * $paramsDay[$this->a_level]) return true;
-        if($isB && $isRepeat && $this->b_level_date < time() - 86400 * $paramsDay[$this->b_level]) return true;
+        if ($isA && $isRepeat && $this->a_level_date < time() - 86400 * $paramsDay[$this->a_level]) return true;
+        if ($isB && $isRepeat && $this->b_level_date < time() - 86400 * $paramsDay[$this->b_level]) return true;
 
         return false;
     }
 
-    private function nextLevel(){
+    private function nextLevel()
+    {
         $firstLevelSeries = Yii::$app->params['first_level_series'];
         $nextLevelSeries = Yii::$app->params['next_level_series'];
-        if(($this->a_level == 0 && $this->a_series >= $firstLevelSeries) || ($this->a_level > 0 && $this->a_series >= $nextLevelSeries)){
+        if (($this->a_level == 0 && $this->a_series >= $firstLevelSeries) || ($this->a_level > 0 && $this->a_series >= $nextLevelSeries)) {
             $this->a_level += 1;
             $this->a_series = 0;
             $this->a_level_date = time();
         }
 
-        if(($this->b_level == 0 && $this->b_series >= $firstLevelSeries) || ($this->b_level > 0 && $this->b_series >= $nextLevelSeries)){
+        if (($this->b_level == 0 && $this->b_series >= $firstLevelSeries) || ($this->b_level > 0 && $this->b_series >= $nextLevelSeries)) {
             $this->b_level += 1;
             $this->b_series = 0;
             $this->b_level_date = time();
         }
 
-        if($this->save()){
+        if ($this->save()) {
             WordStat::addToday();
             return 'OK';
         }
