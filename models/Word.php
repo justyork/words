@@ -124,7 +124,9 @@ class Word extends ActiveRecord
             ->where('((a_level = :level AND a_level_date < :time) OR (b_level = :level AND b_level_date < :time)) OR 
             ((a_level = :level2 AND a_level_date < :time2) OR (b_level = :level2 AND b_level_date < :time2)) OR 
             ((a_level = :level3 AND a_level_date < :time3) OR (b_level = :level3 AND b_level_date < :time3)) OR 
-            ((a_level = :level4 AND a_level_date < :time4) OR (b_level = :level4 AND b_level_date < :time4))', [
+            ((a_level = :level4 AND a_level_date < :time4) OR (b_level = :level4 AND b_level_date < :time4)) OR 
+            ((a_level = :level5 AND a_level_date < :time5) OR (b_level = :level5 AND b_level_date < :time5)) OR 
+            ((a_level = :level6 AND a_level_date < :time6) OR (b_level = :level6 AND b_level_date < :time6))', [
                 ':level' => 1,
                 ':time' => time() - 3600 * 24 * $paramsDays[1],
                 ':level2' => 2,
@@ -133,6 +135,10 @@ class Word extends ActiveRecord
                 ':time3' => time() - 3600 * 24 * $paramsDays[3],
                 ':level4' => 4,
                 ':time4' => time() - 3600 * 24 * $paramsDays[4]
+                ':level5' => 5,
+                ':time5' => time() - 3600 * 24 * $paramsDays[5]
+                ':level6' => 6,
+                ':time6' => time() - 3600 * 24 * $paramsDays[6]
             ])
             ->andWhere(['user_id' => Yii::$app->user->id]);
         if ($category_id)
