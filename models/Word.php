@@ -134,11 +134,11 @@ class Word extends ActiveRecord
                 ':level3' => 3,
                 ':time3' => time() - 3600 * 24 * $paramsDays[3],
                 ':level4' => 4,
-                ':time4' => time() - 3600 * 24 * $paramsDays[4]
+                ':time4' => time() - 3600 * 24 * $paramsDays[4],
                 ':level5' => 5,
-                ':time5' => time() - 3600 * 24 * $paramsDays[5]
+                ':time5' => time() - 3600 * 24 * $paramsDays[5],
                 ':level6' => 6,
-                ':time6' => time() - 3600 * 24 * $paramsDays[6]
+                ':time6' => time() - 3600 * 24 * $paramsDays[6],
             ])
             ->andWhere(['user_id' => Yii::$app->user->id]);
         if ($category_id)
