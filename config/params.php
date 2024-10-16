@@ -9,8 +9,10 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'days_by_level' => [
         1 => 1,
-        2 => 7,
-        3 => 30,
-        4 => 90,
+        2 => 3,
+        3 => 7,
+        4 => 14,
+        5 => 30,
+        6 => 60,
     ],
 ];
