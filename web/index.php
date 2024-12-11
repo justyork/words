@@ -3,7 +3,8 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(new Dotenv\Dotenv(__DIR__ . '/../'))->load();
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'../');
+$dotenv->load();
 
 defined('YII_DEBUG') or define('YII_DEBUG', getenv('APP_DEBUG'));
 defined('YII_ENV') or define('YII_ENV', getenv('APP_ENV'));
