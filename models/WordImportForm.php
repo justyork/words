@@ -44,7 +44,10 @@ class WordImportForm extends Model
         foreach ($rows as $row) {
             if (empty($row) || trim($row) == '' || trim($row) == ' ') continue;
 
-            list($word, $translate) = explode(';', $row);
+            list($word, $translate) = explode($_ENV['IMPORT_SEPARATOR'], $row);
+            $word = trim($word);
+            $translate = trim($translate);
+
             $sql_rows[] = "('$word', '$translate', $this->category_id, $user_id, $time, $time)";
         }
 
