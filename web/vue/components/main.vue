@@ -8,7 +8,7 @@
                 <div class="content ui aligned center">
                     <div v-if="countRepeatWords && countRepeatWords > 0">
                         <div class="ui labeled button">
-                            <a href="/learn/repeat" class="ui teal button">
+                            <a href="/learn/repeat?limit=0" class="ui teal button">
                                 <i class="lightbulb outline icon"></i>
                                 Повторить слова
                             </a>
@@ -16,6 +16,21 @@
                                 {{countRepeatWords}}
                             </div>
                         </div>
+                        
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-secondary, #f5f5f5); border-radius: var(--radius-md, 0.5rem);">
+                            <div style="margin-bottom: 0.75rem; font-size: 0.9rem; font-weight: 500; color: var(--text-primary, #333); text-align: center;">
+                                Или выберите количество:
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <a href="/learn/repeat?limit=20" class="ui teal button" style="width: 100%; justify-content: center; min-height: 44px; display: block !important;">
+                                    <strong>20 слов</strong>
+                                </a>
+                                <a href="/learn/repeat?limit=40" class="ui teal button" style="width: 100%; justify-content: center; min-height: 44px; display: block !important;">
+                                    <strong>40 слов</strong>
+                                </a>
+                            </div>
+                        </div>
+                        
                         <div class="description" style="margin-top: 15px;">
                             Если вы выучили слово, оно попадает в список на повторение, чтобы вы могли его лучше запомнить
                         </div>
@@ -146,7 +161,7 @@
                     series.data.push(item.count_words);
                 })
                 this.series.push(series)
-            }
+            },
         },
         created: function () {
             this.loadStat();
@@ -157,4 +172,14 @@
 </script>
 
 <style>
+@media (min-width: 640px) {
+    div[style*="flex-direction: column"] {
+        flex-direction: row !important;
+    }
+    
+    div[style*="flex-direction: column"] .ui.button {
+        width: auto !important;
+        flex: 1;
+    }
+}
 </style>

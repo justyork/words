@@ -41,12 +41,18 @@ class LearnController extends Controller
 
     /**
      * @param int $category_id
+     * @param int $limit
      * @return array
      */
-    public function actionRepeatWords($category_id = 0)
+    public function actionRepeatWords($category_id = 0, $limit = 0)
     {
         $words = Word::repeatWords($category_id);
         shuffle($words);
+        
+        if ($limit > 0 && count($words) > $limit) {
+            $words = array_slice($words, 0, $limit);
+        }
+        
         return $words;
     }
 

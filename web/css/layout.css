@@ -617,6 +617,28 @@ select {
     }
 }
 
+/* Modal styles */
+.ui.modal {
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-lg) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.ui.modal > .header {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+    border: none !important;
+}
+
+.ui.modal > .content {
+    background: var(--bg-primary) !important;
+}
+
+.ui.modal > .actions {
+    background: var(--bg-secondary) !important;
+    border-top: 1px solid var(--border-color) !important;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;
+}
+
 /* Mobile optimizations */
 @media (max-width: 767px) {
     .ui.container {

@@ -36,7 +36,9 @@ class LearnController extends Controller
 
     public function actionRepeat($category_id = false){
         $count = count(Word::repeatWords($category_id));
-        return $this->render('repeat', compact('count'));
+        $limit = \Yii::$app->request->get('limit', 0);
+        $limit = (int)$limit;
+        return $this->render('repeat', compact('count', 'limit'));
     }
     public function actionStart($id){
         $model = WordPack::findOne($id);

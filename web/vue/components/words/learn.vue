@@ -38,7 +38,8 @@
             'repeat',
             'only_new',
             'rep',
-            'category_id'
+            'category_id',
+            'limit'
         ],
         data: function () {
             return {
@@ -87,8 +88,14 @@
             },
             loadWords(){
                 let url = config.API_LOCATION;
-                if(this.repeat == 1)  url += this.repeatApiLink+'?category_id='+this.category_id;
-                else url += this.wordsApiLink+this.pack_id + '/' + this.type + '/' + this.only_new;
+                if(this.repeat == 1) {
+                    url += this.repeatApiLink+'?category_id='+this.category_id;
+                    if(this.limit && this.limit > 0) {
+                        url += '&limit='+this.limit;
+                    }
+                } else {
+                    url += this.wordsApiLink+this.pack_id + '/' + this.type + '/' + this.only_new;
+                }
 
                 this.$http.get(url).then(response => {
                     if(response.status){
