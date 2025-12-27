@@ -58,7 +58,9 @@ class Word extends ActiveRecord
             [['word', 'translate'], 'required'],
             [['category_id', 'created_at', 'updated_at', 'a_level_date', 'b_level_date', 'a_level', 'b_level', 'a_series', 'b_series', 'user_id'], 'integer'],
             [['word', 'translate', 'tip'], 'string', 'max' => 255],
-            [['word', 'translate', 'tip'], 'trim'],
+            [['word', 'translate', 'tip'], 'filter', 'filter' => function($value) {
+                return $value !== null ? trim($value) : null;
+            }],
             [['skip'], 'boolean'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => WordCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['skip', 'a_level'], 'default', 'value' => 0]

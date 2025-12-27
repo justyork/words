@@ -18,7 +18,9 @@ class PasswordResetRequestForm extends Model
     public function rules()
     {
         return [
-            ['email', 'trim'],
+            ['email', 'filter', 'filter' => function($value) {
+                return $value !== null ? trim($value) : null;
+            }],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'exist',

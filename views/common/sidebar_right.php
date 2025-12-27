@@ -12,7 +12,7 @@ $this->registerJs($js);
 
 
 use yii\widgets\Menu; ?>
-<?if($this->params['sidebar']):?>
+<?php if (!empty($this->params['sidebar']) && is_array($this->params['sidebar'])): ?>
     <div class="ui right vertical invrert menu sidebar" id="right-sidebar">
         <?= Menu::widget(
             [
@@ -24,4 +24,4 @@ use yii\widgets\Menu; ?>
         )
         ?>
     </div>
-<?endif?>
+<?php endif; ?>

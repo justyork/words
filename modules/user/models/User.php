@@ -96,13 +96,17 @@ class User extends ActiveRecord implements IdentityInterface
             // general email and username rules
             [['email', 'username'], 'string', 'max' => 255],
             [['email', 'username'], 'unique'],
-            [['email', 'username'], 'filter', 'filter' => 'trim'],
+            [['email', 'username'], 'filter', 'filter' => function($value) {
+                return $value !== null ? trim($value) : null;
+            }],
             [['email'], 'email'],
             [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
 
             // password rules
             [['newPassword'], 'string', 'min' => 3],
-            [['newPassword'], 'filter', 'filter' => 'trim'],
+            [['newPassword'], 'filter', 'filter' => function($value) {
+                return $value !== null ? trim($value) : null;
+            }],
             [['newPassword'], 'required', 'on' => ['register', 'reset', 'update']],
             [['newPassword'], 'validatePasswordWithOld', 'on' => 'reset'],
             [['newPasswordConfirm'], 'required', 'on' => ['reset', 'update']],

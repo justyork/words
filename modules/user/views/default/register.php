@@ -25,13 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </h2>
 
-<!--    --><?php //if (Yii::$app->get("authClientCollection", false)): ?>
-<!--        <div class="col-lg-offset-2 col-lg-10">-->
-<!--            --><?//= yii\authclient\widgets\AuthChoice::widget([
-//                'baseAuthUrl' => ['/user/auth/login']
-//            ]) ?>
-<!--        </div>-->
-<!--    --><?php //endif; ?>
+<?php if (false && Yii::$app->get("authClientCollection", false)): ?>
+    <div class="col-lg-offset-2 col-lg-10">
+        <?= yii\authclient\widgets\AuthChoice::widget([
+            'baseAuthUrl' => ['/user/auth/login']
+        ]) ?>
+    </div>
+<?php endif; ?>
     <?php if ($flash = Yii::$app->session->getFlash("Register-success")): ?>
 
         <div class="alert alert-success">

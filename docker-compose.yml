@@ -1,9 +1,61 @@
-version: '2'
 services:
   php:
-    image: yiisoftware/yii2-php:7.1-apache
+    image: yiisoftware/yii2-php:8.2-apache
+    container_name: words_php
+    working_dir: /app
     volumes:
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - composer-cache:/root/.composer/cache
       - ./:/app:delegated
     ports:
       - '8000:80'
+    environment:
+      - GIT_SAFE_DIRECTORY=/app
+      - DB_HOST=mysql
+      - DB_NAME=${DB_NAME:-words_db}
+      - DB_USER=${DB_USER:-words_user}
+      - DB_PASS=${DB_PASS:-words_password}
+      - APP_ENV=${APP_ENV:-dev}
+      - APP_DEBUG=${APP_DEBUG:-true}
+    depends_on:
+      - mysql
+    networks:
+      - words_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: words_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root_password}
+      - MYSQL_DATABASE=${DB_NAME:-words_db}
+      - MYSQL_USER=${DB_USER:-words_user}
+      - MYSQL_PASSWORD=${DB_PASS:-words_password}
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - words_network
+    command: --default-authentication-plugin=mysql_native_password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: words_phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=${DB_USER:-words_user}
+      - PMA_PASSWORD=${DB_PASS:-words_password}
+      - UPLOAD_LIMIT=300M
+    ports:
+      - '8080:80'
+    depends_on:
+      - mysql
+    networks:
+      - words_network
+
+volumes:
+  mysql_data:
+  composer-cache:
+
+networks:
+  words_network:
+    driver: bridge

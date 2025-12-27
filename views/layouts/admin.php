@@ -32,20 +32,20 @@ AppAsset::register($this);
 </head>
 <body class=" body">
 <?php $this->beginBody(); ?>
-    <?= $this->render('//common/header')?>
-    <?= $this->render('//common/sidebar')?>
-    <?= $this->render('//common/sidebar_right')?>
+    <?= $this->render('//common/header') ?>
+    <?= $this->render('//common/sidebar') ?>
+    <?= $this->render('//common/sidebar_right') ?>
     <div class="ui container vue-block">
-<!--        --><?//= $this->render('/common/sidebar')?>
+        <?php /* $this->render('/common/sidebar') */ ?>
         <!-- page content -->
         <?= Breadcrumbs::widget([
             'links' => $this->params['breadcrumbs']
-        ])?>
+        ]) ?>
         <?= $content ?>
 
     </div>
 </div>
-<?= $this->render('//common/js_links')?>
+<?= $this->render('//common/js_links') ?>
 <!-- /footer content -->
 <?php $this->endBody(); ?>
 </body>

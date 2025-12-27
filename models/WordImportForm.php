@@ -13,6 +13,7 @@ class WordImportForm extends Model
 {
     public $row;
     public $category_id;
+    public $separator;
 
     public function rules()
     {
@@ -20,6 +21,9 @@ class WordImportForm extends Model
             ['row', 'safe'],
             ['category_id', 'integer'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => WordCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
+            ['separator', 'string'],
+            ['separator', 'in', 'range' => ['tab', 'slash', 'semicolon'], 'message' => Yii::t('app', 'Invalid separator')],
+            ['separator', 'default', 'value' => 'semicolon'],
         ];
     }
 
@@ -28,6 +32,40 @@ class WordImportForm extends Model
         return [
             'row' => Yii::t('app', 'Row'),
             'category_id' => Yii::t('app', 'Category'),
+            'separator' => Yii::t('app', 'Separator'),
+        ];
+    }
+
+    public function getSeparatorValue()
+    {
+        switch ($this->separator) {
+            case 'tab':
+                return "\t";
+            case 'slash':
+                return '//';
+            case 'semicolon':
+                return ';';
+            default:
+                return ';';
+        }
+    }
+
+    public function getSeparatorLabel($value)
+    {
+        $labels = [
+            'tab' => Yii::t('app', 'Tab'),
+            'slash' => '//',
+            'semicolon' => ';',
+        ];
+        return isset($labels[$value]) ? $labels[$value] : $value;
+    }
+
+    public static function getSeparatorOptions()
+    {
+        return [
+            'tab' => Yii::t('app', 'Tab'),
+            'slash' => '//',
+            'semicolon' => ';',
         ];
     }
 
@@ -41,12 +79,16 @@ class WordImportForm extends Model
         $user_id = Yii::$app->user->id;
         $time = time();
 
+        $separator = $this->getSeparatorValue();
+
         foreach ($rows as $row) {
             if (empty($row) || trim($row) == '' || trim($row) == ' ') continue;
 
-            list($word, $translate) = explode($_ENV['IMPORT_SEPARATOR'], $row);
-            $word = trim($word);
-            $translate = trim($translate);
+            $parts = explode($separator, $row, 2);
+            if (count($parts) < 2) continue;
+
+            $word = trim($parts[0]);
+            $translate = trim($parts[1]);
 
             $rowsToInsert[] = [
                 $word,

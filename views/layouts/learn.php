@@ -35,7 +35,7 @@ AppAsset::register($this);
 <?php $this->beginBody(); ?>
 <div class="vue-block">
 
-    <?= $this->render('//common/header')?>
+    <?= $this->render('//common/header') ?>
 
     <?= $content ?>
 

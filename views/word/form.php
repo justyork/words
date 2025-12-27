@@ -14,13 +14,15 @@ $this->title = $model->isNewRecord ? \Yii::t('app', 'Create new word') : Yii::t(
 $this->params['back_link'] = Url::to(['word/index', 'id' => $model->category_id]);
 ?>
 
-<h1><?= Html::encode($this->title)?></h1>
+<div style="background: var(--bg-primary); padding: var(--spacing-lg); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin: var(--spacing-lg) 0; border: 1px solid var(--border-color);">
+    <h1><?= Html::encode($this->title) ?></h1>
 
-<?php $form = ActiveForm::begin([
-    'id' => 'word-form'
-]); ?>
-    <?=$form->field($model, 'word')?>
-    <?=$form->field($model, 'translate')?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'word-form'
+    ]); ?>
+        <?= $form->field($model, 'word') ?>
+        <?= $form->field($model, 'translate') ?>
 
-    <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'ui teal button'])?>
-<?php ActiveForm::end(); ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'ui teal button', 'style' => 'width: 100%; margin-top: var(--spacing-md);']) ?>
+    <?php ActiveForm::end(); ?>
+</div>

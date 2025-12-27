@@ -84,25 +84,87 @@ http://localhost/basic/web/
 
 ### Install with Docker
 
-Update your vendor packages
+1. Create `.env` file from example (copy the variables below):
 
-    docker-compose run --rm php composer update --prefer-dist
-    
-Run the installation triggers (creating cookie validation code)
+```bash
+# Application Environment
+APP_ENV=dev
+APP_DEBUG=true
 
-    docker-compose run --rm php composer install    
-    
-Start the container
+# Database Configuration
+DB_HOST=mysql
+DB_NAME=words_db
+DB_USER=words_user
+DB_PASS=words_password
 
-    docker-compose up -d
-    
-You can then access the application through the following URL:
+# MySQL Root Password
+MYSQL_ROOT_PASSWORD=root_password
+```
 
-    http://127.0.0.1:8000
+2. **Using Makefile (recommended):**
+
+```bash
+# Full setup (rebuild, install, setup)
+make setup
+
+# Or step by step:
+make up          # Start containers
+make install     # Install dependencies
+make assets      # Set permissions
+make migrate     # Run migrations
+```
+
+3. **Using docker-compose directly:**
+
+```bash
+# Start containers
+docker-compose up -d
+
+# Install dependencies
+docker-compose exec php composer install
+
+# Run migrations
+docker-compose exec php php yii migrate
+
+# Set proper permissions
+docker-compose exec php chmod -R 777 runtime web/assets
+```
+
+You can then access the application through the following URLs:
+
+- Application: http://127.0.0.1:8000
+- phpMyAdmin: http://127.0.0.1:8080
+
+**Available services:**
+- `php` - PHP 8.2 with Apache (port 8000)
+- `mysql` - MySQL 8.0 (port 3306)
+- `phpmyadmin` - phpMyAdmin interface (port 8080)
+
+**Useful Makefile commands:**
+- `make help` - Show all available commands
+- `make up` / `make start` - Start containers
+- `make down` / `make stop` - Stop containers
+- `make restart` - Restart containers
+- `make logs` - View logs from all containers
+- `make shell` - Open shell in PHP container
+- `make install` - Install composer dependencies
+- `make update` - Update composer dependencies
+- `make migrate` - Run database migrations
+- `make assets` - Set proper permissions
+- `make clean` - Clean cache and logs
+- `make test` - Run tests
+- `make yii CMD="cache/flush"` - Run Yii console command
+
+**Useful docker-compose commands:**
+- Stop containers: `docker-compose down`
+- View logs: `docker-compose logs -f`
+- Execute commands in PHP container: `docker-compose exec php <command>`
+- Access MySQL: `docker-compose exec mysql mysql -u words_user -p words_db`
 
 **NOTES:** 
 - Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
 - The default configuration uses a host-volume in your home directory `.docker-composer` for composer caches
+- Database data is persisted in Docker volume `mysql_data`
 
 
 CONFIGURATION
@@ -110,21 +172,35 @@ CONFIGURATION
 
 ### Database
 
-Edit the file `config/db.php` with real data, for example:
+The application uses environment variables for database configuration. Create a `.env` file in the project root:
 
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
+```bash
+# Application Environment
+APP_ENV=dev
+APP_DEBUG=true
+
+# Database Configuration
+DB_HOST=mysql          # For Docker use 'mysql', for local use 'localhost'
+DB_NAME=words_db
+DB_USER=words_user
+DB_PASS=words_password
+
+# MySQL Root Password (for Docker)
+MYSQL_ROOT_PASSWORD=root_password
 ```
 
+The database configuration is loaded from `config/db.php` which reads these environment variables.
+
+**For Docker:**
+- Database is automatically created when containers start
+- Use `DB_HOST=mysql` to connect to the MySQL container
+
+**For local development:**
+- Create the database manually before accessing it
+- Use `DB_HOST=localhost` or your MySQL host
+- Update other files in the `config/` directory to customize your application as required
+
 **NOTES:**
-- Yii won't create the database for you, this has to be done manually before you can access it.
-- Check and edit the other files in the `config/` directory to customize your application as required.
 - Refer to the README in the `tests` directory for information specific to basic application tests.
 
 
