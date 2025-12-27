@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 $back = $this->params['back_link'];
 ?>
-<div class="ui borderless main icon menu modern-header" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); position: sticky; top: 0; z-index: 1000;">
+<div class="ui borderless main icon menu modern-header" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important; position: sticky; top: 0; z-index: 1000; border: none !important; margin: 0 !important;">
     <div class="ui container" style="max-width: 1200px; display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem;">
 
         <div style="display: flex; align-items: center; gap: 0.5rem;">

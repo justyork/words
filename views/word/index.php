@@ -37,16 +37,16 @@ $this->params['back_link'] = Url::to(['category/get', 'id' => $model->id]);
                         <td data-label="<?=Yii::t('app', 'Word');?>" style="font-weight: 500;"><?= $item->word ?></td>
                         <td data-label="<?=Yii::t('app', 'Translate');?>"><?= $item->translate ?></td>
                         <td class="collapsed" data-label="<?=Yii::t('app', 'Level');?>"><?= (int)$item->a_level . ' / ' . (int)$item->b_level ?></td>
-                        <td class="collapsed">
-                            <div style="display: flex; gap: var(--spacing-xs); justify-content: flex-end; flex-wrap: wrap;">
-                                <a href="#" data-id="<?= $item->id ?>" class="ui <?= $item->skip ? '' : 'teal' ?> button icon skip-toggle" style="min-width: 44px; min-height: 44px;">
+                        <td class="collapsed" style="vertical-align: middle; text-align: right;">
+                            <div style="display: inline-flex; gap: 0.375rem; align-items: center; justify-content: flex-end;">
+                                <a href="#" data-id="<?= $item->id ?>" class="ui <?= $item->skip ? '' : 'teal' ?> button icon skip-toggle">
                                     <i class="eye <?= $item->skip ? 'slash' : '' ?> icon"></i>
                                 </a>
-                                <a href="<?= yii\helpers\Url::to(['update', 'id' => $item->id]) ?>" class="ui button icon" style="min-width: 44px; min-height: 44px;">
-                                    <i class="pencil icon "></i>
+                                <a href="<?= yii\helpers\Url::to(['update', 'id' => $item->id]) ?>" class="ui button icon">
+                                    <i class="pencil icon"></i>
                                 </a>
-                                <a href="<?= yii\helpers\Url::to(['delete', 'id' => $item->id]) ?>" class="ui button icon" style="min-width: 44px; min-height: 44px;" onclick="return confirm('<?= Yii::t('app', 'Are you sure?') ?>')">
-                                    <i class="trash icon "></i>
+                                <a href="<?= yii\helpers\Url::to(['delete', 'id' => $item->id]) ?>" class="ui button icon" onclick="return confirm('<?= Yii::t('app', 'Are you sure?') ?>')">
+                                    <i class="trash icon"></i>
                                 </a>
                             </div>
                         </td>

@@ -51,13 +51,13 @@ $this->params['back_link'] = Url::to(['site/index']);
                         </td>
                         <td class="collapsing" data-label="<?=Yii::t('app', 'Last update');?>"><?= Yii::$app->formatter->asRelativeTime($item->last_update) ?></td>
                         <td class="collapsing" data-label="<?=Yii::t('app', 'Count words');?>"><?= count($item->words) ?></td>
-                        <td class="right aligned collapsing">
-                            <div style="display: flex; gap: var(--spacing-xs); justify-content: flex-end;">
-                                <a href="<?= yii\helpers\Url::to(['update', 'id' => $item->id]) ?>" class="ui button icon" style="min-width: 44px; min-height: 44px;">
-                                    <i class="pencil icon "></i>
+                        <td class="right aligned collapsing" style="vertical-align: middle; text-align: right;">
+                            <div style="display: inline-flex; gap: 0.375rem; align-items: center; justify-content: flex-end;">
+                                <a href="<?= yii\helpers\Url::to(['update', 'id' => $item->id]) ?>" class="ui button icon">
+                                    <i class="pencil icon"></i>
                                 </a>
-                                <a href="<?= yii\helpers\Url::to(['delete', 'id' => $item->id]) ?>" class="ui button icon" style="min-width: 44px; min-height: 44px;" onclick="return confirm('<?= Yii::t('app', 'Are you sure?') ?>')">
-                                    <i class="trash icon "></i>
+                                <a href="<?= yii\helpers\Url::to(['delete', 'id' => $item->id]) ?>" class="ui button icon" onclick="return confirm('<?= Yii::t('app', 'Are you sure?') ?>')">
+                                    <i class="trash icon"></i>
                                 </a>
                             </div>
                         </td>

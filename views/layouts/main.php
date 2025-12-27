@@ -49,7 +49,6 @@ AppAsset::register($this);
         <?= $content ?>
 
     </div>
-</div>
 
 <style>
 @media (min-width: 768px) {
