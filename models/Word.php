@@ -167,9 +167,9 @@ class Word extends ActiveRecord
     {
         $paramsDay = Yii::$app->params['days_by_level'];
         $list = [];
-        if ($this->a_level != 0 && $this->a_level_date < time() - 86400 * $paramsDay[$this->a_level])
+        if ($this->a_level != 0 && isset($paramsDay[$this->a_level]) && $this->a_level_date < time() - 86400 * $paramsDay[$this->a_level])
             $list[] = 'a';
-        if ($this->b_level != 0 && $this->b_level_date < time() - 86400 * $paramsDay[$this->b_level])
+        if ($this->b_level != 0 && isset($paramsDay[$this->b_level]) && $this->b_level_date < time() - 86400 * $paramsDay[$this->b_level])
             $list[] = 'b';
 
         return $list;
