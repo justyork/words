@@ -313,50 +313,64 @@ a:focus {
     .ui.table th,
     .ui.table td,
     .ui.table tr {
-        display: block;
+        display: block !important;
     }
     
     .ui.table thead {
-        display: none;
+        display: none !important;
     }
     
     .ui.table tr {
-        margin-bottom: var(--spacing-md);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: var(--spacing-md);
-        background: var(--bg-primary);
-        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--spacing-md) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: var(--radius-md) !important;
+        padding: var(--spacing-md) !important;
+        background: var(--bg-primary) !important;
+        box-shadow: var(--shadow-sm) !important;
     }
     
     .ui.table td {
-        border: none;
-        padding: var(--spacing-xs) 0;
-        text-align: left;
-        position: relative;
-        padding-left: 40%;
+        border: none !important;
+        padding: var(--spacing-sm) 0 !important;
+        text-align: left !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        margin-bottom: var(--spacing-xs) !important;
+    }
+    
+    .ui.table td:last-child {
+        margin-bottom: 0 !important;
     }
     
     .ui.table td:before {
         content: attr(data-label);
-        position: absolute;
-        left: 0;
-        width: 35%;
         font-weight: 600;
         color: var(--text-secondary);
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
         text-transform: uppercase;
+        letter-spacing: 0.02em;
+        line-height: 1.4;
+        margin-bottom: 0.25rem;
+        display: block;
+        width: 100%;
+    }
+    
+    .ui.table td:not(.collapsing):not(.collapsed) {
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
     }
     
     .ui.table td.collapsing:before,
     .ui.table td.collapsed:before {
-        display: none;
+        display: none !important;
     }
     
     .ui.table td.collapsing,
     .ui.table td.collapsed {
-        padding-left: 0;
-        text-align: center;
+        text-align: center !important;
+        display: block !important;
     }
 }
 
@@ -511,6 +525,28 @@ select {
 
 .modern-header .item:hover {
     background: rgba(255, 255, 255, 0.1) !important;
+}
+
+@media (max-width: 767px) {
+    .modern-header .ui.container {
+        position: relative !important;
+    }
+    
+    .modern-header .header.center.item {
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        flex: 0 0 auto !important;
+        width: auto !important;
+        padding: 0 !important;
+        font-size: 1rem !important;
+        white-space: nowrap !important;
+        z-index: 1 !important;
+    }
+    
+    .modern-header .header.center.item a {
+        display: inline-block !important;
+    }
 }
 
 /* Sidebar improvements */
@@ -685,6 +721,11 @@ select {
         width: 100% !important;
     }
     
+    .word-buttons .ui.buttons,
+    .learn-button .ui.buttons {
+        flex-direction: row !important;
+    }
+    
     .ui.buttons .button {
         width: 100% !important;
         margin-bottom: 0.5rem !important;
@@ -694,8 +735,26 @@ select {
         border-radius: 0.5rem !important;
     }
     
-    .ui.buttons .button:last-child {
+    .word-buttons .ui.buttons .button,
+    .learn-button .ui.buttons .button {
+        width: auto !important;
+        flex: 1 !important;
+        margin-bottom: 0 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
         border-bottom: none !important;
+        border-radius: 0 !important;
+    }
+    
+    .word-buttons .ui.buttons .button:first-child,
+    .learn-button .ui.buttons .button:first-child {
+        border-radius: 0.5rem 0 0 0.5rem !important;
+    }
+    
+    .word-buttons .ui.buttons .button:last-child,
+    .learn-button .ui.buttons .button:last-child {
+        border-right: none !important;
+        border-bottom: none !important;
+        border-radius: 0 0.5rem 0.5rem 0 !important;
         margin-bottom: 0 !important;
     }
     

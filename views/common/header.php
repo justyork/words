@@ -33,6 +33,28 @@ $back = $this->params['back_link'];
 </div>
 
 <style>
+@media (max-width: 767px) {
+    .modern-header .ui.container {
+        position: relative;
+        padding: 0.75rem 1rem !important;
+    }
+    
+    .modern-header .header.center.item {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        flex: 0 0 auto !important;
+        width: auto !important;
+        padding: 0 !important;
+        font-size: 1rem !important;
+        white-space: nowrap;
+    }
+    
+    .modern-header .header.center.item a {
+        display: inline-block !important;
+    }
+}
+
 @media (min-width: 768px) {
     .modern-header .ui.container {
         padding: 1rem 1.5rem;

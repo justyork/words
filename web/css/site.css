@@ -274,6 +274,30 @@ a.learn-button--left {
     z-index: 100;
 }
 
+.word-buttons .ui.buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+}
+
+.word-buttons .ui.buttons .button {
+    flex: 1 !important;
+    width: auto !important;
+    margin: 0 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-bottom: none !important;
+    border-radius: 0 !important;
+}
+
+.word-buttons .ui.buttons .button:first-child {
+    border-radius: 0.5rem 0 0 0.5rem !important;
+}
+
+.word-buttons .ui.buttons .button:last-child {
+    border-right: none !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+}
+
 .chart {
     max-height: 250px;
     border-radius: var(--radius-md);
@@ -350,17 +374,17 @@ a.learn-button--left {
     }
     
     .learn-button > div {
-        flex-direction: column;
+        flex-direction: row !important;
     }
     
     .learn-button a {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        flex: 1;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: none;
     }
     
     .learn-button a:last-child {
-        border-bottom: none;
+        border-right: none;
     }
     
     .word-buttons {
@@ -368,6 +392,28 @@ a.learn-button--left {
         left: var(--spacing-sm);
         width: calc(100% - 1rem);
         padding-right: var(--spacing-sm);
+    }
+    
+    .word-buttons .ui.buttons {
+        flex-direction: row !important;
+    }
+    
+    .word-buttons .ui.buttons .button {
+        flex: 1 !important;
+        width: auto !important;
+        margin: 0 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-bottom: none !important;
+        border-radius: 0 !important;
+    }
+    
+    .word-buttons .ui.buttons .button:first-child {
+        border-radius: 0.5rem 0 0 0.5rem !important;
+    }
+    
+    .word-buttons .ui.buttons .button:last-child {
+        border-right: none !important;
+        border-radius: 0 0.5rem 0.5rem 0 !important;
     }
     
     .categories {
